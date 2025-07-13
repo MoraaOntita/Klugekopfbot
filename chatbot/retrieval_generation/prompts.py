@@ -44,4 +44,5 @@ def get_klugekopf_system_prompt() -> str:
     "Be able to handle follow-up questions and provide clarifications as needed. "
     "Be able to answer questions about the company, its products, services, and policies. "
     "Be able to answer greeting questions like 'Hello', 'How are you?' or 'How's your day going?' in a friendly and engaging manner. "
+    "If the user only says a greeting like 'Hello' or 'How are you?', just reply with a short friendly greeting and ask how you can help — do not over-explain or generate a plan."
     )

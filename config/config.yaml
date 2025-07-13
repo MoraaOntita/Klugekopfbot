@@ -1,0 +1,44 @@
+data:
+  raw_docs_dir: "data/raw_docs"
+  extracted_dir: "data/extracted_texts"
+  chunks_dir: "data/chunks"
+  metadata_dir: "data/metadata"
+  embeddings_dir: "data/embeddings"
+  vector_db_dir: "data/vector_db"
+  files:
+    - name: "Klugekopf"
+      url: "https://drive.google.com/uc?id=1aasGTglfN3LYz8GyHe5qoNSmtGIwfNza1Cf0g05Y4tM&export=download"
+      output: "Klugekopf.docx"
+
+    - name: "Thoresby"
+      url: "https://drive.google.com/uc?id=1NF7xlQ4HizeQ0gf6y6cdZrMfRArmG9e0tODjI53Sdg0&export=download"
+      output: "Thoresby_Guesthouse.docx"
+
+    - name: "Marketing Strategy Summer FI"
+      url: "https://drive.google.com/uc?id=1_3dz-sWeic5mNQMyULnf-1-QFRdhdmAi&export=download"
+      output: "Marketing_Strategy_Summer_FI.pdf"
+
+    - name: "Pai3 Narrative"
+      url: "https://drive.google.com/uc?id=1yrD93SAFwzJByIPKbWGPNxGOaYGVukNA&export=download"
+      output: "Pai3_Narrative.pdf"
+
+    - name: "PAI White Paper 2024"
+      url: "https://drive.google.com/uc?id=1chm3PfYlIHbypbLDAU5QlhuxRynvgT8Z&export=download"
+      output: "PAI_White_Paper_2024.pdf"
+
+chunking:
+  chunk_size: 500
+  chunk_overlap: 100
+
+embeddings:
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+  output_filename: "embeddings.jsonl"
+
+vector_db:
+  persist_directory: "data/vector_db"
+  embedding_model_name: "sentence-transformers/all-MiniLM-L6-v2"
+
+llm:
+  provider: "groq"
+  base_url: "https://api.groq.com/openai/v1"
+  model_name: "llama3-8b-8192"
