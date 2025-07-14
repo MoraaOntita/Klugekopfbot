@@ -1,75 +1,45 @@
-name: CI/CD Pipeline
+data:
+  raw_docs_dir: "data/raw_docs"
+  extracted_dir: "data/extracted_texts"
+  chunks_dir: "data/chunks"
+  metadata_dir: "data/metadata"
+  embeddings_dir: "data/embeddings"
+  vector_db_dir: "data/vector_db"
+  files:
+    - name: "Klugekopf"
+      url: "https://drive.google.com/uc?id=1aasGTglfN3LYz8GyHe5qoNSmtGIwfNza1Cf0g05Y4tM&export=download"
+      output: "Klugekopf.docx"
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    - name: "Thoresby"
+      url: "https://drive.google.com/uc?id=1NF7xlQ4HizeQ0gf6y6cdZrMfRArmG9e0tODjI53Sdg0&export=download"
+      output: "Thoresby_Guesthouse.docx"
 
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+    - name: "Marketing Strategy Summer FI"
+      url: "https://drive.google.com/uc?id=1_3dz-sWeic5mNQMyULnf-1-QFRdhdmAi&export=download"
+      output: "Marketing_Strategy_Summer_FI.pdf"
 
-    env:
-      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-      PINECONE_INDEX_NAME: ${{ secrets.PINECONE_INDEX_NAME }}
-      PINECONE_REGION: ${{ secrets.PINECONE_REGION }}
+    - name: "Pai3 Narrative"
+      url: "https://drive.google.com/uc?id=1yrD93SAFwzJByIPKbWGPNxGOaYGVukNA&export=download"
+      output: "Pai3_Narrative.pdf"
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: "PAI White Paper 2024"
+      url: "https://drive.google.com/uc?id=1chm3PfYlIHbypbLDAU5QlhuxRynvgT8Z&export=download"
+      output: "PAI_White_Paper_2024.pdf"
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+chunking:
+  chunk_size: 500
+  chunk_overlap: 100
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+embeddings:
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+  output_filename: "embeddings.jsonl"
 
-      - name: Install FAISS (optional fallback)
-        run: |
-          pip install faiss-cpu
+vector_db:
+  persist_directory: "data/vector_db"
+  index_name: klugekopf-bot
+  embedding_model_name: "sentence-transformers/all-MiniLM-L6-v2"
 
-      - name: Lint with flake8
-        run: |
-          pip install flake8
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-
-      - name: Check formatting with black
-        run: |
-          pip install black
-          black --check .
-
-      - name: Build Pinecone vector DB
-        run: |
-          python chatbot/embeddings/6_store_in_vector_db.py --config config/config.yaml
-
-  deploy:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-
-    env:
-      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Deploy to production server
-        run: ./deploy.sh
+llm:
+  provider: "groq"
+  base_url: "https://api.groq.com/openai/v1"
+  model_name: "llama3-8b-8192"
