@@ -40,9 +40,8 @@ def main(config_path: str):
     vectorstore = FAISS.from_embeddings(
         text_embeddings=text_embeddings,
         embedding=embedding_function,
-        metadatas=metadatas
+        metadatas=metadatas,
     )
-
 
     # Save to disk
     faiss_index_path = os.path.join(faiss_db_path, "faiss_index")
