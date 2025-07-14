@@ -1,0 +1,1157 @@
+[
+  {
+    "chunk_id": "PAI_White_Paper_2024_001",
+    "text": "1 \n PAI3 : Artificial Intelligence that Belongs to the People for a Web3 Future  \n \n \n \n \n  \nPAI3  Decentralized Autonomous Organization LC  \nWyoming, USA  \n \nWhite paper v 1 .0 \n \nAbstract  \nThe current landscape of artificial intelligence (AI) is dominated by a few major players who wield control \nover vast amounts of data and computational power, leading to significant challenges such as privacy \nrisks, limited access, and monopolistic control . PAI3  seeks to transform this centralized parad",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_002",
+    "text": "y \nrisks, limited access, and monopolistic control . PAI3  seeks to transform this centralized paradigm by \ncreating a decentralized AI platform that empowers individuals, enhances data privacy, and democratizes \naccess to AI technologies.  \n \nPAI3  utilizes a decentralized mesh network of user -owned devices, known as PAI3  Computers, to form a \nglobal supercomputer that performs large -scale AI tasks, including data processing, model training, and \npersonalized inference. By leveraging blockch",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_003",
+    "text": "tasks, including data processing, model training, and \npersonalized inference. By leveraging blockchain technology, PAI3  ensures secure, transparent, and \nequitable management of resources, using Non -Fungible Tokens (NFTs) to represent ownership stakes \nin the network and provide guaranteed returns to early adopters and contributors. Quadratic Voting (QV) \nis employed as a gov ernance model, allowing all token holders to participate in decision -making while \npreventing centralization of contr",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_004",
+    "text": "owing all token holders to participate in decision -making while \npreventing centralization of control.  \n \nThe platform offers multiple earning opportunities for users, including running compute nodes, staking \ntokens, selling AI models and datasets, and participating in governance. This comprehensive approach \nincentivizes active engagement and fosters a vibrant  ecosystem where users can monetize their \ncontributions and influence the platform’s future direction. Additionally, PAI3  prioritiz",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_005",
+    "text": "ze their \ncontributions and influence the platform’s future direction. Additionally, PAI3  prioritizes data privacy and \nsecurity by using decentralized identifiers (DIDs), verifiable credentials (VCs), and end -to-end encryption \nto protect user data.  \n \nPAI3 's tokenomics model supports sustainable growth, with a total supply of 150 million PAI3  tokens \nallocated to public sales, team and advisors, community rewards, and ecosystem development. The \nmarketplace facilitates buying, selling, an",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_006",
+    "text": "sors, community rewards, and ecosystem development. The \nmarketplace facilitates buying, selling, and trading of AI assets, providing revenue streams for all \nparticipants.  \n \nBy combining advanced AI capabilities with decentralized governance and equitable access, PAI3  \npositions itself as a leader in the next generation of AI technology. It offers a unique opportunity for \ninvestors, developers, and users to participate in a decentralized AI ecosystem that prioritizes \ntransparency, security",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_007",
+    "text": "s, and users to participate in a decentralized AI ecosystem that prioritizes \ntransparency, security, and user empowerment. The PAI3  platform invites stakeholders to join this \ntransformative journey to reshape the future of AI.\n2 \n 1.0 - Introduction  \nDecentralized AI (DAI) represents a paradigm shift in how AI is developed, trained, and controlled.  The \nrapid evolution of artificial intelligence (AI) has transformed industries, economies, and societies \nworldwide. But this transformation is",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_008",
+    "text": "nce (AI) has transformed industries, economies, and societies \nworldwide. But this transformation is not merely a story of progress and innovation —it is a tale of \ndomination and oppression. As AI systems become in creasingly sophisticated and omnipresent, we face \na dire reality: AI’s future and governance are being determined by a cabal of corporate giants. The \ncentralization of AI development and resources in the hands of a few powerful corporations has given rise \nto a monopolistic strongh",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_009",
+    "text": "and resources in the hands of a few powerful corporations has given rise \nto a monopolistic stronghold over our digital lives. Sensitive information is sequestered within the walls of \ncentralized servers controlled by a select elite, creating a fortress of data silos that shields their power \nwhile stripping us of our privacy and  autonomy. While this centralization can pose a threat that challenges \nour freedom (Jones 2019) , it can stifle innovation, relegate advanced technologies to those w",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_010",
+    "text": "nges \nour freedom (Jones 2019) , it can stifle innovation, relegate advanced technologies to those with immense \nfinancial and technological resources, and perpetuate a cycle of inequality.  \n \nRecent developments in the AI industry underscore the urgency of this battle and highlighted a future \nespecially in America that favors companies over the people (Orlick 2024) . The current AI landscape is \ndominated by a few major players who control vast computational resources and financial power, lea",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_011",
+    "text": "dominated by a few major players who control vast computational resources and financial power, leading \nto several critical issues . Centralized AI systems store user data on centralized servers, increasing the \nrisk of privacy breaches and unauthorized access. High -profile data leaks and misuse scandals have \nhighlighted the vulnerabilities of these systems, where users have little cont rol over how their data is \nused, stored, or shared (King and Meinhardt 2024) . Additionally, the reliance",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_012",
+    "text": "er how their data is \nused, stored, or shared (King and Meinhardt 2024) . Additionally, the reliance on proprietary, large \ndatasets limits data sharing, introducing biases and reducing the effectiveness of AI applications across \ndifferent domains. Moreover, centralized AI often fails to deliver personalized experiences tailore d to \nindividual users' needs, as these systems are primarily designed to serve the broad requirements of large \ncorporations. The high costs associated with developing",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_013",
+    "text": "d to serve the broad requirements of large \ncorporations. The high costs associated with developing and deploying advanced AI models also create \nsignificant barriers to entry for smaller pl ayers, stifling competition and innovation.  \n \nThe AI arms race is not a mere contest of technological prowess —it is a high -stakes struggle for control \nover our future. Figures like Sam Altman and Elon Musk are not merely advancing their interests  without \nguardrails ; they are architects of a new world",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_014",
+    "text": "k are not merely advancing their interests  without \nguardrails ; they are architects of a new world order where the few dictate the terms for the many  through \npublic manipulation and seeding doubt  in election  integrity (Jingnan 2024)  The relentless pursuit of the \nmost powerful AI models, driven by these influential figures, is a race towards unchecked power and \nsocietal upheaval. As highlighted by  The Washington Post,  this race threatens to spiral out of control, \nleaving us vulnerable",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_015",
+    "text": "ghted by  The Washington Post,  this race threatens to spiral out of control, \nleaving us vulnerable to unbridled AI advancements (Letters to the Editor 2024) . Moreover, corporate \nbehemoths like Google, as reported by The New York Times , have leveraged their dominance to quash \ncompetition, undermining fair market practices and stifling innovation (McCabe 2024) . Nvidia, the \ngatekeeper of AI hardware, wields its power to limit public participation, creating a digital divide where \nonly a sel",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_016",
+    "text": "ardware, wields its power to limit public participation, creating a digital divide where \nonly a select few have access to the future of AI (Mashable BrandX and NVIDIA 2023) . This gatekeeping \nof the compute  resources and access can lead to a vulnerability where the people’s access to the newest \npowerful tool  can be denied by singular controlling entities . As seen in 2010, Sony Computers disabled  \n\"Install Other OS\" feature on  PlayStation 3s  and denied average people from building afford",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_017",
+    "text": "bled  \n\"Install Other OS\" feature on  PlayStation 3s  and denied average people from building affordable super \ncomputers (Ganapati 2010) .  \n \nAs the compute power  for AI and deep learning increases  in accordance Moore’s law  (The Physics ArXiv \n2022) , the people’s barriers  to entry  to AI future  should decrease  resulting in th e democratization of AI.  \nThe current  centralized control is not just a threat; it is an existential crisis that demands a resolute stand.  \nThere is a clear nee",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_018",
+    "text": "not just a threat; it is an existential crisis that demands a resolute stand.  \nThere is a clear need for an alternative approach to AI development and deployment —one that prioritizes \nits primary users and their data privacy, security, and empowerment.  We, at the PAI3  Foundation, hope to \nencourage people to contribute and promote diversity to AI’s future.  \n  \n1.1 PAI3  Foundation vision for the future of AI\n3 \n In this context, the People’s Artificial Intelligence for a Web3 world or “ PAI",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_019",
+    "text": "the future of AI\n3 \n In this context, the People’s Artificial Intelligence for a Web3 world or “ PAI3 ” represents an alternative \nagainst these monopolistic AI giants. PAI3  presents  a revolutionary solution to these problems by offering \na decentralized AI platform that belongs to and serves the people. Unlike the current centralized models, \nPAI3  is designed to democratize access to AI, sharing AI modeling and computing power, making \nadvanced technologies available to everyone, regardless",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_020",
+    "text": "ng AI modeling and computing power, making \nadvanced technologies available to everyone, regardless of financial resources or technical expertise.  \n \n Our decentralized  computing  network, bolstered by PAI3  NFTs, represents a paradigm shift towards \ndemocratizing AI access and empowering individuals. Each PAI3  NFTs ensures guaranteed monthly \nrevenue, preferential processing rates, and access to exclusive features, effectively dismantling the data \nsilos controlled by the tech elite.  \n \nAs",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_021",
+    "text": "to exclusive features, effectively dismantling the data \nsilos controlled by the tech elite.  \n \nAs we confront the centralized tyranny of today’s AI landscape, PAI3  stands as a revolutionary force \ndedicated to reclaiming our digital future and ensuring that the benefits of AI are shared by all, not just a \nprivileged few. PAI3  envisions a world where AI is not controlled by a select few but is accessible to \neveryone. Our goal is to create a decentralized AI platform that prioritizes user pr",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_022",
+    "text": "accessible to \neveryone. Our goal is to create a decentralized AI platform that prioritizes user privacy, security, and \ncontrol. By harnessing the power of decentralized technology, we aim  to provide a secure, efficient, and \nuser-centric AI experience that empowers individuals to take ownership of their data and computing \npower. We foresee a grassroots movement of individuals who refuse to submit to the AI monopolies. This \nlegion of “Free m inds” will fight back by a World Computer that is",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_023",
+    "text": "bmit to the AI monopolies. This \nlegion of “Free m inds” will fight back by a World Computer that is a decentralized mesh designed to \nshatter the chains of centralized A I. Each NFT in this collection represents a member of the PAI3  \ncommunity, a digital warrior fighting for the right to think freely, to innovate, and to live without the fear of \nAI tyranny. These NFTs are more than just art; they are keys to the World Computer, empowering the \nholder to join the resistance.  \n \nTo realize thi",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_024",
+    "text": "ey are keys to the World Computer, empowering the \nholder to join the resistance.  \n \nTo realize this vision, PAI3  aims to launch the largest supercomputer owned and operated by the people. \nThis initiative will be powered by a mesh of user -owned computers, each contributing to the collective \ncomputational power needed to train and run AI models. To support this, PAI3  will issue a limited number \nof NFTs that represent ownership stakes in the mesh. These NFTs will be sold at a fixed price fo",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_025",
+    "text": "er \nof NFTs that represent ownership stakes in the mesh. These NFTs will be sold at a fixed price for early \nadopters, with subsequent auctions to follow. This model not only incentivizes participation but also \nensures that the bene fits of AI are distributed more equitably across society.  \n \n1.2 - Call to Action: Be a part of a decentralized future of AI  \nIn summary, PAI3  represents a groundbreaking shift in the AI landscape, offering a decentralized, secure, \nand user -centric platform tha",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_026",
+    "text": "reaking shift in the AI landscape, offering a decentralized, secure, \nand user -centric platform that empowers individuals and democratizes access to advanced AI \ntechnologies. This white paper will explore the technical architecture, tok enomics, and key benefits of \nPAI3 , providing a comprehensive overview of how this platform can reshape the future of AI for the better.  \n \nBecome a co -owner of the future of AI by securing your place in the PAI3  decentralized network through \nthe purchase",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_027",
+    "text": "of the future of AI by securing your place in the PAI3  decentralized network through \nthe purchase of an NFT. This simple step not only grants you ownership within the PAI3 Network  but also \nempowers you with the ability to protect your privacy and ensure that AI agents serve your needs —not \nthose of Big AI. By owning an NFT, you gain the opportunity to train and sell your own AI agents, fully \ntailored to your individual requirements.  These agents are yours to control and monetize within th",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_028",
+    "text": "tailored to your individual requirements.  These agents are yours to control and monetize within the PAI3  \nmarketplace. In essence, by owning a \"brick in the wall,\" you are actively contributing to the construction \nof a robust, user -driven AI ecosystem that stands as a defense against centralized AI monopolies, \nensuring that the power of AI remains in the hand s of the people.  \n \n2.0 - Decentralizing AI  \nIn 2021, Sir Tim Berners -Lee, the inventor of the internet, proposed a paradigm shif",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_029",
+    "text": "tralizing AI  \nIn 2021, Sir Tim Berners -Lee, the inventor of the internet, proposed a paradigm shift to a digital world with \npeople in control of their data instead of gatekeepers (Lohr 2021) . Now, this paradigm is being considered \nfor AI.  DAI refers to the integration of AI and blockchain technology toward a democratization of AI,\n4 \n ensuring individual users are guiding this technology's future. AI technology has multiple complex \ncomponents, each playing a crucial role in shaping how th",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_030",
+    "text": "uture. AI technology has multiple complex \ncomponents, each playing a crucial role in shaping how these systems operate and impact our lives  \n(GaiaNet 2024) . Among these, there are specific parts of AI that people need to own and control to \nensure that AI serves the public inte rest and remains safe and secure. One of the most critical aspects is \nthe ownership of AI agents —these should be built and controlled by individuals to ensure they operate \nwith honesty and transparency. PAI3  empowe",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_031",
+    "text": "lt and controlled by individuals to ensure they operate \nwith honesty and transparency. PAI3  empowers users to build their own AI agents, running them on \nneutral models like large language models (LLMs) or small language models (SLMs). However, the real \nrisk lies in the inference processes, RAGS, and vector embeddings. These elements are where data is \ninterpreted and decisions are made, making it essential that they are controlled by the users who rely on \nthem. To  mitigate these risks, it'",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_032",
+    "text": "it essential that they are controlled by the users who rely on \nthem. To  mitigate these risks, it's crucial for people to have ownership over the compute space and \ninference engines that power these AI systems. If users control the environment where computation \noccurs and how inferences are made, they can ensure that AI operat es safely, without being co -opted by \ncentralized entities or manipulated for purposes that do not align with public interest. This approach aligns \nwith the broader",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_033",
+    "text": "pulated for purposes that do not align with public interest. This approach aligns \nwith the broader goals of DAI, where the distribution of AI components across a mesh —and under the \ncontrol of  the people —enhances privacy, security, and user autonomy. By decentralizing AI and giving \npeople ownership over critical components like AI agents, compute resources, and inference \nmechanisms, PAI3  aims to create a safer and more equitable AI ecosystem that truly serves the needs of \nindividuals (Oo",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_034",
+    "text": "ms to create a safer and more equitable AI ecosystem that truly serves the needs of \nindividuals (Oodles Blockchain 2024) . \n \n \n \nFigure 1: Focus is shifting from infra to specialized models  \n \n \nDAI offers a promising solution to these challenges and is suitable for organizations and individuals that \nown their data and do not want to share it, particularly for medical, banking, surveillance, and data mining \nsectors (Singh et al. 2024) . By leveraging blockchain and federated learning techno",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_035",
+    "text": "nd data mining \nsectors (Singh et al. 2024) . By leveraging blockchain and federated learning technologies, DAI can \nprovide secure, efficient, and user -centric AI platforms. These platforms empower individuals by giving \nthem control over their data and AI interactions, thereby ensuring privacy and fos tering trust. Blockchain \ntechnology plays a crucial role in this process. By providing an auditable trail of data access and \nmodifications, the blockchain ensures that users can trust the syst",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_036",
+    "text": "itable trail of data access and \nmodifications, the blockchain ensures that users can trust the system. Every interaction with the data is \nrecorded on an immutable ledger, making it impossible to tamper with the information without detection.  \n \nIn the evolving landscape of AI, decentralization offers a promising approach to enhancing privacy, \nsecurity, and user autonomy . DAI involves distributing various components across a network rather than \nrelying on centralized entities. Several aspec",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_037",
+    "text": "ting various components across a network rather than \nrelying on centralized entities. Several aspects of AI can be decentralized:  \n● Decentralized Computation and Inference: One of the most challenging aspects of \ndecentralization is the distribution of computational tasks. Each PAI3  device will act as part of a \ndecentralized computational mesh, where processing power and access are managed through \nNFTs. Users could lease their computational resources, with time and resource restrictions \nm",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_038",
+    "text": "rough \nNFTs. Users could lease their computational resources, with time and resource restrictions \nmanaged via smart contracts and verifiable cred entials (VCs). A critical challenge will be ensuring\n5 \n parallel processing with consensus while maintaining confidentiality. A potential solution is to \ncompute data locally on the user’s device, sharing only the resulting vector embeddings and \nmodels rather than raw data.  \n \nAI model inferences and user data can be decentralized by running both o",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_039",
+    "text": "s rather than raw data.  \n \nAI model inferences and user data can be decentralized by running both on the same hardware, \nallowing the model to be augmented with personalized user data. The augmented models could \nthen be shared or monetized without revealing the underlying dataset, pr eserving privacy while \nenabling distributed AI capabilities.  \n \n● Data Storage and Management:  Primary user data storage can be decentralized using PAI3  \nhardware, which will serve as the foundational layer fo",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_040",
+    "text": "ta storage can be decentralized using PAI3  \nhardware, which will serve as the foundational layer for data storage and processing. This data, \ncoupled with NFTs for access control, will be integrated into a computational mesh for \ndecentralized computing. To ensure user privacy, data will need to be e nd-to-end encrypted and \ntokenized, allowing personalized data to be concealed yet usable. Additionally, decentralized \nidentifiers (DIDs) could be implemented to manage user identity securely. For",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_041",
+    "text": "onally, decentralized \nidentifiers (DIDs) could be implemented to manage user identity securely. For secondary storage, \nplatforms like InterPlanetary File System  (IPFS ) (e.g., IPFS Kubo ) could be used to store \nsummaries of previous data, adding an extra layer of decentralization and redundancy. Control \nover the data used in the model is controlled by a mesh of individuals rather than the bigger \nmonopolies.  \n \n● Personalized Model Training and Deployment:  The best AI s start with the bes",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_042",
+    "text": "ger \nmonopolies.  \n \n● Personalized Model Training and Deployment:  The best AI s start with the best data (Ibarra 2024) . \nThus, utilizing a distributed framework will enable each user to contribute their data to a \nsuccessful  future for AI. Decentralized training frameworks allow multiple parties to contribute to \nthe training of an AI model without sharing their raw data. Techniques like Federated Learning \nenable the training of models across decentralized devices, aggregating updates while",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_043",
+    "text": "ated Learning \nenable the training of models across decentralized devices, aggregating updates while keeping \ndata local. AI models can be deployed in a decentrali zed manner where different parts of the \nmodel or different models are hosted across multiple nodes. This can improve robustness and \nreduce the risk of a single point of failure.  \n \n● Decentralized Vector storage  \nVector embeddings generated by LLMs or RAGs will be stored in a decentralized manner within \nPAI3 ’s Vector Package. Li",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_044",
+    "text": "enerated by LLMs or RAGs will be stored in a decentralized manner within \nPAI3 ’s Vector Package. Like user data storage, DIDs could be employed to securely manage and \nidentify these vectors, ensuring that users retain control over their data while enabling \ndecentralized AI operations.  \n \n● Consensus -making and governance: Decentralized AI systems can use smart contracts and \ndecentralized autonomous organizations (DAOs) to govern AI models and their updates, ensuring \nthat decisions about t",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_045",
+    "text": "onomous organizations (DAOs) to govern AI models and their updates, ensuring \nthat decisions about the AI's behavior are made collectively rather than by a single entity.  \n \n● Monetization and Incentives: Decentralized AI systems can incorporate token -based incentives, \nwhere participants are rewarded for contributing data, computing power, or other resources to the \nAI system.  Furthermore, a marketplace can be developed where each contributor can get a fair \nreward for their contributions .",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_046",
+    "text": "arketplace can be developed where each contributor can get a fair \nreward for their contributions .  \n \nThese components, when decentralized, create a robust and secure AI ecosystem that leverages the \npower of distributed computing and data management while  addressing privacy and security concerns.  \n \n3.0 - Key Benefits and use -cases of PAI3 Network  \n3.1 - Key benefits of PAI3 Network\n6 \n One of the key benefits of PAI3  is its focus on data privacy and security. User data remains local, \nr",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_047",
+    "text": "of the key benefits of PAI3  is its focus on data privacy and security. User data remains local, \nreducing the risk of breaches and increasing data ownership and control. Blockchain technology provides \nan auditable trail of data access and modifications, ensuring trust and security  (Nakamoto 2008) . Unlike \ncentralized AI, PAI3  offers user -owned computers with inexpensive personal AI machines that interact \nwith big models, execute small models locally, and protect user data and identity. T",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_048",
+    "text": "that interact \nwith big models, execute small models locally, and protect user data and identity. There is no transfer of \ndata to centralized servers or the cloud, and PAI3  Computers generate revenue from paid nodes. Users \nown their models, which can be confined to curated data sets, and their data, which can be sold for \ntraining purposes while maintaining 100% privacy.  \n \nData Privacy and Security - One of the most significant advantages of PAI3  is the emphasis on data \nprivacy and secur",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_049",
+    "text": "ecurity - One of the most significant advantages of PAI3  is the emphasis on data \nprivacy and security. In a world where data breaches are becoming increasingly common, PAI3  offers a \nsolution where user data remains local, significantly reducing the risk of breaches. By keeping data on the \nuser’s device, PAI3  ensures that individuals maintain full ownership and control over their information.  \n \n3.2 - Key Differences from Centralized AI  \nPAI3  distinguishes itself from centralized AI mode",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_050",
+    "text": "3.2 - Key Differences from Centralized AI  \nPAI3  distinguishes itself from centralized AI models in several critical ways:  \n● User -Owned Compute in PAI3  Fabric:  PAI3  allows users to own and control their computing \npower. This ensures that users can run AI models on their devices without relying on expensive \ncloud -based solutions. PAI3  offers an affordable AI computing device that interacts with large \nmodels while executing small models locally. This design protects user data and",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_051",
+    "text": "teracts with large \nmodels while executing small models locally. This design protects user data and identity by \nkeeping information on the user’s device rather than transferring it to centralized servers.  \n● User -Owned Models:  Users can create and train their models on PAI3 , tailored with specific data \nsets. These specialized augmented models can be developed for specific fields such as \nhealthcare, finance, education, or coding. This gives users full control over their AI models and \nensu",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_052",
+    "text": "lthcare, finance, education, or coding. This gives users full control over their AI models and \nensures that their data is used only for t heir benefit.  \n● User -controlled Data - Users can own and control their data on their local PAI3  computer to \npreserve privacy and confidentiality. Furthermore, PAI3  computer owners can permission their \ndata and embeddings for model training.  \n● Revenue Generation: PAI3  provides an opportunity for users to generate income by running \nnodes on their dev",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_053",
+    "text": "eneration: PAI3  provides an opportunity for users to generate income by running \nnodes on their devices. Users can sell their data for training, participate in the network, and earn \nPAI3  tokens, all while maintaining 100% privacy.  \n \n3.3 - Key use -cases and Consumer applications  \nAs AI continues to integrate into various aspects of our lives, it is crucial to address the dangers \nassociated with centralized AI systems that often prioritize corporate interests over individual rights. The \nP",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_054",
+    "text": "with centralized AI systems that often prioritize corporate interests over individual rights. The \nPAI3  platform offers a decentralized alternative that empowers users by enabling the creation and \nownership of personalized AI agents tailored to their specific needs. These agents, whether personal, \nprofessional, or enterprise -level, are designed to serve the  individual user, ensuring that AI systems are \ntrustworthy, transparent, and aligned with the user’s goals. The core philosophy behind",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_055",
+    "text": "ystems are \ntrustworthy, transparent, and aligned with the user’s goals. The core philosophy behind PAI3  is that AI \nagents must do no harm, and this is achieved by placing control over key AI components —such as \ninference engines and data processing —in the hands of the users themselves.  \n \nPAI3  provides users with the tools to create  Personal AI Agents  that enhance daily life, from managing \ntasks and productivity to offering personalized advice and support. These agents operate on neutr",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_056",
+    "text": "g \ntasks and productivity to offering personalized advice and support. These agents operate on neutral \nmodels but are owned and controlled by the user, ensuring that they serve the individual’s interests. For \nprofession als, PAI3  enables the development of  Specialized AI Agents that can be tailored to specific \nindustries like healthcare, finance, or education. These agents can provide industry -specific insights, \nstreamline workflows, and even be monetized through the PAI3  marketplace. At",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_057",
+    "text": "y -specific insights, \nstreamline workflows, and even be monetized through the PAI3  marketplace. At the enterprise level, \nEnterprise AI Agents  built on PAI3 ’s decentralized mesh can handle large -scale AI tasks, from data \naggregation to complex model training, all while maintaining the privacy and security of proprietary data.\n7 \n Finally, Community AI Agents  allow for broader collaboration and data sharing within the PAI3  \necosystem, enabling communities to collectively build, manage, an",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_058",
+    "text": "and data sharing within the PAI3  \necosystem, enabling communities to collectively build, manage, and benefit from AI technologies.  \n \nThrough PAI3 , users can own a piece of the AI infrastructure itself, contributing to and benefiting from a \ndecentralized supercomputer network. This ownership model not only democratizes access to advanced \nAI technologies but also ensures that AI development is guided  by the collective interests of its users \nrather than a centralized authority. Whether crea",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_059",
+    "text": "guided  by the collective interests of its users \nrather than a centralized authority. Whether creating personal digital assistants, professional tools, or \nenterprise solutions, PAI3  empowers users to harness the full potential of AI in a way that is safe, secure, \nand beneficial to society.  \n \nEach agent group and its potential descriptions are described below:  \n● Personalized AI Agent to “Live Smarter” -PAI3  enables users to “live smarter” by providing access to \nadvanced AI technologies",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_060",
+    "text": "ive Smarter” -PAI3  enables users to “live smarter” by providing access to \nadvanced AI technologies that enhance their daily lives, from personal productivity to health \nmanagement.  PAI3  offers several consumer applications, such as personalized AI agents for tasks \nlike email management and finding lost items, and AI -powered life coaches and IQ managers, \nenhancing everyday life and personal productivity. Consumers can leverage PAi's capab ilities to shift \npower to the individual, using AI",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_061",
+    "text": "productivity. Consumers can leverage PAi's capab ilities to shift \npower to the individual, using AI to \"live smarter.\"  Users can leverage PAI3  to create personalized \nAI agents that act as their “Megamind,” helping them manage their intellectual property, make \ninformed decisions, and improve their overall intelligence.  \n● People seeking personalized digital assistants - A busy people can use the PAI3  \nplatform to create a personalized AI agent, known as their \"Megamind,\" which helps them",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_062",
+    "text": "the PAI3  \nplatform to create a personalized AI agent, known as their \"Megamind,\" which helps them \nlive smarter by managing daily tasks, enhancing productivity, and supporting personal \ngrowth. This AI agent handles everything from organizing emails and scheduling \nappointments to tracking goals and intellectual projects, freeing up the professional's time \nand reducing stress. It also acts as an AI -powered life coach, providing tailored advice for \ndecision -making and continuous learning, en",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_063",
+    "text": "AI -powered life coach, providing tailored advice for \ndecision -making and continuous learning, enabling the professional to ma ke informed \nchoices and improve their overall quality of life.  \n \n● Specialized AI agents for Professionals - PAI3  will offer a generalized model for users that can be \naugmented with data contributed by PAI3  members. PAI3  will support the development of \nspecialized augmented models that can provide guidance on fields such as healthcare, finance, and \ncoding.  T",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_064",
+    "text": "ed augmented models that can provide guidance on fields such as healthcare, finance, and \ncoding.  These models will be designed to deliver enhanced and context -specific insights and apply \nthem  to each user's data. For instance, in healthcare, the model could assist in providing guidance \ntoward better outcomes, while in finance, it could analyze market trends or optimize investment \nstrategies based on the user's financial data. In coding, the pl atform might streamline software \ndevelopment",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_065",
+    "text": "based on the user's financial data. In coding, the pl atform might streamline software \ndevelopment by suggesting code snippets or debugging. These models can be sold and shared on \nthe PAI3  marketplace for user revenue. To augment these models further, the system will deploy \nintelligent agents capable of searching the internet in real -time, gathering the most relevant and up -\nto-date information. These agents will enhance the accuracy and com prehensiveness of the model’s \noutputs by integ",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_066",
+    "text": "tion. These agents will enhance the accuracy and com prehensiveness of the model’s \noutputs by integrating external data, making the platform adaptable to rapidly changing \nenvironments. Users will have the option to access these specialized models at an additional cost, \nallowing them to tailor the platform’s capabilities to their specific needs. This approach ensures that \nthe PAI3  AI hardware can provide powerful, industry -focused solutions that are both flexible and \nscalable.  This specia",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_067",
+    "text": "can provide powerful, industry -focused solutions that are both flexible and \nscalable.  This specialized AI agent would be valuable resources for professions such as educators \nand researchers that require unique and catered datasets.  \n● High school teacher - A teacher can use the PAI3  platform to enhance personalized \nlearning by deploying a custom AI agent tailored specifically to their course materials. This \nAI agent adapts to each student’s needs, offering personalized quizzes, assignmen",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_068",
+    "text": "e materials. This \nAI agent adapts to each student’s needs, offering personalized quizzes, assignments, and \nfeedback that align with the curriculum . Running on a secure PAI3  Computer, the AI also \nhelps prepare lesson plans, significantly reducing the teacher's workload. By keeping all\n8 \n sensitive student data encrypted and stored locally, the teacher ensures privacy and \nsecurity, avoiding the risks associated with centralized servers. Additionally, the platform \nallows for collaboration w",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_069",
+    "text": "he risks associated with centralized servers. Additionally, the platform \nallows for collaboration with other educators to share and refine course mater ials securely, \nfurther enriching the teaching process.  \n● Researchers  - A researcher could utilize the PAI3  platform to analyze their datasets using \nadvanced AI tools to run complex analyses and simulations, with the AI assisting in \nidentifying trends and generating insights from their unique unpublished or sensitive \ndatasets. Through PAI",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_070",
+    "text": "ing trends and generating insights from their unique unpublished or sensitive \ndatasets. Through PAI3 , the researcher can securely share AI models and datasets with \ncollaborators, ensuring data integrity and fostering innovation without the risks associated \nwith centralized data storage. This secure, collaborative environment accelerates research \ndiscover ies while maintaining control over their sensitive data.  \n \n● “Personalized AI agent and Digital twin” - PAI3  empowers consumers by shif",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_071",
+    "text": "ir sensitive data.  \n \n● “Personalized AI agent and Digital twin” - PAI3  empowers consumers by shifting the power dynamic \naway from large corporations and towards individuals. With PAI3 , users can create personalized AI \nagents, manage their data, and improve their daily lives through AI -powered tools. PAI3  offers a \npersonalized Ai agent that helps users manage their daily tasks and enhance their decision -making \ncapabilities based on specialized or personalized AI models.  \n● Patient see",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_072",
+    "text": "their decision -making \ncapabilities based on specialized or personalized AI models.  \n● Patient seeking whole -person care - A patient could use the PAI3  platform to create a \npersonalized AI agent and digital twin that assists in coordinating their healthcare and \nproviding tailored medical advice using a whole person perspective with their clinical and \nnon-clinical data. This AI agent can analyze the patie nt's medical history, tracks \nappointments, manages medication schedules, and ensures",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_073",
+    "text": "lyze the patie nt's medical history, tracks \nappointments, manages medication schedules, and ensures that all healthcare providers are \ninformed and up -to-date. A digital twin could allow for potential simulations and projections \nbased on the most recent data . By integrating all aspects of the patient's care, the AI agent \nhelps streamline decision -making, offering consistent, personalized advice based on the \nlatest data and treatments. This approach empowers the patient to take control of",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_074",
+    "text": "ice based on the \nlatest data and treatments. This approach empowers the patient to take control of their \nhealth care, be informed, and ensure that their care is well -coordinated.  \n \n● Enterprise AI agents with decentralized supercomputer -By connecting PAI3  Computers across the \nglobe, users contribute to a decentralized supercomputer that can tackle large -scale AI tasks. This \nmesh enables the training of AI models, processing of complex data, and execution of AI \napplications on a massiv",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_075",
+    "text": "the training of AI models, processing of complex data, and execution of AI \napplications on a massive scale, all while mai ntaining individual privacy and control.  \n● Data scientists and managers - They will be able to use the PAI3  platform to connect to a \nglobal mesh  of decentralized supercomputers, enabling large -scale AI tasks with enhanced \nprivacy. They aggregate and curate datasets from diverse sources through the marketplace \nwhile maintaining full control over their data while train",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_076",
+    "text": "diverse sources through the marketplace \nwhile maintaining full control over their data while training AI models and processing \ncomplex information. This decentralized system allows them to execute AI applications on a \nmassive scale, collaborate with peers, and share curated datasets securely, all without \nrelying on centralized servers.  \n \n● Computer AI by owning  the PAI3 Network  - Users can own a portion of the PAI3 Network  and \ncontribute to its growth by running PAI3  Computers and No",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_077",
+    "text": "n own a portion of the PAI3 Network  and \ncontribute to its growth by running PAI3  Computers and Nodes, building models, and selling data.  \n● AI enthusiasts - They can leverage the PAI3  platform to actively participate in and own a \nportion of the decentralized AI mesh. By running PAI3  Computers and Nodes, they \ncontribute to the mesh’s growth and functionality, directly influencing the development and \nevolution of AI models. These enthusiasts can build and fine -tune their own AI models,",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_078",
+    "text": "pment and \nevolution of AI models. These enthusiasts can build and fine -tune their own AI models, \nutilizing the collective power of the decentralize d mesh to enhance their creations. \nAdditionally, they could  monetize their contributions by selling curated datasets and refined \nmodels within the PAI3  marketplace. This ownership and active participation allow AI\n9 \n enthusiasts to be at the forefront of AI innovation, shaping the future of AI while benefiting \nfrom the rewards of their invol",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_079",
+    "text": "refront of AI innovation, shaping the future of AI while benefiting \nfrom the rewards of their involvement in the decentralized ecosystem.  \n \n4.0- PAI3  ecosystem utilizing mesh computing  \nThe PAI3  ecosystem is designed to distribute computing power in a mesh configuration to decentralized \nAI while isolating highly sensitive data on secure hardware computers. PAI3 Network  is a collection of \nPAI3  Nodes that include personal user devices and computers that host a personalized instance of th",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_080",
+    "text": "PAI3  Nodes that include personal user devices and computers that host a personalized instance of the \nlarge language model for each user’s queries that can utilize their secured data on their node.  \nCollectively, this mesh will become the foundation for the People’s supercomputer.  Each Node represents \nan opportunity to contribute computing resources with access granted via an NFT purchase or lease .  \n \nEach PAI3  contributor  will engage the PAI3 Network  using a digital wallet via their pe",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_081",
+    "text": "ease .  \n \nEach PAI3  contributor  will engage the PAI3 Network  using a digital wallet via their personal devices  \nincluding  mobile phone s or personal computers , and each user interaction, task, and query will be \ncoordinated by a personal AI agent that can navigate the mesh for the appropriate resources  to each \nquery. AI modelers  and Data curators with powerful computers  can further train the PAI3  AI model to \nhandle specialized needs, tasks, and subjects . Each Node is verifiable by",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_082",
+    "text": "n the PAI3  AI model to \nhandle specialized needs, tasks, and subjects . Each Node is verifiable by a  DID on an identity blockchain  \nenabling secure peer -to-peer communication within the Mesh . (Figure 2). Furthermore, an index of vector \nembeddings is also stored on the blockchain. The development of a blockchain -based decentralized \ncomputational mesh (Muthe, Sharma, and Sri 2020; Asharaf and Adarch 2017)  will allow resources to be \nshared among PAI3  devices, optimizing processing and da",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_083",
+    "text": "d Adarch 2017)  will allow resources to be \nshared among PAI3  devices, optimizing processing and data management (Oodles Blockchain 2024; \nLAMPORT and LYNCH 1990)  . Users of the PAI3 Network  can include Contributors that consent access \nto available de -identified datasets and vectors to 2) Data Curators that are building customized and \nspecialized vector packages for the PAI3  AI engine to use. \n \n4.1 - PAI3 Network  environment for compute and data request  \nThe PAI3 Network  is a decentra",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_084",
+    "text": "e. \n \n4.1 - PAI3 Network  environment for compute and data request  \nThe PAI3 Network  is a decentralized network where multiple PAI3  devices collaborate to provide \ndistributed computing power and data storage. Each PAI3  computer or node contributes processing \nresources and storage capacity, creating a resilient and scalable system. Data is securely stored across \nthe mesh on each user’s computer or other technologies like IPFS, with encryption ensuring privacy. \nArtificial  agents plan, coo",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_085",
+    "text": "ter or other technologies like IPFS, with encryption ensuring privacy. \nArtificial  agents plan, coordinate, and execute sequences of actions on each user’s behalf within each \nuser’s node and between the nodes in the mesh. Consensus mechanisms and smart contracts manage \nresource leasing and access permissions, ensuring secure and efficie nt operations  (Asharaf and Adarch \n2017) .\n10 \n  \nFigure 2: PAI3 Network - A distributed network of Nodes  \n \n \nThe PAI3  Node is the environment within the",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_086",
+    "text": "2: PAI3 Network - A distributed network of Nodes  \n \n \nThe PAI3  Node is the environment within the Mesh where AI models are executed,  and training data is \nsubmitted . Nodes  include PAI3  AI agent, RAGS  operations , AI and models to coordinate and respond to  \nthe requests. Each node is designed to be controlled from PAI3  Computers or other hardware, such as \nPAI3  computers, personal computers , and mobile devices  that contain PAI3  identity wallet and data \nstorage . The PAI3  user's mob",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_087",
+    "text": "rs , and mobile devices  that contain PAI3  identity wallet and data \nstorage . The PAI3  user's mobile device or PC interface with external systems such as approved IOT \ndevices and the PAI3  Node that is controlled by PAI3  Agent. The Agent orchestrates the connections and \ndata flow within the PAI3  Node, ensuring secure and efficient interaction within the ecosystem (Gabriel et \nal. 2024) . Each PAI3  Node can query a blockchain for decentralized identity’s each PAI3  computer, user, \nagent,",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_088",
+    "text": "ch PAI3  Node can query a blockchain for decentralized identity’s each PAI3  computer, user, \nagent, and node to verify assets access using zero -knowledge proofs (ZK).\n11 \n  \nFigure 3: PAI3 Node  \n \nUser data lies on a spectrum between personal data with high sensitivity to curated data available for \ncontribution to the PAI3 Network . Thus, an anonymizing process will be developed to transform raw \npersonal data into curated data and to minimize inadvertent disclosures to the network. Given th",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_089",
+    "text": "aw \npersonal data into curated data and to minimize inadvertent disclosures to the network. Given the \nsensitivity, the PAI3  Node will have a public and private IPFS vault for user files to balance the need for \nprivacy and confidentiality, while encouraging data contributi ons. Users can create custom datasets or \nredact personal or sensitive data elements for curation in their public container. Only curated data \nincluding data files, inferences, and vector embedding can be sold to data “Cura",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_090",
+    "text": "Only curated data \nincluding data files, inferences, and vector embedding can be sold to data “Curators” to form bigger \ndatasets or AI “ Tuners” to augment or train specialized AI models.  \n \nPAI3  users can submit computer requests for queries and prompts  such as “Find me the best flight to \nNew York”  to an AI model to develop an inference  indicated in the black arrows in Figure 3.  The p rompt is \naugmented with further context security and utility guardrails by the  RAGS on the Node. The",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_091",
+    "text": "mpt is \naugmented with further context security and utility guardrails by the  RAGS on the Node. The PAI3  Agent \nidentifies the best available node to compute the inference, the best AI model and vector embeddings via \nthe vector index on the blockchain. Each computing node’s AI model produces an inference,  and the \nresulting vector embedding  is returned to the requesting node. (Figure 3 A) Every operation will be \nconducted on multiple nodes in parallel to achieve consensus and accuracy. Res",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_092",
+    "text": "ry operation will be \nconducted on multiple nodes in parallel to achieve consensus and accuracy. Resulting AI inferences and \nvector embeddings from each compute request are returned to the original requesters Public IPFS vault \nindicated in the green arrows in Figure 3. Additionally, the Agent will manage the decentralized data \nstorage of user files, summaries, and vector packages on the PAI3  hardware and the IPFS.  \n \nFurthermore, operations such as AI model tuning may require supplemental c",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_093",
+    "text": "ardware and the IPFS.  \n \nFurthermore, operations such as AI model tuning may require supplemental computing resources beyond \nwhat is available on the local computer . With the PAI3 Network , AI tuners can request additional nodes \nfor greater compute  power  indicated in black arrows  (Figure 3 B) . The vector embeddings are returned to \ntheir IPFS vault indicated with green arrow in Figure 3.   By combining multiple nodes and utilizing parallel \ncomputing, PAI3  will offer a cheaper and more",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_094",
+    "text": "By combining multiple nodes and utilizing parallel \ncomputing, PAI3  will offer a cheaper and more trusted environment for AI tuning. This distributed compute \noffers  an opportunity for PAI3  contributors to earn revenue while their computer is being used  in the \nMesh.\n12 \n  \nFigure 4: PAI3 data workflows for AI queries and conditioning  \nTo allocate compute workload to multiple nodes based on the given parameters (available node capacity, \nnode reputation, lowest latency, proximity, and loca",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_095",
+    "text": "the given parameters (available node capacity, \nnode reputation, lowest latency, proximity, and location), a weighted scoring approach will be used where \neach node is assigned a score based on the following factors. The workload is then distributed in \npropo rtion to these scores.  \n \nTo calculate the workload allocation, first we will compute the weighted score ( Score i) for each node \nusing the following equation  \n𝑆𝑐𝑜𝑟𝑒  𝑖 = 𝑤𝑐 × 𝐶i + 𝑤𝑟 × 𝑅𝑖 + 𝑤𝑖 ×𝐿i + 𝑤𝑝 ×P𝑖 \n \nwhere: wc, wr, wi, and wp",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_096",
+    "text": "e following equation  \n𝑆𝑐𝑜𝑟𝑒  𝑖 = 𝑤𝑐 × 𝐶i + 𝑤𝑟 × 𝑅𝑖 + 𝑤𝑖 ×𝐿i + 𝑤𝑝 ×P𝑖 \n \nwhere: wc, wr, wi, and wp  are the weights assigned to each parameter based on their \nimportance. These weights should sum up to 1.  \n \nThe parameters are denoted as the following for each node i: \n- Ci = Available node capacity (as a percentage or normalized value)  \n- Ri = Node reputation (normalized between 0 and 1)  \n- Li = Latency (normalized inverse, i.e., lower latency gets higher score)  \n- Pi = Proximity score (opt",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_097",
+    "text": "= Latency (normalized inverse, i.e., lower latency gets higher score)  \n- Pi = Proximity score (optional, normalized between 0 and 1)\n13 \n - wi = Final workload allocated to node i \n \nTotal work allocation is determined by:  \n𝑆 𝑡𝑜𝑡𝑎𝑙 = ∑ 𝑆𝑐𝑜𝑟𝑒  𝑖𝑛\n𝑖=1   \n \nEach parameter should be normalized with the following equation.  \nS′i = (𝑆i – 𝑆min )/(𝑆max −𝑆min )  \n \nwhere Si= actual value of parameter for node.  \n \nFinally, the workload allocated to node is given by:  \nWi = Score 𝑖\n𝑆𝑡𝑜𝑡𝑎𝑙   × 𝑊total ,",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_098",
+    "text": "r node.  \n \nFinally, the workload allocated to node is given by:  \nWi = Score 𝑖\n𝑆𝑡𝑜𝑡𝑎𝑙   × 𝑊total ,  \n \n where Wtotal is the total workload to be distributed among the nodes.  \n \n4.2 - PAI3  Wallet  \nThe PAI3  Wallet is the main interface for users to interact with the PAI3  ecosystem via their personal \ndevices. The wallet is an identity and self -custody wallet that holds the PAI3  token, manages earnings, \nand provides access to the PAI3  marketplace. Users can stake their tokens, receive ear",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_099",
+    "text": "s earnings, \nand provides access to the PAI3  marketplace. Users can stake their tokens, receive earnings, and \nmanage their NFTs through the wallet. Additionally, the wallet controls the PAI3 Computer, manages \nprompts and the data ingest pipeline to the PAI3 Network .  \n \nAs a digital identity wallet, the PAI3  Wallet is also a crucial component of the PAI3  ecosystem, designed \nto securely manage user identities and ensure privacy within the decentralized AI platform. This self -\nsovereign id",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_100",
+    "text": "ge user identities and ensure privacy within the decentralized AI platform. This self -\nsovereign identity wallet allows users to control their digital identities independently, utilizing blockchain \ntechnology to protect personal information and data. The Identity Wallet is integrated with DIDs and VCs, \nenabling users to authenticate their identity, manage access to specific resources, and interact securely \nwith the PAI3 Network . With the PAI3  Identity Wallet, users can seamlessly take part",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_101",
+    "text": "act securely \nwith the PAI3 Network . With the PAI3  Identity Wallet, users can seamlessly take part  in the PAI3  \nmarketplace, manage their NFTs, and interact with AI models, all while maintaining full control over their \nidentity and personal data. This ensures that every transaction and interaction within the PAI3  ecosystem \nis secure, transparent, and user -centric, reinforcing the platform's commitment to privacy and user \nempowerment.  \n \n4.3 - PAI3  Models: LLMs, RAGs, Vector Embeddings",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_102",
+    "text": "s commitment to privacy and user \nempowerment.  \n \n4.3 - PAI3  Models: LLMs, RAGs, Vector Embeddings, and Inferences  \nPAI3  supports a variety of AI models, ranging from large language models to specialized small models \ntailored to specific domains. Users can configure their nodes to access these models or train new ones. \nThe marketplace will continually evolve, offering new m odels and tools as the network grows. The PAI3  \nplatform will leverage advanced AI models, specifically focusing on",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_103",
+    "text": "s the network grows. The PAI3  \nplatform will leverage advanced AI models, specifically focusing on LLMs and RAGs, to deliver \nspecialized and contextual solutions across various industries.  \n \nAI integrates various technologies to simulate human intelligence in machines. At its core are LLMs, \nwhich are advanced AI systems trained on extensive datasets to generate and understand human -like \ntext. PAI3  will use an open -source LLM to be a base LLM. RAGs enhance LLMs by combining them with \nre",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_104",
+    "text": "t. PAI3  will use an open -source LLM to be a base LLM. RAGs enhance LLMs by combining them with \nretrieval methods, accessing external data for more accurate and contextually relevant outputs. Vector \nembeddings are numerical representations of language elements, crucial for  tasks like semantic search \nand natural language understanding, as they capture relationships and meanings in a multi -dimensional \nspace. Inferences  refer to the application of learned knowledge by AI models to make pred",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_105",
+    "text": "ensional \nspace. Inferences  refer to the application of learned knowledge by AI models to make predictions or\n14 \n decisions, enabling real -time tasks such as fraud detection and personalized recommendations. These \nfoundational concepts are essential in the development and application of AI technologies.  \n \nLLMs on the PAI3  platform will serve as the foundation for generating human -like text and understanding \ncomplex queries across a wide array of domains. These models can process and gen",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_106",
+    "text": "and understanding \ncomplex queries across a wide array of domains. These models can process and generate text at scale, \nmaking them suitable for diverse applications, from customer service automation to advanced research in \nvarious fields.  The PAI3  foundation will tune the base LLM toward a PAI3  language model with PAI3  \ninferences.  \n \nTo enhance the contextual relevance of these models, the platform will integrate RAGs. RAGs combine \nthe generative power of LLMs with the precision of re",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_107",
+    "text": "he platform will integrate RAGs. RAGs combine \nthe generative power of LLMs with the precision of retrieval systems, enabling the models to access and \nincorporate specific, up -to-date information from ex ternal sources like databases or the web. This \ncapability will be particularly beneficial for industries that require real -time, accurate information, such as \nfinance or legal services. Vector embeddings will further augment the PAI3  models by enabling efficient \nand effective handling of",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_108",
+    "text": "r embeddings will further augment the PAI3  models by enabling efficient \nand effective handling of high -dimensional data. These embeddings will allow the models to represent \nwords, phrases, and concepts as numerical vectors in a multi -dimensional space, facilitating more \naccurate and context -aware responses. The use of vector embeddings will also improve the model’s \nability to search and retrieve relevant information, enhancing the overall performance of the RAG system. \nVector embeddings",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_109",
+    "text": "trieve relevant information, enhancing the overall performance of the RAG system. \nVector embeddings will be stored on PAI3  hardware or on each user’s  IPFS.  \n \nEach user will have multiple vector packages that can include vectorizations of their private and sensitive \ndata within each PAI3  node that can be used  for each user’s AI queries. In addition, curated vector \npackages can be created via a de -identification mechanism or a curation of a unique data set for subject \nspecific content f",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_110",
+    "text": "ia a de -identification mechanism or a curation of a unique data set for subject \nspecific content for specialized searches with specific content. These curated datasets can be  made \navailable for sale to the PAI3 Network  on the PAI3  Marketplace.  \n \nInferences on the PAI3  platform will enable real -time application of AI models for decision -making and \npredictions. These inference capabilities will be crucial for scenarios requiring immediate responses, such \nas real -time fraud detection",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_111",
+    "text": "es will be crucial for scenarios requiring immediate responses, such \nas real -time fraud detection in financial services, predictive main tenance in manufacturing, or diagnostic \nsupport in healthcare. By enabling models to perform inferences on the edge or in the cloud, PAI3  will \noffer scalable and efficient AI -powered solutions across multiple sectors.  \n \n4.4 - PAI3  AI assistant/agent  \nIn the PAI3  ecosystem, an AI Agent is  a sophisticated artificial intelligence entity designed to \nau",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_112",
+    "text": "the PAI3  ecosystem, an AI Agent is  a sophisticated artificial intelligence entity designed to \nautonomously plan and execute sequences of actions on behalf of the user across the decentralized PAI3 \nNetwork  (Gabriel et al. 2024) . These agents act independently, receiving high -level instructions from \nusers and translating them into detailed, actionable tasks that align with the user's goals and \nexpectations. The PAI3  Agent will have guardrails to do no harm to the user and be loyal to it",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_113",
+    "text": "and \nexpectations. The PAI3  Agent will have guardrails to do no harm to the user and be loyal to its controller \nwhile not benefiting unauthorized PAI3  users.  \n \nA crucial role of the PAI3  AI Agent is its ability to coordinate a personalized AI experience by integrating \nand managing user data within the distributed AI network. By leveraging the decentralized nature of the \nPAI3  platform, the AI Agent ensures that the user’s data remains secure and private while still providing \nthe necessa",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_114",
+    "text": "AI Agent ensures that the user’s data remains secure and private while still providing \nthe necessary inputs to tailor AI responses and actions to the user’s specific needs. This personalized \nexperience is further enhanced by the AI Agent’s s eamless coordination with the user's connected IoT \ndevices, files stored on the IPFS, and cloud -based services for prompt augmentation.  \n \nWithin the PAI3  framework, the AI Agent interacts with IoT devices to gather real -time data, integrates this \ni",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_115",
+    "text": "I3  framework, the AI Agent interacts with IoT devices to gather real -time data, integrates this \ninformation into task execution processes, and accesses files on IPFS to retrieve critical data securely.\n15 \n For complex prompts, the AI Agent leverages cloud -based AI services, accessing advanced models to \naugment the prompt and deliver highly accurate, contextually relevant results.  \n \nThis integrated approach allows the PAI3  AI Agent to function as a powerful and adaptive tool that not \non",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_116",
+    "text": "tegrated approach allows the PAI3  AI Agent to function as a powerful and adaptive tool that not \nonly operates within the PAI3 Network  but also extends its capabilities to the user’s broader digital \necosystem. By coordinating these various elements, the AI Agent ensures that each user enjoys a truly \npersonalized AI experience within the distributed mesh, all while maintaining control and  privacy over \ntheir data. This capability is central to PAI3 's vision of a decentralized, user -empower",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_117",
+    "text": "acy over \ntheir data. This capability is central to PAI3 's vision of a decentralized, user -empowered AI ecosystem, \nbridging the gap between advanced technology and individual user needs.  \n \n4.5 - PAI3  Computers  \nThe PAI3 Network  is a collection of user computers that decentralized the compute and data storage \nneeded for the world’s largest supercomputer and AI model. While Mesh users can contribute their \npersonal computers and devices, the PAI3  Foundation will offer a custom computer,",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_118",
+    "text": "ontribute their \npersonal computers and devices, the PAI3  Foundation will offer a custom computer, called PAI3 , for sale \nthat includes  the O smos  NFT. Computers are compact, powerful devices that serve as the backbone of \nthe decentralized AI network. We will design two versions: 1) User -centric design with a human -computer \ninterface and 2) a Mini -computer version to maximize performance and functio nality. Designed with a \nsleek aesthetic, it is intended to be a functional and attracti",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_119",
+    "text": "and functio nality. Designed with a \nsleek aesthetic, it is intended to be a functional and attractive addition to any home or office. The \ncomputer runs various apps, models, and interfaces, all accessible via a mobile application with \nintegrations with IOT devices suc h as Apple watches. Community -built apps earn money when used on \nthe device, creating a self -sustaining ecosystem. The PAI3  Computer is also designed for future \nscalability. Users can stack multiple devices to create a more",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_120",
+    "text": "Computer is also designed for future \nscalability. Users can stack multiple devices to create a more powerful AI computing environment, further \nenhancing the platform’s capabilities. All PAI3  computers will be small, well -designed devices that are \nfield upgraded and stackable for more power.  \n \nPAI3  computers will also connect to a PFS on the PAI3  Node that can handle patient files and summaries \nthat are beyond the capacity  of the hardware.  \n \n4.6 - Blockchains for PAI3  Decentralized",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_121",
+    "text": "aries \nthat are beyond the capacity  of the hardware.  \n \n4.6 - Blockchains for PAI3  Decentralized AI  \nTo effectively leverage blockchain technology in the PAI3  decentralized AI ecosystem, several key \ncomponents and mechanisms will be employed. Blockchains will enable robust consensus management, \nefficient parallel process management, and enforceable smart contracts. These features are critical for \nensuring trans parency, security, and coordination across the Mesh. Additionally, self -sove",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_122",
+    "text": "al for \nensuring trans parency, security, and coordination across the Mesh. Additionally, self -sovereign identity \nsystems utilizing DIDs , and VCs will provide secure and autonomous identity management  (Tobin and \nReed 2017) . Finally, non -fungible tokens (NFTs) will be used to establish membership, manage \nresources, and facilitate transactions within the PAI3 Network , linking users to specific computational \nresources and data assets.  \n \n● Non-Fungible Tokens (NFTs)  and PAI3  tokens  \nN",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_123",
+    "text": "fic computational \nresources and data assets.  \n \n● Non-Fungible Tokens (NFTs)  and PAI3  tokens  \nNFTs will play a crucial role in establishing membership and managing resources within the PAI3 \nNetwork . Each NFT will serve as proof of membership, linking users to specific PAI3  computers \nand their associated files. These NFTs can be used to grant access to the mesh, allocate \ncomputational resources, and facilitate transactions within the decentralized AI ecosystem. By \npointing to a specifi",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_124",
+    "text": "ources, and facilitate transactions within the decentralized AI ecosystem. By \npointing to a specific PAI3  computer, NFTs help manage ownership and access rights, ensuring \nthat resources are allocated efficiently and transparently across the PAI3 Network . The PAI3  \ntokens will utilize  the Ethereum  blockchain (Buterin 2014) .  \n \n● Consensus Management, Parallel Process Management, and Smart Contracts  \nBlockchain technology can be integral to managing decentralized AI within the PAI3  plat",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_125",
+    "text": "Contracts  \nBlockchain technology can be integral to managing decentralized AI within the PAI3  platform. By \nusing blockchains like Ethereum  (Buterin 2014) , consensus mechanisms can be employed to\n16 \n validate and synchronize the parallel processing tasks across the PAI3 Network . Smart contracts \ncan automate and enforce the rules governing computational tasks, resource allocation, and \nreward distribution. These contracts ensure that each task is executed as agreed, with outcomes \nverified",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_126",
+    "text": "d distribution. These contracts ensure that each task is executed as agreed, with outcomes \nverified through the blockchain, promoting transparency and trust within the decentralized \nsystem.  \n \n● Self-Sovereign Identity and DIDs with VCs  \nTo manage identity verification, access control, and permission leasing within the PAI3  \necosystem, blockchains can be used to create a self -sovereign identity framework.  Platforms like \nHyperledger Indy  (Hyperledger Foundation)  provide the necessary in",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_127",
+    "text": "ity framework.  Platforms like \nHyperledger Indy  (Hyperledger Foundation)  provide the necessary infrastructure to implement \nDIDs, which enable users to control their digital identities independently. VCs issued through the \nblockchain can be used to verify user identities, manage access to specific resources, and \nauthorize or rev oke leasing privileges of computational power or data  (Tobin and Reed 2017) . \nThis system ensures that only verified entities can participate in the PAI3 Network",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_128",
+    "text": "d Reed 2017) . \nThis system ensures that only verified entities can participate in the PAI3 Network , enhancing \nsecurity and privacy.  \n \nThrough  these mechanisms, blockchains  will provide the foundational infrastructure for a secure, \ntransparent, and decentralized AI ecosystem in PAI3 , enhancing both functionality and user autonomy.  \n \n4.7 - PAI3  Roles  \n● PAI3  contributor - They hold an NFT to participate and own a part of the PAI3 Network . They can \nengage with the PAI3 Network  via",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_129",
+    "text": "NFT to participate and own a part of the PAI3 Network . They can \nengage with the PAI3 Network  via their PAI3  computer and provide their own computer. PAI3  \nowners can present prompts to the PAI3 Network .  \n● PAI3  user - A PAI3  user who presents queries  to the PAI3 Network , AI models, apps, chains, and \nother network resources  for a membership due . PAI3  users can present prompts without \ncontributing compute resources to the PAI3 Network .  \n● PAI3  Data curator - Developed publicly a",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_130",
+    "text": "contributing compute resources to the PAI3 Network .  \n● PAI3  Data curator - Developed publicly available datasets that can be used to create inferences \nand fine tune AI models.  \n● PAI3  AI modeler - A PAI3  model trainer who develops and fine -tunes AI models on the platform. \nTuners can sell their catered small language models in the Marketplace.  \n● Compute Lender - A PAI3  NFT owner who leases his computing slot to the network. Lenders \ncan also lease NFT to other users to add computers",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_131",
+    "text": "eases his computing slot to the network. Lenders \ncan also lease NFT to other users to add computers to the mesh.  \n● Compute Renters - A PAI3  users  who rent computer time from Lenders  \n● Builder - A PAI3  app, chain, or network builder who creates and maintains the infrastructure of \nthe PAI3  network.  \n● Validator  - A PAI3  Node operator who ensures the integrity and security of the network.  \n \n4.8 - PAI3  Marketplace  \nThe PAI3  platform will feature a dedicated marketplace for buying,",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_132",
+    "text": ".  \n \n4.8 - PAI3  Marketplace  \nThe PAI3  platform will feature a dedicated marketplace for buying, selling, and trading everything related \nto our decentralized AI platform. From models and nodes to computers usage and NFTs, the marketplace \nprovides a platform for users to monetize their assets s uch as computing resources, data sets, models, \nand vectors with others in the PAI3 Network . Users can also sell their data sets for training, participate in \nthe Mesh’s governance, and access variou",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_133",
+    "text": "can also sell their data sets for training, participate in \nthe Mesh’s governance, and access various tools and resources to enhance their AI experience.  \n \nAdditionally, the marketplace will support the sale of customized vector embeddings and augmented \nmodels, allowing users to purchase add -ons that enhance the performance and relevance of their existing \nsystems. By fostering a robust ecosystem of AI models and tools, the PAI3  marketplace will drive \ninnovation and make advanced AI techno",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_134",
+    "text": "tem of AI models and tools, the PAI3  marketplace will drive \ninnovation and make advanced AI technology accessible to a broader range of users and industries.  \n \n5.0 - PAI3  NFTs\n17 \n 5.1- PAI3  NFTs overview  \nThe PAI3  NFT is the lifeblood of the PAI3 Network  representing ownership within the Network . The token \nprovides a mechanism for earn  revenue from NFT ownership and provides access to computer slots on \nthe PAI3 Network  that can generate computing revenue. Possession of an NFT can",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_135",
+    "text": "computer slots on \nthe PAI3 Network  that can generate computing revenue. Possession of an NFT can be guaranteed \nweekly revenue in PAI3  tokens for a limited duration. These NFTs can be sold or leased on the PAI3  \nMarketplace for additional revenue. NFTs can be acquired by invitation, straight purchase, or airdropped \nduring promotion. PAI3  NFTs are released in thematic collections with various series for key PAI3  \nstakeholders.  PAI3 NFTs will sold in open  sales on our website  in cryptoc",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_136",
+    "text": "s series for key PAI3  \nstakeholders.  PAI3 NFTs will sold in open  sales on our website  in cryptocurrencies including ETH, POL, \nSOL, and USDT/USDC .  \n \nThe PAI3  ecosystem introduces a unique and innovative approach to integrating blockchain technology \nwith AI -driven computing power. Through our specialized NFTs, participants can engage in a \ndecentralized supercomputer network that not only enhances their computat ional capabilities but also \noffers diverse earning opportunities. Each NFT",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_137",
+    "text": "enhances their computat ional capabilities but also \noffers diverse earning opportunities. Each NFT tier is designed to cater to different user needs, from \nindividual enthusiasts to large -scale enterprises, providing a flexible and scalable solution for leveraging \nthe power of dec entralized computing.  \n \nThese NFTs do more than grant access to the PAI3 Network ; they represent a stake in the future of AI \ntechnology, offering guaranteed returns, exclusive features, and the ability to parti",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_138",
+    "text": "future of AI \ntechnology, offering guaranteed returns, exclusive features, and the ability to participate in a cutting -edge \ntechnological ecosystem. Whether you are a venture capitalist looking to maximize returns, a professi onal \nseeking to enhance your AI training capabilities, or an enthusiast eager to contribute to and benefit from \nthe PAI3 Network , our NFT offerings provide a tailored solution to meet your needs. The PAI3  NFT can \nbe acquired via invitation, straight purchase, or air",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_139",
+    "text": "olution to meet your needs. The PAI3  NFT can \nbe acquired via invitation, straight purchase, or airdropped during promotion. The NFT holder will be \nallocated  1) claimable PAI3 tokens depending on their NFT series, 2) the computer power or data they \ncontribute to the PAI3 Network , and 3) opportunities to sell  specialized AI models , computing resources  \nor data through the marketplace . These transactions will be conducted with PAI3  tokens.  \n \n5.2 - PAI3 ’s First NFT collection: Demos",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_140",
+    "text": "e transactions will be conducted with PAI3  tokens.  \n \n5.2 - PAI3 ’s First NFT collection: Demos  \nPAI3  NFTs are released in thematic collections with various series for key PAI3  stakeholders. The  \nfollowing sections detail each of the NFT tiers available within the PAI3  ecosystem, outlining their \nfeatures, benefits, and how they can be leveraged to maximize your involvement and return on \ninvestment.   \n \nThe first collection of NFTs is titled “DEMOS” evoking the formation of a democratic",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_141",
+    "text": "nvestment.   \n \nThe first collection of NFTs is titled “DEMOS” evoking the formation of a democratic PAI3 Network  as the \npeople’s AI in contrast to the current AI monopolies. This collection has five series titled: Dynamis, Ethos, \nMitos, Osmos , and Seismos.  Future collections will have various themes such as Women in Science .  \n  \n● Dynamis:  \nThe Dynamis NFT is the premier tier in the PAI3  ecosystem, specifically designed to generate \nearly interest and secure initial funding from ventur",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_142",
+    "text": "ecosystem, specifically designed to generate \nearly interest and secure initial funding from venture capitalists, investors, and KOLs . Priced at \n$1,000, this NFT offers a lucrative opportunity to claim  57.97  PAI3  tokens ($40.00) per week over \n50 weeks. This NFT has a vesting period of 25 weeks.  With a Dynamis purchase, the NFT holder \nwill also receive an Ethos NFT for additional computing slots and PAI3 tokens. Additionally, \nDynamis holders have the option to reserve a PAI3  computer,",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_143",
+    "text": "slots and PAI3 tokens. Additionally, \nDynamis holders have the option to reserve a PAI3  computer, making it an attractive option for \nthose looking to maximize returns and secure early advantages within the PAI3  ecosystem.  \n \n● Ethos:  \nThe Ethos NFT represents the top -tier computing option within the PAI3 Network , aimed at \nenterprises, miners, and professionals who require substantial computing power to drive AI \ntuning, training, and dataset curation. Initially, p riced  at $250, this N",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_144",
+    "text": "uting power to drive AI \ntuning, training, and dataset curation. Initially, p riced  at $250, this NFT provides access to 10\n18 \n PAI3  computer slots and access to 5.43 PAI3  tokens ($3.75) weekly over 50 weeks. Ethos NFT \nholders are also granted additional benefits, such as the ability to attend Project update calls, \nmaking them integral members of the PAI3  community who contribute significantly to the mesh's \ngrowth and innovation. This tier is ideal for those looking to optimize AI -relat",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_145",
+    "text": "tly to the mesh's \ngrowth and innovation. This tier is ideal for those looking to optimize AI -related tasks and \nmaximize revenue through advanced computing capabilities.  These NFTs will be made available \nfor purchase in multiple releases  at market price.  \n \n● Mitos :  \nThe Mitos NFT is a mid -tier option tailored for individual AI enthusiasts who possess powerful \ncomputers and wish to contribute to the PAI3 Network . Available for $100, this NFT offers 3 PAI3  \ncomputer slots and with opp",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_146",
+    "text": "ibute to the PAI3 Network . Available for $100, this NFT offers 3 PAI3  \ncomputer slots and with opportunities to claim  1.81 PAI3  tokens ($1.25) per week over 100 \nweeks. Mitos NFT holders enjoy additional benefits , such as access to free or discounted \nsponsored conferences and events, as well as opportunities to participate in Beta testing and \nearly releases of AI agents or PAI3 Network  updates. This tier is perfect for those who want to \nactively engage in the PAI3  ecosystem, contribute",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_147",
+    "text": "ates. This tier is perfect for those who want to \nactively engage in the PAI3  ecosystem, contribute their computing power, and be part of the \nplatform's ongoing development.  \n \n● Osmos   \nThe O smos  NFT is a standard -tier for all PAI3  contributors. This NFT is designed for average \nusers who wish to contribute computing power to the PAI3 Network . For $25, This NFT provides \n1 PAI3  computer slot and enables users to participate in the decentralized network by using  their \npersonal comput",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_148",
+    "text": "slot and enables users to participate in the decentralized network by using  their \npersonal computer or PAI3  computer's capabilities.  The first 100,000 NFTs come with a \npromotional offering of  1.45 PAI3 tokens  weekly , with t he remaining  not having any promotional \noffering s.  Osmos  holders  will be  able to earn  increased  revenue from their comput ing or data.   \nAdditional benefits include access to Project Management calls, making it a practical choice for \nusers looking to suppo",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_149",
+    "text": "include access to Project Management calls, making it a practical choice for \nusers looking to support and benefit from the PAI3  ecosystem.  For PAI3  contributors who \npurchase a proprietary PAI3  computer, this NFT is includ ed in the $1000 price. The PAI3 \ncomputer will be available in Phase 4 of our Developmental Roadmap.  \n \n● Seismos    \nThe Seismos NFT offers an accessible entry point into the PAI3  ecosystem for standard users \nwho want to use the PAI3 Network  for queries without contr",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_150",
+    "text": "the PAI3  ecosystem for standard users \nwho want to use the PAI3 Network  for queries without contributing comput ing power . PAI3  users \ncan access any public -facing data sets and AI agents on the marketplace with PAI3  tokens. The \nSeismos NFT is ideal for individuals who want to support the decentralized AI network without a \nsignificant upfront cost or hardware to the Mesh. This NFT will be available via airdrops to grow \nthe user base.  \n \n \nThese NFTs will play a crucial role in the gro",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_151",
+    "text": "available via airdrops to grow \nthe user base.  \n \n \nThese NFTs will play a crucial role in the growth of the PAI3  decentralized supercomputer, providing the \nnecessary \"people power\" to a chieve the goal of 1 million nodes, each contributing to the security, \nefficiency, and expansion of the PAI3 Network . Dynamis as the initial offering for investors, founders, and \nKey Opinion Leader  (KOL) with maximum ROI will be issued first followed by the release of PAI3  tokens. \nEthos, Mitos, and Sei",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_152",
+    "text": "ith maximum ROI will be issued first followed by the release of PAI3  tokens. \nEthos, Mitos, and Seismos will become available for those contributing computer power to the mesh. The \nOsmos  series will be launched once the PAI3  computer is available for sale.\n19\n20 \n 6.0 - PAI3  Tokenomics  \n6.1 - PAI3  Token overview  \nPAI3  tokens are the native cryptocurrency of the PAI3 Network , serving multiple purposes within the \ndecentralized AI ecosystem. They are used as the primary medium of exchang",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_153",
+    "text": "iple purposes within the \ndecentralized AI ecosystem. They are used as the primary medium of exchange for transactions within \nthe PAI3  Marketplace. Using these tokens, users can buy, sell, and trade AI models, data sets, vector \nembeddings, and computing resources. Additionally, PAI3  tokens are integral to the platform's \ngovernance system, allowing token holders to participate in decision -making processes related to the \nMesh’s development and policies. These tokens also incentivize user pa",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_154",
+    "text": "ing processes related to the \nMesh’s development and policies. These tokens also incentivize user participation, as individuals can \nearn PAI3  tokens by contributing computing power, data, or by running nodes within the PAI3 Network .  \n \n \n6.2 - PAI3  token supply  \nPAI3  Overall, PAI3  tokens are designed to foster a thriving, user -driven ecosystem that supports the \ngrowth and sustainability of the decentralized AI platform. The total PAI3  supply will be 314,159,26 4 \ntokens with a market",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_155",
+    "text": "of the decentralized AI platform. The total PAI3  supply will be 314,159,26 4 \ntokens with a market cap at $ 80,204,860 . Upon launching, an initial supply of 1 16,238,928 (37% of total \ncirculating  tokens ) will be available at $0.69 utilizing a fair launch.  After an initial period, PAI3  token AI \nagent will determine PAI3  token’s value that will keep token attractive without negatively affecting the \nprice.   \n \n \n \n \n6.3 - Allocations  \nThe initial supply of PAI3  tokens will be  distribu",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_156",
+    "text": "ting the \nprice.   \n \n \n \n \n6.3 - Allocations  \nThe initial supply of PAI3  tokens will be  distributed among various groups  including  Initial investors  \n(3.18%), NFT token holders (Dynamis, Ethos, and Mitos)  (24.8%) , the Community Pool  (3.84%) , and \nPAI3  Foundation team members  (3.18%) . The initial investor tokens will be available on CEX and DEX \nlistings , while the Community pool will be distributed for marketing, ecosystem building and community \ngrowth, and additiona l KOLs . 63%",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_157",
+    "text": "l be distributed for marketing, ecosystem building and community \ngrowth, and additiona l KOLs . 63% of PAI3  tokens (n= 197,920,337 ) will be distributed through emissions.\n21 \n  \n \n6.3 - PAI3  emissions  over 50 years  \nNew PAI3  tokens will be emitted over a 50 -year schedule with decreasing emissions each year  until all \ntokens  have been added into circulation . The emission protocol is designed so that  new tokens will be  \nreleased monthly.   Each year, emissions rate will decrease stead",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_158",
+    "text": "gned so that  new tokens will be  \nreleased monthly.   Each year, emissions rate will decrease steadily  at an approximate  rate of 1.25%  until \nissuance is halted at 314,159 ,264 PAI3  tokens.   \n \n \n \n \n \n \n6.4 - PAI3  governance  with quadratic voting  \nThe PAI3  DUNA  and its protocols  are governed by a decentralized model, empowering PAI3  token \nholders to participate directly in decision -making processes. This governance structure is built on the\n22 \n principles of transparency, fairne",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_159",
+    "text": "-making processes. This governance structure is built on the\n22 \n principles of transparency, fairness, and inclusivity, using a  governance protocol based on Quadratic  Voting \nsystem (QV)  (Dimitri 2022; Buterin, Hitzig, and Weyl 2019)  to ensure all voices are heard proportionately. \nThe ke y areas that require govern ance may  include  Platform Development, Token omics Adjustments, \nand Community and ecosystem growth.  \n \nTo create a balanced and democratic governance structure, the PAI3  Fo",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_160",
+    "text": "ity and ecosystem growth.  \n \nTo create a balanced and democratic governance structure, the PAI3  Foundation  will use a QV -based  \nsystem , where each voter is allocated  voting credits  that are valued quadratically depending  on their PAI3  \ntokens holdings . Credits will only be issued for PAI3  token held more than 30 days.  Any token holder can \nsubmit proposals for a vote . Proposals are reviewed and discussed by the community before voting \nbegins. Proposals that reach a majority under",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_161",
+    "text": "eviewed and discussed by the community before voting \nbegins. Proposals that reach a majority under the quadratic voting rules are automatically executed via \nsmart contracts, ensuring transparency and immutability.  This method prevents large stakeholders from \ndisproportionately dominating decisions and encourages more nuanced expressions of preferences by all \nmembers.  Voting AI agents will be trained to identify improper voting and maintain fairness.   \n \nTransparency and Security : \nAll vo",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_162",
+    "text": "trained to identify improper voting and maintain fairness.   \n \nTransparency and Security : \nAll voting records and decisions are recorded on the blockchain, providing an immutable and auditable \nledger of governance actions. Smart contracts automate decision execution, ensuring that all processes \nremain transparent, secure, and tamper -proof.  \n \nBy implementing a governance model rooted in Quadratic Voting, PAI3  ensures equitable decision -\nmaking and positions itself as a truly decentraliz",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_163",
+    "text": "dratic Voting, PAI3  ensures equitable decision -\nmaking and positions itself as a truly decentralized AI platform, where all stakeholders have a meaningful \nrole in shaping the PAI3 Network  and AI’s future.  \n \n7.0 -PAI3  revenue opportunities  \n7.1 - Earnings opportunities  for PAI3  users  \nPAI3 ’s earning model is designed to be fair and sustainable. The PAI3  user can generate  revenue \nthrough the Mesh through various channels, including model usage, data sales, emissions, advertising, \na",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_164",
+    "text": "ugh the Mesh through various channels, including model usage, data sales, emissions, advertising, \nand selling PAI3  models via the marketplace. The platform’s tokenomics are designed to create a self -\nsustaining ecosystem that rewards participants for their contributions.  These opportunities are designed \nto reward participation, foster innovation, and create value for all stakeholders within the PAI3  network.  \n \n1. Running PAI3  Nodes : \nUsers can earn income by contributing their computin",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_165",
+    "text": "he PAI3  network.  \n \n1. Running PAI3  Nodes : \nUsers can earn income by contributing their computing power to the decentralized mesh network. \nBy providing processing resources for AI model training, data analysis, and other computational \ntasks, node operators are rewarded with PAI3  tokens based on the amount of computational \npower contributed and the demand for resources.  \n \nEach PAI3  contributor  processes  an NFT that guarantees a minimum weekly revenue of $1.25 for \nthe two years depen",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_166",
+    "text": "ibutor  processes  an NFT that guarantees a minimum weekly revenue of $1.25 for \nthe two years depending on the user’s NFT. Revenue is calculated based on the number of \ncompute minutes, size factors, and network speed. The model ensures that users are fairly \ncompensated for their contributions to the PAI3 Network . \n \n2. Earning from NFT Ownership:  \nBy purchasing PAI3  NFTs, users gain ownership stakes in the network and receive guaranteed \nreturns over time. These NFTs provide monthly token",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_167",
+    "text": "p stakes in the network and receive guaranteed \nreturns over time. These NFTs provide monthly token rewards and additional benefits, such as \naccess to exclusive features, early releases, and participation in beta testing programs, \ngenerating a consistent income stream.  \n \n3. Leasing Compute Power:\n23 \n Users with extra computing capacity on their PAI3  Computers can lease this power to other \nnetwork participants or external entities requiring AI processing capabilities. By leasing out idle o",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_168",
+    "text": "etwork participants or external entities requiring AI processing capabilities. By leasing out idle or \nsurplus resources, users can earn passive income while maximizing the utility of their hardware.  \n \n4. Permitting access to  AI Models and Data set: \nUsers can develop and sell their AI models, algorithms, or curated datasets on the PAI3  \nMarketplace. By monetizing their intellectual property, data, or innovations, users can earn \nrevenue directly from other participants, organizations, or de",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_169",
+    "text": "data, or innovations, users can earn \nrevenue directly from other participants, organizations, or developers looking to leverage these \nresources for their projects.  \n \n5. Contributing Data for Monetization : \nUsers can choose to contribute anonymized data to the PAI3  network, which can be licensed or \nsold to third parties, such as research institutions, enterprises, or AI developers. This data \ncontributes to the training of AI models while generating revenue for contributors.  \n \n6. Partici",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_170",
+    "text": "contributes to the training of AI models while generating revenue for contributors.  \n \n6. Participating in Beta Testing and Research : \nUsers can earn rewards by participating in beta testing programs for new AI models, tools, or \nplatform features. Additionally, contributing to research initiatives, providing feedback, or \nengaging in community -driven development projects may yield addition al token incentives.  \n \nBy offering diverse earning opportunities, PAI3  incentivizes active engagem",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_171",
+    "text": "l token incentives.  \n \nBy offering diverse earning opportunities, PAI3  incentivizes active engagement, supports a vibrant \necosystem, and ensures that all participants can benefit from their contributions to the decentralized AI \nnetwork.  \n \n7.2 - Earning model for PAI3  compute   \nPAI3  offers a flexible earnings model for users who contribute their computing power to the decentralized \nAI network. Users running PAI3  Computers can earn PAI3  tokens based on the number of compute hours \nthei",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_172",
+    "text": "work. Users running PAI3  Computers can earn PAI3  tokens based on the number of compute hours \ntheir devices provide to the network each week. This model rewards users proportionally to the amount of \ncomputing resources they contribute, ensuring a fair and transparent distribution of earnings.  \n \nCalculating user compute power and duration   \nThis project’s success relies heavily on widespread user adoption and active participation. To achieve \ncritical mass, we want to encourage PAI3  users",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_173",
+    "text": "user adoption and active participation. To achieve \ncritical mass, we want to encourage PAI3  users to add high performance computers to the Mesh, while \ndemand is low. Thus, PAI3  users will earn compute revenue based on the user's CPU performance in \nGHz or FLOPS, GPU performance, Ram capacity, Storage capacity, and Network speed and Duration \n(Hrs). The computer units are calculated by the following formula:  \n \n𝐶𝑜𝑚𝑝𝑢𝑡𝑒𝑟  𝑈𝑛𝑖𝑡  (𝐶𝑈)\n= 𝑎𝑙𝑝ℎ𝑎 × 𝐶𝑃𝑈  (𝐺𝐻𝑧 )+ 𝑏𝑒𝑡𝑎  × 𝐺𝑃𝑈  (𝐹𝐿𝑂𝑃𝑆 )+ 𝑔𝑎𝑚𝑚𝑎  ×𝑅𝐴𝑀  (",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_174",
+    "text": "owing formula:  \n \n𝐶𝑜𝑚𝑝𝑢𝑡𝑒𝑟  𝑈𝑛𝑖𝑡  (𝐶𝑈)\n= 𝑎𝑙𝑝ℎ𝑎 × 𝐶𝑃𝑈  (𝐺𝐻𝑧 )+ 𝑏𝑒𝑡𝑎  × 𝐺𝑃𝑈  (𝐹𝐿𝑂𝑃𝑆 )+ 𝑔𝑎𝑚𝑚𝑎  ×𝑅𝐴𝑀  (𝐺𝐵)+ 𝑑𝑒𝑙𝑡𝑎  \n∗𝑆𝑡𝑜𝑟𝑎𝑔𝑒  (𝑇𝐵)+ 𝑒𝑝𝑠𝑖𝑙𝑜𝑛  × 𝑁𝑒𝑡𝑤𝑜𝑟𝑘  𝑆𝑝𝑒𝑒𝑑  (𝐺𝑏𝑝𝑠 ) \nWhere: alpha, beta, gamma, delta, epsilon are the weights assigned to each component based \non their relative importance.  \n \nFor PAI3 , we will prioritize GPU performance, RAM capacity, CPU performance, Network bandwidth, and \nStorage capacity . Network bandwidth is determined by pinging node every 5 minutes to access network \nperfo",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_175",
+    "text": "capacity . Network bandwidth is determined by pinging node every 5 minutes to access network \nperformance. This ping algorithm will also indicate system availability for computing. The Compute unit \nwill be adjusted based on duration of computer availability to promote  high performing computers for \nlonger durations of time.\n24 \n 𝐶𝑜𝑚𝑝𝑢𝑡𝑒  ℎ𝑜𝑢𝑟 (𝐶𝐻)= 𝐶𝑈 × 𝐷𝑢𝑟𝑎𝑡𝑖𝑜𝑛𝑠  (𝐻𝑟𝑠 )  \n \nPAI3  tokens will be earned based on the user’s  Compute -Hour to ensure that better quality computers \nand high quanti",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_176",
+    "text": "e earned based on the user’s  Compute -Hour to ensure that better quality computers \nand high quantities are being added to the Network during the initial phase of the project. During this PAI3 \nNetwork  formation phase, NFT holders will earn reputation points based on their contributions that can be \nused to unlock benefits and discounts. Once the PAI3 Network  achieves 85% utilization, the top 15% of \nusers will receive a higher rate of return on their computer revenue . This protocol incentiv",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_177",
+    "text": "5% of \nusers will receive a higher rate of return on their computer revenue . This protocol incentives PAI3  \nmembers to participate with high -performing computers, while not limiting computer opportunities for \nusers with average computers.  \n \n \nWeekly Earnings Model for PAI3  Compute Based on Compute Hours  \nPAI3  offers a flexible earnings model for users who contribute their computing power to the decentralized \nAI network. PAI3  contributers  can earn PAI3  tokens based on the number of c",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_178",
+    "text": "to the decentralized \nAI network. PAI3  contributers  can earn PAI3  tokens based on the number of compute hours their devices \nprovide to the network each week. This model rewards users proportionally to the amount of computing \nresources they contribute, ensuring a fair and transparent distribution of earnings. The weekly earnings \nfor a PAI3  compute contributor are calculated using the following formula:  \n \n𝑊𝑒𝑒𝑘𝑙𝑦  𝐸𝑎𝑟𝑛𝑖𝑛𝑔𝑠  (𝑊𝐸)= 𝐶𝑜𝑚𝑝𝑢𝑡𝑒  ℎ𝑜𝑢𝑟 (𝐶𝐻) × 𝐶𝑜𝑚𝑝𝑢𝑡𝑒  𝑅𝑎𝑡𝑒  (𝐶𝑅) × 𝑁𝐹𝑇  𝑟𝑒𝑡𝑢𝑟𝑛  \nWhe",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_179",
+    "text": "ng formula:  \n \n𝑊𝑒𝑒𝑘𝑙𝑦  𝐸𝑎𝑟𝑛𝑖𝑛𝑔𝑠  (𝑊𝐸)= 𝐶𝑜𝑚𝑝𝑢𝑡𝑒  ℎ𝑜𝑢𝑟 (𝐶𝐻) × 𝐶𝑜𝑚𝑝𝑢𝑡𝑒  𝑅𝑎𝑡𝑒  (𝐶𝑅) × 𝑁𝐹𝑇  𝑟𝑒𝑡𝑢𝑟𝑛  \nWhere:  \n• Compute Hours (CH ): The total number of hours the user's PAI3  Computer contributes to the \nnetwork each week.  \n• Compute Rate (CR): The base rate of earnings per compute hour, denominated in PAI3  \ntokens. This rate is determined by the network and may fluctuate based on supply and \ndemand for computing resources.  \n• NFT Return : NFT holders can receive increased return on their comput",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_180",
+    "text": "d for computing resources.  \n• NFT Return : NFT holders can receive increased return on their compute. Osmos NFT  \nholders with PAI3  computers  will receive  the highest return on computer at 1.3X, with Ethos \nand Mitos also returning a guaranteed compute return. Dynamis and Seismos received the \nstandard rate.  \n \n7.3 - Revenue Flows for PAI3  Foundation  \nThe PAI3  Foundation is designed to generate revenue through multiple streams that align with its mission \nto build and sustain a decentral",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_181",
+    "text": "erate revenue through multiple streams that align with its mission \nto build and sustain a decentralized AI ecosystem. The key revenue flows for the foundation include:  \n1. NFT Sales and Royalties:  \nPAI3  will issue a series of NFTs that represent ownership stakes within the decentralized \nnetwork. These NFTs are sold at fixed prices to early adopters and investors, generating initial \ncapital for development. NFT sales of Dynamis, Etho s, and Mitos  could raise $3 2,500,000  for the \nfoundati",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_182",
+    "text": "or development. NFT sales of Dynamis, Etho s, and Mitos  could raise $3 2,500,000  for the \nfoundation . Additionally, NFTs may be traded on secondary markets, where the foundation earns \na percentage of each transaction as a royalty fee.  \n• Revenue Stream : Initial NFT sales to investors and subsequent royalties from secondary \nmarket trades.  \n \n2. Renting AI training resources  \nPAI3 offers a cost -effective and high -performance solution for AI training by providing GPU \ncompute resources a",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_183",
+    "text": "cost -effective and high -performance solution for AI training by providing GPU \ncompute resources at significantly reduced costs. With GPU -hour pricing at $32, PAI3 is 66% \nless expensive than Amazon Web Services (AWS), which charges $98 per GPU  hour. This \ndramatic cost reduction makes PAI3 an ideal choice for organizations aiming to optimize training \nexpenses without sacrificing performance. For example, training a complex healthcare AI model \nthat requires 36,000 GPU hours (Jia et al. 202",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_184",
+    "text": "For example, training a complex healthcare AI model \nthat requires 36,000 GPU hours (Jia et al. 2023)  would cost $3,528,000 on AWS  at $98 .32/hr\n25 \n (GetDeploying 2024) . In contrast, the same model could be trained on PAI3 for just $1,152,000, \nsaving $2,376,000. These savings can be reinvested in scaling projects, expanding research, or \naccelerating development timelines.  See the table below comparing revenue for AI training for \nspecific AI models with our decentralized architecture.",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_185",
+    "text": "ow comparing revenue for AI training for \nspecific AI models with our decentralized architecture.  \n \n \n \nPAI3’s infrastructure leverages high-performance GPUs, including NVIDIA A100, H100, and other \ntop-tier hardware, designed to handle intensive workloads such as large language models \n(LLMs), computer vision, and predictive analytics. With scalable clusters and multi -GPU support, \nPAI3 can accommodate projects of any size while maintaining high -speed interconnects for low -\nlatency trainin",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_186",
+    "text": "commodate projects of any size while maintaining high -speed interconnects for low -\nlatency training. Customizable environments allow users to tailor setups to their specific needs, \nincluding dependencies and hardware configurations.  \n \nPAI3 supports a wide range of use cases, including healthcare model development, NLP fine -\ntuning, computer vision, and custom AI solutions for various industries. The platform’s flexible \nbilling options, including pay -as-you-go and reserved clusters, make",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_187",
+    "text": "ies. The platform’s flexible \nbilling options, including pay -as-you-go and reserved clusters, make it accessible to projects with \nvarying budgets. Additionally, PAI3 offers transparent usage tracking, enabling users to monitor \nGPU consumption and optimize costs further.  \n \n \n3. PAI3  Computer Sales:  \nThe foundation will sell proprietary PAI3  Computers that are optimized for decentralized AI \nprocessing. Priced at $1,000, each PAI3  Computer sold generates direct revenue and expands \nthe ne",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_188",
+    "text": "processing. Priced at $1,000, each PAI3  Computer sold generates direct revenue and expands \nthe network's computing power, which is critical for achieving scalability and efficiency in the \ndecentralized mesh.  This PAI3 computer will be available after Phase 4 of the Development \nroadmap.  \n• Revenue Stream: The sale of PAI3  Computers to users and enterprises at a fixed price of \n$1,000. Each sale also includes an associated NFT, enhancing the value proposition for \nbuyers.  \n \n4. Marketplac",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_189",
+    "text": "sale also includes an associated NFT, enhancing the value proposition for \nbuyers.  \n \n4. Marketplace Transactions : \nThe PAI3  Marketplace will facilitate the buying, selling, and trading of AI models, data sets, \ncomputing resources, and other digital assets. The foundation will earn a percentage fee from \neach transaction conducted within the marketplace.  \n• Revenue Stream: Transaction fees from marketplace activities, including model sales, data \nset transactions, and resource leasing.",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_190",
+    "text": "om marketplace activities, including model sales, data \nset transactions, and resource leasing.  \n \n \n5. Advertising and Sponsorship : \nThe PAI3  platform will offer targeted advertising and sponsorship opportunities to companies and \norganizations that wish to promote their products or services to the PAI3  community. This could \ninclude AI -related tools, software, or hardware that align with the ecosystem's goals.\n26 \n • Revenue Stream : * Advertising fees and sponsorships from relevant partn",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_191",
+    "text": "e ecosystem's goals.\n26 \n • Revenue Stream : * Advertising fees and sponsorships from relevant partners and \nstakeholders.  \n \n6. Token Transactions and Governance:  \nPAI3  Tokens, the native cryptocurrency of the ecosystem, will be used for all transactions within \nthe platform. The foundation may earn revenue from transaction fees on token exchanges or \ntoken -based activities, such as voting or staking.  \n• Revenue Stream: Transaction fees and token management fees within the PAI3  ecosystem.",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_192",
+    "text": "staking.  \n• Revenue Stream: Transaction fees and token management fees within the PAI3  ecosystem.  \n \nBy leveraging these diversified revenue streams, the PAI3  Foundation ensures financial sustainability \nwhile promoting the growth and development of a decentralized, user -owned AI ecosystem.  \n \n8.0 – PAi3 Network Developmental Roadmap   \n \nThe development of PAi3 Network will unfold in four primary phases, each aimed at enhancing the \ncapabilities and reach of decentralized AI.    \n \n \n \nP",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_193",
+    "text": "primary phases, each aimed at enhancing the \ncapabilities and reach of decentralized AI.    \n \n \n \nPhase 1: PAi3 setup and NFT Launch   \nThe first phase focuses on establishing the foundational financial and operational framework critical to \nPAi3’s success. This phase will begin with finalizing the tokenomics model, encompassing the design and \ndeployment of Non -Fungible Tokens (NFTs) and the development of smart contracts to manage revenue \ngeneration and mesh participation.   \n  \nTo secure i",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_194",
+    "text": "velopment of smart contracts to manage revenue \ngeneration and mesh participation.   \n  \nTo secure initial funding and attract early adopters, we will launch the initial NFT sale, providing the \nnecessary capital for further platform development. In tandem, the PAi3 Foundation will be created as the \ngoverning entity overseeing project progress,  fostering strategic partnerships, and ensuring compliance \nwith regulatory requirements across various jurisdictions.   \n  \nThis phase will also includ",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_195",
+    "text": "liance \nwith regulatory requirements across various jurisdictions.   \n  \nThis phase will also include the development and launch of the PAi3 Marketplace. The marketplace will \nserve as a hub where users can trade AI models, data sets, and computing resources, fostering a \ndynamic and self -sustaining ecosystem. Additionally, the m arketplace will facilitate the monetization of \nusers’ contributions, further incentivizing participation. Together, these efforts will establish a solid \nfoundation f",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_196",
+    "text": "s, further incentivizing participation. Together, these efforts will establish a solid \nfoundation for the technical enhancements and mesh expansions planned in the next phases.   \n \n  \nPhase 2: Decentralized Computing & Mesh Expansion   \nIn Phase 2, the focus will shift to decentralizing computing across the PAI3 Network . Integrating vector \npackages and inferences will enhance AI model performance, while a cloud infrastructure like AWS will \nbe established to host Large Language Models (LLMs)",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_197",
+    "text": "nce, while a cloud infrastructure like AWS will \nbe established to host Large Language Models (LLMs) and Retrieval -Augmented Generation (RAGs). To \nfacilitate seamless data flow and processing, robust data pipelines will be developed, supported  by cloud \nstorage solutions. To further enhance privacy and data redundancy, decentralized data storage solutions, \nsuch as the InterPlanetary File System (IPFS), will be integrated into the network. This phase will also\n27 \n involve the development of",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_198",
+    "text": "m (IPFS), will be integrated into the network. This phase will also\n27 \n involve the development of a blockchain -based decentralized computational mesh, enabling efficient \nsharing of resources among PAi3 devices and optimizing data management and processing capabilities.   \n  \nKey challenges in this phase include maintaining data privacy and security in a decentralized \nenvironment, managing coordination and consensus among distributed nodes, and optimizing \nperformance while balancing decentr",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_199",
+    "text": "rdination and consensus among distributed nodes, and optimizing \nperformance while balancing decentralization. To address these challenges , PAi3 will collaborate with \nleading research institutions or fund independent projects aimed at developing and implementing \ndecentralized computing mechanisms.   \n  \nBy the end of Phase 2, the PAi3 compute mesh will be fully operational, allowing PAi3 users to submit \nqueries, contribute their computing power, and generate revenue through the network.",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_200",
+    "text": "to submit \nqueries, contribute their computing power, and generate revenue through the network.   \n  \nPhase 3: Public and Private Data Management & Curation   \nPhase 3 will focus on decentralizing data storage and management, enabling users to control both private \nand public data within the PAi3 network. Each user will have access to a public -facing IPFS vault for use \nin queries, AI agent operations, and model training, creating new monetization opportunities. This data \nstore will enable use",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_201",
+    "text": "tions, and model training, creating new monetization opportunities. This data \nstore will enable users to monetize their data contributions while maintaining full control over their privacy \nsettings .  \n  \nThis phase will also introduce new tools for data curation, allowing users to manage their data assets \neffectively. By enabling decentralized data management, PAi3 aims to create a more secure and user -\ncentric AI ecosystem that incentivizes data sharing wh ile preserving privacy.   \n  \nPha",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_202",
+    "text": "and user -\ncentric AI ecosystem that incentivizes data sharing wh ile preserving privacy.   \n  \nPhase 4: Hardware design of PAI3 computer   \n  \n  \nOngoing Milestones: Continuous Innovation and Development   \nThe PAi3 is committed to driving continuous innovation through two key ongoing milestones:   \n1. Continuous AI Model Evolution:  Regularly update and introduce new AI models and tools, driven by \nuser feedback and cutting -edge technological advancements. This milestone ensures the platform",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_203",
+    "text": "by \nuser feedback and cutting -edge technological advancements. This milestone ensures the platform \nremains dynamic, continually evolving, and maintains its position at the forefront of AI innov ation.   \n2. Research & Development Expansion:  Invest heavily in research and development to explore new \ndecentralized computing mechanisms and enhance platform capabilities. This ongoing effort is crucial for \nthe long -term viability of PAi3, reinforcing its leadership in the decentralized AI space",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_204",
+    "text": "cial for \nthe long -term viability of PAi3, reinforcing its leadership in the decentralized AI space an d ensuring \nadaptability to future technological shifts.   \n \n \n \n9.0 - Discussion  \nThe emergence of PAI3  as a decentralized AI platform can mark a significant departure from the \ntraditional, centralized models that currently dominate the AI industry. This shift toward decentralization \naddresses many of the critical challenges associated with centralized AI, including data privacy, securit",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_205",
+    "text": "sses many of the critical challenges associated with centralized AI, including data privacy, security, \naccessibility, and equitable distribution of resources.  \n \nDemocratizing AI Access  \nThe PAI3  platform represents a significant evolution in the artificial intelligence landscape by shifting the \nparadigm from centralized to decentralized AI. This approach addresses many of the critical issues \nassociated with traditional AI models, such as data pri vacy, security, accessibility, and the equ",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_206",
+    "text": "associated with traditional AI models, such as data pri vacy, security, accessibility, and the equitable \ndistribution of AI resources. In an environment where a few corporations have historically controlled AI\n28 \n development, PAI3  offers a model that democratizes AI, making it more inclusive and accessible to a \nbroader range of users.  \n \nOne of the standout features of PAI3  is its potential to democratize AI access. By allowing individuals and \nsmaller organizations to contribute their",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_207",
+    "text": "al to democratize AI access. By allowing individuals and \nsmaller organizations to contribute their computing power to the mesh, PAI3  lowers the barriers to entry \nfor AI participation. This not only makes AI tools and resources available to a wider audience but also \nfosters a more diverse and innovative AI ecosystem. As users contribute data and computational \nresources, they benefit fro m the collective capabilities of the PAI3 Network , which leads to more \npersonalized and effective AI sol",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_208",
+    "text": "collective capabilities of the PAI3 Network , which leads to more \npersonalized and effective AI solutions.  \n \nAddressing Data Privacy and Security  \nPAI3 ’s decentralized approach also significantly enhances data privacy and security. In centralized AI \nsystems, data is typically stored on servers controlled by large corporations, which increases the risk of \nbreaches and unauthorized access. PAI3  mitigates these risks by decentralizing data storage and \nprocessing, allowing users to retain c",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_209",
+    "text": "I3  mitigates these risks by decentralizing data storage and \nprocessing, allowing users to retain control over their data. This model aligns with growing global \ndemands for greater transparency and user autonomy over personal information.  \n \nEnhancing Personalization and Reducing Bias  \nCentralized AI systems often rely on homogeneous data sets, which can lead to biased outcomes and \nlimit the effectiveness of AI across diverse populations. PAI3 ’s decentralized model encourages the use \nof a",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_210",
+    "text": "effectiveness of AI across diverse populations. PAI3 ’s decentralized model encourages the use \nof a wider variety of data sources, enhancing the ability of AI systems to provide personalized and \nunbiased outcomes. By enabling users to contribute their own data and computing power, PAI3  creates \nan ecosystem where AI solutions are better tailored to individual needs and preferences.  \n \nFurthermore, the decentralized model of PAI3  promotes a more personalized AI experience while \nreducing the",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_211",
+    "text": "ore, the decentralized model of PAI3  promotes a more personalized AI experience while \nreducing the potential for bias. Centralized AI systems often rely on homogeneous data sets, which can \nlead to biased outcomes that do not serve diverse populations effectively. By enabling users to contrib ute \ntheir own data and tailor AI models to their specific needs, PAI3  ensures that AI outputs are more relevant \nand less prone to bias, thereby improving the overall quality and fairness of AI solution",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_212",
+    "text": "relevant \nand less prone to bias, thereby improving the overall quality and fairness of AI solutions.  \n \nEconomic and Social Implications  \nThe economic implications of PAI3  are equally transformative. By issuing NFTs as ownership stakes in \nthe mesh, PAI3  introduces a new economic model that incentivizes participation and ensures that the \nbenefits of AI are more evenly distributed. This model not only rewards users for their contributions but \nalso aligns their interests with the long -ter",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_213",
+    "text": "l not only rewards users for their contributions but \nalso aligns their interests with the long -term success of the pl atform, creating a sustainable and engaged \ncommunity.  \n \n10.0 - Conclusion  \nPAI3  offers a revolutionary approach to AI development and deployment, tackling the most pressing \nchallenges associated with centralized AI systems. By decentralizing data storage and processing, PAI3  \nenhances data privacy and security, making AI more accessible and equitable. The platform’s abil",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_214",
+    "text": "3  \nenhances data privacy and security, making AI more accessible and equitable. The platform’s ability to \nleverage a diverse array of data sources promises to reduce biases and improve the personalization of AI \nsolutions.  \n \nAs the AI landscape continues to evolve, the need for decentralized solutions like PAI3  becomes \nincreasingly apparent. Centralized models, with their inherent risks and limitations, are ill -suited to meet \nthe demands of a future where AI is ubiquitous and integral to",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_215",
+    "text": "limitations, are ill -suited to meet \nthe demands of a future where AI is ubiquitous and integral to daily life. PAI3  provides a forward -looking \npath, where AI is not only more secure and efficient but also more inclusive and fairer .\n29 \n The success of PAI3  will depend on widespread adoption and the active participation of a global \ncommunity. By launching the largest supercomputer owned and operated by the people, PAI3  has the \npotential to democratize AI, empowering individuals and fost",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_216",
+    "text": "operated by the people, PAI3  has the \npotential to democratize AI, empowering individuals and fostering innovation. This white paper has \noutlined PAI3 ’s technical architecture, tokenomics, and benefits, setting the stage for a new era in AI \ndevelopment —one that places people at its core.  \n \nIn conclusion, PAI3  is more than just an alternative to centralized AI; it is a transformative force that can \nreshape the future of AI for the better. By embracing decentralization, PAI3  can unlock",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_217",
+    "text": "that can \nreshape the future of AI for the better. By embracing decentralization, PAI3  can unlock the full potential of \nAI, making it a tool that genuinely serves the interests of all people. We invite stakeholders to join us in \ndeveloping and adopting decentralized AI platforms, fostering a more efficient, secure, and user -centric AI \necosy stem.\n30 \n 10.0 - References  \nAsharaf, S, and S Adarch. 2017. Decentralized Computing Using Blockchain Technologies and \nSmart Contracts: Emerging Res",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_218",
+    "text": "arch. 2017. Decentralized Computing Using Blockchain Technologies and \nSmart Contracts: Emerging Research and Opportunities . Advances in Information Ethics \n(AISPE) Book Series . Hershey, PA: IGI Global . \nhttps://books.google.com/books?hl=en&lr=&id=rYMJDgAAQBAJ&oi=fnd&pg=PP1&dq=dec\nentralized+computing&ots=PdbBsRSThO&sig=UTvdUx0XZac4m6LHyn2hw -\nVu2lY#v=onepage&q=decentralized%20computing&f=false.  \nButerin, Vitalik. 2014. ‘Ethereum: A Next -Generation Smart Contract and Decentralized \nApplicat",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_219",
+    "text": ".  \nButerin, Vitalik. 2014. ‘Ethereum: A Next -Generation Smart Contract and Decentralized \nApplication Platform.’  \nButerin, Vitalik, Zoë Hitzig, and E. Glen Weyl. 2019. ‘A Flexible Design for Funding Public \nGoods’. Management Science  65 (11): 5171 –87. https://doi.org/10.1287/MNSC.2019.3337.  \nDimitri, Nicola. 2022. ‘Quadratic Voting in Blockchain Governance’. Information 2022, Vol. 13, \nPage 305  13 (6): 305. https://doi.org/10.3390/INFO13060305.  \nGabriel, Iason, Arianna Manzini, Geoff Kee",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_220",
+    "text": "305  13 (6): 305. https://doi.org/10.3390/INFO13060305.  \nGabriel, Iason, Arianna Manzini, Geoff Keeling, Lisa Anne Hendricks, Verena Rieser, Hasan \nIqbal, Nenad Tomašev, et al. 2024. ‘The Ethics of Advanced AI Assistants’, 2024 –28. \nGaiaNet. 2024. ‘From Centralization to Collaboration: The Case for Decentralized AI’. Medium. \n2024. https://medium.com/@Gaianet.ai/from -centralization -to-collaboration -the-case -for-\ndecentralized -ai-931ce1c07d04.  \nGanapati, Priya. 2010. ‘Sony’s PS3 Update Co",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_221",
+    "text": "ation -the-case -for-\ndecentralized -ai-931ce1c07d04.  \nGanapati, Priya. 2010. ‘Sony’s PS3 Update Could Affect Supercomputer Users | WIRED’. \nWIRED. 2010. https://www.wired.com/2010/03/sonys -ps3-update -supercomputer -users/.  \nHyperledger Foundation. n.d. ‘Hyperledger Indy’. \nHttps://Www.Hyperledger.Org/Use/Hyperledger -Indy. Accessed 4 July 2023. \nhttps://www.hyperledger.org/use/hyperledger -indy.  \nIbarra, Amelia. 2024. ‘The Key to Generative AI Success: Your Data with Oracle Netsuite’. \nSaa",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_222",
+    "text": "dy.  \nIbarra, Amelia. 2024. ‘The Key to Generative AI Success: Your Data with Oracle Netsuite’. \nSaaStr. 2024. https://www.saastr.com/the -key-to-generative -ai-success -your-data-with-\noracle -netsuite/.  \nJia, Zhenge, Jianxu Chen, Xiaowei Xu, John Kheir, Jingtong Hu, Han Xiao, Sui Peng, Xiaobo \nSharon Hu, Danny Chen, and Yiyu Shi. 2023. ‘The Importance of Resource Awareness in \nArtificial Intelligence for Healthcare’. Nature Machine Intelligence 2023 5:7  5 (7): 687 –98. \nhttps://doi.org/10.10",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_223",
+    "text": "igence for Healthcare’. Nature Machine Intelligence 2023 5:7  5 (7): 687 –98. \nhttps://doi.org/10.1038/s42256 -023-00670 -0. \nJingnan, Huo. 2024. ‘X’s Chatbot Can Now Generate AI Images. A Lack of Guardrails Raises \nElection Concerns - OPB’. National Public Radio. 2024. \nhttps://www.opb.org/article/2024/08/20/xs -chatbot -can-now-generate -ai-images -a-lack-of-\nguardrails -raises -electio n-concerns/.  \nJones, Hessie. 2019. ‘Why We Need To Rethink Central Authority In The Age of AI’. Forbes . \n2",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_224",
+    "text": "ns/.  \nJones, Hessie. 2019. ‘Why We Need To Rethink Central Authority In The Age of AI’. Forbes . \n2019. https://www.forbes.com/sites/cognitiveworld/2019/10/12/why -we-need -to-rethink -\ncentral -authority -in-the-age-of-ai/. \nKing, Jennifer, and Caroline Meinhardt. 2024. ‘Rethinking Privacy in the AI Era Policy \nProvocations for a Data -Centric World’.  \nLAMPORT, Leslie, and Nancy LYNCH. 1990. ‘Distributed Computing: Models and Methods’. \nFormal Models and Semantics , January, 1157 –99. https:/",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_225",
+    "text": "istributed Computing: Models and Methods’. \nFormal Models and Semantics , January, 1157 –99. https://doi.org/10.1016/B978 -0-444-\n88074 -1.50023 -8. \nLetters to the Editor. 2024. ‘Opinion | There’s No Way for Humanity to Win an AI Arms Race - \nThe Washington Post’. Washington Post. 2024. \nhttps://www.washingtonpost.com/opinions/2024/08/04/sam -altman -ai-arms -race/.\n31 \n Lohr, Steve. 2021. ‘He Created the Web. Now He’s Out to Remake the Digital World.’ The New \nYork Times. 2021. https://www.nyt",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_226",
+    "text": "eated the Web. Now He’s Out to Remake the Digital World.’ The New \nYork Times. 2021. https://www.nytimes.com/2021/01/10/technology/tim -berners -lee-\nprivacy -internet.html.  \nMashable BrandX, and NVIDIA. 2023. ‘NVIDIA’s RTX GPUs Are Your Gateway to AI -Powered \nExcellence | Mashable’. Mashable. 2023. https://mashable.com/ad/article/ai -powered -\nexcellence -nvidia.  \nMcCabe, Dave. 2024. ‘“Google Is a Monopolist,” Judge Rules in Landmark Antitrust Case - The \nNew York Times’. The New York Times.",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_227",
+    "text": "Is a Monopolist,” Judge Rules in Landmark Antitrust Case - The \nNew York Times’. The New York Times. 2024. \nhttps://www.nytimes.com/2024/08/05/technology/google -antitrust -ruling.html.  \nMuthe, Koushik Bhargav, Khushboo Sharma, and Karthik Epperla Nagendra Sri. 2020. ‘A \nBlockchain Based Decentralized Computing and NFT Infrastructure for Game Networks’. \n2020 2nd International Conference on Blockchain Computing and Applications, BCCA \n2020 , November, 73 –77. https://doi.org/10.1109/BCCA50787.2",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_228",
+    "text": "chain Computing and Applications, BCCA \n2020 , November, 73 –77. https://doi.org/10.1109/BCCA50787.2020.9274085.  \nNakamoto, Satoshi. 2008. ‘Bitcoin: A Peer -to-Peer Electronic Cash System’. SSRN Electronic \nJournal , August. https://doi.org/10.2139/SSRN.3440802.  \nGetDeploying. 2024. ‘Nvidia H100 - Price Comparison’. October 2024. \nhttps://getdeploying.com/reference/cloud -gpu/nvidia -h100.  \nOodles Blockchain. 2024. ‘Exploring Decentralized Artificial Intelligence (DAI) | by Oodles \nBlockchain",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_229",
+    "text": "les Blockchain. 2024. ‘Exploring Decentralized Artificial Intelligence (DAI) | by Oodles \nBlockchain | Medium’. Medium. 2024. \nhttps://medium.com/@marketing.blockchain/decentralized -artificial -intelligence -dai-\nexploring -decentralized -artificial -intelligen ce-dai-e2a09bb6b98c.  \nOrlick, Tom. 2024. ‘The Future Belongs to American Companies, Not Necessarily to \nAmericans’. Bloomberg Businessweek. 2024. \nhttps://www.bloomberg.com/news/articles/2024 -07-18/ai -revolution -boosts -market -value",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_230",
+    "text": "ek. 2024. \nhttps://www.bloomberg.com/news/articles/2024 -07-18/ai -revolution -boosts -market -value -\nof-us-companies.  \nSingh, Abishek, Lu. Charles, Gauri Gupta, Ayush Chopra, Jonas Blanc, Tzofi Klinghoffer, \nKushagra Tiwary, and Ramesh Raskar. 2024. ‘A Perspective on Decentralizing AI — MIT \nMedia Lab’. MIT Media Labs. 2024. https://www.media.mit.edu/publications/decai -\npersp ective/.  \nThe Physics ArXiv. 2022. ‘AI Machines Have Beaten Moore’s Law Over The Last Decade, Say \nComputer Scientis",
+    "source": "PAI_White_Paper_2024.docx"
+  },
+  {
+    "chunk_id": "PAI_White_Paper_2024_231",
+    "text": "ysics ArXiv. 2022. ‘AI Machines Have Beaten Moore’s Law Over The Last Decade, Say \nComputer Scientists’. Discover Magazine. 2022. \nhttps://www.discovermagazine.com/technology/ai -machines -have -beaten -moores -law-\nover-the-last-decade -say-computer.  \nTobin, Andrew, and Drummond Reed. 2017. ‘The Inevitable Rise of Self -Sovereign Identity A \nWhite Paper from the Sovrin Foundation’.",
+    "source": "PAI_White_Paper_2024.docx"
+  }
+]
