@@ -3,12 +3,12 @@ import sys
 import os
 import json
 import re
-from datetime import datetime
-from openai import OpenAI
 from dotenv import load_dotenv
 from supabase import create_client, Client
 import bcrypt
+from openai import OpenAI
 
+# 📌 Add your local modules
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 
@@ -18,7 +18,7 @@ api_key = os.getenv("GROQ_API_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
-# --- Check config ---
+# --- Config checks ---
 if not all([SUPABASE_URL, SUPABASE_KEY]):
     raise ValueError("Supabase URL or Service Role Key is missing!")
 
@@ -31,14 +31,12 @@ MODEL_NAME = "llama3-8b-8192"
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 st.title("💬 Klugekopf - Strategic Assistant")
 
-# --- Auth mode ---
-if "auth_mode" not in st.session_state:
-    st.session_state.auth_mode = "login"
-
+# --- Auth flow ---
 if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
-    if st.session_state.auth_mode == "login":
-        st.subheader("🔑 Login")
+    auth_mode = st.radio("Choose:", ["🔑 Login", "🆕 Sign Up"], horizontal=True)
 
+    if auth_mode == "🔑 Login":
+        st.subheader("Login to your account")
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
 
@@ -54,49 +52,52 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                     st.success("✅ Login successful! Redirecting...")
                     st.rerun()
                 else:
-                    st.error("❌ Invalid password. Please try again.")
+                    st.error("❌ Invalid password. Please check and try again.")
             else:
-                st.warning("🚫 No account found with that username.")
+                st.warning("🚫 No account found. Please sign up instead.")
 
-        st.markdown("Don't have an account?")
-        if st.button("👉 Create a new account"):
-            st.session_state.auth_mode = "signup"
-
-    elif st.session_state.auth_mode == "signup":
-        st.subheader("🆕 Sign Up")
-
+    else:
+        st.subheader("Create a new account")
         new_username = st.text_input("New Username")
         new_email = st.text_input("Email")
         new_password = st.text_input("New Password", type="password")
 
         if st.button("Sign Up"):
-            hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
-            resp = (
-                supabase.from_("users")
-                .insert(
-                    {
-                        "username": new_username,
-                        "email": new_email,
-                        "password_hash": hashed,
-                    }
-                )
-                .execute()
-            )
-
-            if resp.error:
-                if "duplicate key" in str(resp.error).lower():
-                    st.warning(
-                        "🚫 Username or email already exists. Please log in instead."
-                    )
-                else:
-                    st.error(f"❌ {resp.error}")
+            if not new_username or not new_email or not new_password:
+                st.warning("⚠️ Please fill in all fields to sign up.")
             else:
-                st.success("✅ Account created! Please log in.")
-                st.session_state.auth_mode = "login"
+                hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
+                try:
+                    resp = (
+                        supabase.from_("users")
+                        .insert(
+                            {
+                                "username": new_username,
+                                "email": new_email,
+                                "password_hash": hashed,
+                            }
+                        )
+                        .execute()
+                    )
 
-        st.markdown("Already have an account?")
-        if st.button("🔙 Back to Login"):
-            st.session_state.auth_mode = "login"
+                    if resp.status_code >= 400:
+                        msg = (
+                            resp.data.get("message")
+                            if isinstance(resp.data, dict)
+                            else str(resp.data)
+                        )
+                        if "duplicate key" in msg.lower():
+                            st.error(
+                                "❌ Username or Email already exists. Please choose something else."
+                            )
+                        else:
+                            st.error(f"❌ Unexpected error: {msg}")
+                    else:
+                        st.success("✅ Account created! Please log in.")
+                        st.rerun()
+
+                except Exception as e:
+                    st.error(f"❌ Unexpected error: {e}")
 
     st.markdown("---")
     if st.button("🔓 Continue as Guest"):
@@ -106,11 +107,11 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
     st.stop()
 
-# --- Mode ---
+# --- Determine mode ---
 is_guest = "guest_mode" in st.session_state
 user_id = st.session_state.get("user_id")
 
-# --- Sidebar: logout or end guest session ---
+# --- Sidebar logout/end guest ---
 if is_guest:
     if st.sidebar.button("🚪 End Guest Session"):
         del st.session_state["guest_mode"]
@@ -144,7 +145,6 @@ with st.sidebar:
             .order("created_at", desc=True)
             .execute()
         )
-
         for s in sessions.data:
             if st.button(f"📄 {s['title']}", key=f"load_{s['id']}"):
                 chat = (
@@ -165,7 +165,7 @@ for msg in st.session_state.messages:
         unsafe_allow_html=True,
     )
 
-# --- Input ---
+# --- Chat input ---
 with st.form("chat_form", clear_on_submit=True):
     user_input = st.text_area(
         "Your message:", placeholder="Type your message here...", height=80
@@ -218,7 +218,9 @@ if submitted and user_input.strip():
             ).execute()
         else:
             supabase.from_("chat_sessions").update(
-                {"messages": json.dumps(st.session_state.messages)}
+                {
+                    "messages": json.dumps(st.session_state.messages),
+                }
             ).eq("user_id", user_id).eq("title", chat_title).execute()
 
     st.rerun()
