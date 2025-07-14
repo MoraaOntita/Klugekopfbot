@@ -5,10 +5,9 @@ import json
 import re
 from dotenv import load_dotenv
 from supabase import create_client, Client
-import bcrypt
 from openai import OpenAI
 
-# 📌 Add your local modules
+# 📌 Local modules
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 
@@ -18,7 +17,6 @@ api_key = os.getenv("GROQ_API_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
-# --- Config checks ---
 if not all([SUPABASE_URL, SUPABASE_KEY]):
     raise ValueError("Supabase URL or Service Role Key is missing!")
 
@@ -31,73 +29,50 @@ MODEL_NAME = "llama3-8b-8192"
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 st.title("💬 Klugekopf - Strategic Assistant")
 
+# --- Check session ---
+session = supabase.auth.get_session().session
+if session:
+    st.session_state["user_id"] = session.user.id
+
 # --- Auth flow ---
 if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
     auth_mode = st.radio("Choose:", ["🔑 Login", "🆕 Sign Up"], horizontal=True)
 
     if auth_mode == "🔑 Login":
         st.subheader("Login to your account")
-        username = st.text_input("Username")
+        email = st.text_input("Email")
         password = st.text_input("Password", type="password")
 
         if st.button("Login"):
-            resp = (
-                supabase.from_("users").select("*").eq("username", username).execute()
-            )
-            user = resp.data[0] if resp.data else None
-
-            if user:
-                if bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
-                    st.session_state["user_id"] = user["id"]
+            try:
+                resp = supabase.auth.sign_in_with_password({"email": email, "password": password})
+                if resp.session:
+                    st.session_state["user_id"] = resp.session.user.id
                     st.success("✅ Login successful! Redirecting...")
                     st.rerun()
                 else:
-                    st.error("❌ Invalid password. Please check and try again.")
-            else:
-                st.warning("🚫 No account found. Please sign up instead.")
+                    st.error("❌ Invalid credentials. Please try again.")
+            except Exception as e:
+                st.error(f"❌ Error: {e}")
 
     else:
         st.subheader("Create a new account")
-        new_username = st.text_input("New Username")
         new_email = st.text_input("Email")
         new_password = st.text_input("New Password", type="password")
 
         if st.button("Sign Up"):
-            if not new_username or not new_email or not new_password:
+            if not new_email or not new_password:
                 st.warning("⚠️ Please fill in all fields to sign up.")
             else:
-                hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
                 try:
-                    resp = (
-                        supabase.from_("users")
-                        .insert(
-                            {
-                                "username": new_username,
-                                "email": new_email,
-                                "password_hash": hashed,
-                            }
-                        )
-                        .execute()
-                    )
-
-                    if resp.status_code >= 400:
-                        msg = (
-                            resp.data.get("message")
-                            if isinstance(resp.data, dict)
-                            else str(resp.data)
-                        )
-                        if "duplicate key" in msg.lower():
-                            st.error(
-                                "❌ Username or Email already exists. Please choose something else."
-                            )
-                        else:
-                            st.error(f"❌ Unexpected error: {msg}")
-                    else:
-                        st.success("✅ Account created! Please log in.")
+                    resp = supabase.auth.sign_up({"email": new_email, "password": new_password})
+                    if resp.user:
+                        st.success("✅ Account created! Please check your email to confirm and then log in.")
                         st.rerun()
-
+                    else:
+                        st.error("❌ Could not create account. Maybe email already exists?")
                 except Exception as e:
-                    st.error(f"❌ Unexpected error: {e}")
+                    st.error(f"❌ Error: {e}")
 
     st.markdown("---")
     if st.button("🔓 Continue as Guest"):
@@ -119,6 +94,7 @@ if is_guest:
         st.rerun()
 else:
     if st.sidebar.button("🚪 Logout"):
+        supabase.auth.sign_out()
         del st.session_state["user_id"]
         st.success("Logged out.")
         st.rerun()
@@ -188,18 +164,7 @@ if submitted and user_input.strip():
         short_title = re.sub(r"\W+", "_", short_title)[:40]
         chat_title = short_title.replace("_", " ").title()
     else:
-        if not is_guest:
-            last = (
-                supabase.from_("chat_sessions")
-                .select("title")
-                .eq("user_id", user_id)
-                .order("created_at", desc=True)
-                .limit(1)
-                .execute()
-            )
-            chat_title = last.data[0]["title"] if last.data else "Untitled"
-        else:
-            chat_title = "Guest Session"
+        chat_title = "Guest Session" if is_guest else "Untitled"
 
     with st.spinner("Thinking..."):
         result = klugekopf_multi_agent_app.invoke({"query": user_input})
