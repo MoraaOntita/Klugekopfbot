@@ -9,12 +9,7 @@ from dotenv import load_dotenv
 from supabase import create_client, Client
 import bcrypt
 
-import sys
-import os
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-
 from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 
 # --- Load secrets ---
@@ -36,60 +31,62 @@ MODEL_NAME = "llama3-8b-8192"
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 st.title("💬 Klugekopf - Strategic Assistant")
 
-# --- Auth ---
+# --- Auth mode ---
+if "auth_mode" not in st.session_state:
+    st.session_state.auth_mode = "login"
+
 if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
-    st.subheader("🔑 Login")
+    if st.session_state.auth_mode == "login":
+        st.subheader("🔑 Login")
 
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
 
-    if st.button("Login"):
-        resp = supabase.from_("users").select("*").eq("username", username).execute()
-        user = resp.data[0] if resp.data else None
+        if st.button("Login"):
+            resp = supabase.from_("users").select("*").eq("username", username).execute()
+            user = resp.data[0] if resp.data else None
 
-        if user:
-            if bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
-                st.session_state["user_id"] = user["id"]
-                st.success("✅ Login successful! Redirecting...")
-                st.rerun()
+            if user:
+                if bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
+                    st.session_state["user_id"] = user["id"]
+                    st.success("✅ Login successful! Redirecting...")
+                    st.rerun()
+                else:
+                    st.error("❌ Invalid password. Please try again.")
             else:
-                st.error("❌ Invalid password. Please try again.")
-        else:
-            st.warning("🚫 User not found. Please sign up below.")
+                st.warning("🚫 No account found with that username.")
 
-    st.markdown("---")
-    st.subheader("🆕 Sign Up")
+        st.markdown("Don't have an account?")
+        if st.button("👉 Create a new account"):
+            st.session_state.auth_mode = "signup"
 
-    new_username = st.text_input("New Username")
-    new_email = st.text_input("Email")
-    new_password = st.text_input("New Password", type="password")
+    elif st.session_state.auth_mode == "signup":
+        st.subheader("🆕 Sign Up")
 
-    if st.button("Sign Up"):
-        hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
-        try:
-            resp = (
-                supabase.from_("users")
-                .insert(
-                    {
-                        "username": new_username,
-                        "email": new_email,
-                        "password_hash": hashed,
-                    }
-                )
-                .execute()
-            )
+        new_username = st.text_input("New Username")
+        new_email = st.text_input("Email")
+        new_password = st.text_input("New Password", type="password")
+
+        if st.button("Sign Up"):
+            hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
+            resp = supabase.from_("users").insert({
+                "username": new_username,
+                "email": new_email,
+                "password_hash": hashed
+            }).execute()
 
             if resp.error:
                 if "duplicate key" in str(resp.error).lower():
-                    st.error("❌ Username or Email already exists.")
+                    st.warning("🚫 Username or email already exists. Please log in instead.")
                 else:
                     st.error(f"❌ {resp.error}")
             else:
                 st.success("✅ Account created! Please log in.")
-                st.rerun()
+                st.session_state.auth_mode = "login"
 
-        except Exception as e:
-            st.error(f"❌ Unexpected error: {e}")
+        st.markdown("Already have an account?")
+        if st.button("🔙 Back to Login"):
+            st.session_state.auth_mode = "login"
 
     st.markdown("---")
     if st.button("🔓 Continue as Guest"):
@@ -202,13 +199,11 @@ if submitted and user_input.strip():
 
     if not is_guest:
         if is_first:
-            supabase.from_("chat_sessions").insert(
-                {
-                    "user_id": user_id,
-                    "title": chat_title,
-                    "messages": json.dumps(st.session_state.messages),
-                }
-            ).execute()
+            supabase.from_("chat_sessions").insert({
+                "user_id": user_id,
+                "title": chat_title,
+                "messages": json.dumps(st.session_state.messages),
+            }).execute()
         else:
             supabase.from_("chat_sessions").update(
                 {"messages": json.dumps(st.session_state.messages)}
