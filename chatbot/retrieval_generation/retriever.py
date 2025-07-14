@@ -6,7 +6,7 @@ from functools import lru_cache
 from dotenv import load_dotenv
 
 from pinecone import Pinecone as PineconeClient
-from langchain_community.vectorstores import Pinecone as LangchainPinecone
+from langchain_pinecone import Pinecone as PineconeVectorStore
 from langchain_huggingface import HuggingFaceEmbeddings
 
 # -------------------------------
@@ -55,8 +55,8 @@ def get_vectorstore():
     pc = PineconeClient(api_key=os.getenv("PINECONE_API_KEY"))
     index = pc.Index(index_name)
 
-    # 3️⃣ Wrap with LangChain Pinecone
-    vectorstore = LangchainPinecone(
+    # 3️⃣ Wrap with LangChain PineconeVectorStore
+    vectorstore = PineconeVectorStore(
         index=index,
         embedding=embedding_function,
         text_key="text",

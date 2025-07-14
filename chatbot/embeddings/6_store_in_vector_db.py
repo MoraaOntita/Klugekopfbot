@@ -5,9 +5,13 @@ import argparse
 from dotenv import load_dotenv
 
 from pinecone import Pinecone, ServerlessSpec
-from langchain_community.vectorstores import Pinecone as LangchainPinecone
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_pinecone import Pinecone as PineconeVectorStore
+from langchain_huggingface import HuggingFaceEmbeddings
 
+
+# -------------------------------
+# Load .env variables
+# -------------------------------
 load_dotenv()
 
 
@@ -45,8 +49,16 @@ def main(config_path: str):
     embeddings_filename = config["embeddings"]["output_filename"]
     embeddings_path = os.path.join(embeddings_dir, embeddings_filename)
 
-    index_name = config["vector_db"]["index_name"]
+    # ✅ Fallback to .env for index name if not in config
+    index_name = config["vector_db"].get("index_name") or os.getenv(
+        "PINECONE_INDEX_NAME"
+    )
     embedding_model_name = config["vector_db"]["embedding_model_name"]
+
+    if not index_name:
+        raise ValueError("❌ Pinecone index name not found in config or .env")
+
+    print(f"✅ Using Pinecone index: {index_name}")
 
     print("Loading chunk metadata...")
     data = load_chunks(embeddings_path)
@@ -54,7 +66,7 @@ def main(config_path: str):
     embedding_function = HuggingFaceEmbeddings(model_name=embedding_model_name)
     print(f"✅ Using embedding model: {embedding_model_name}")
 
-    # Get dimension
+    # Get embedding dimension
     sample_embedding = embedding_function.embed_query("test")
     dimension = len(sample_embedding)
     print(f"✅ Detected embedding dimension: {dimension}")
@@ -65,8 +77,8 @@ def main(config_path: str):
     documents = [item["text"] for item in data]
     metadatas = [{"source": item["source"]} for item in data]
 
-    # ✅ Let LangChain connect + upsert itself
-    vectorstore = LangchainPinecone.from_texts(
+    # ✅ Correct: from_texts does the upsert directly
+    PineconeVectorStore.from_texts(
         texts=documents,
         embedding=embedding_function,
         metadatas=metadatas,
