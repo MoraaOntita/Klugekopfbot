@@ -2,7 +2,7 @@ import os
 import json
 import yaml
 import argparse
-from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
 
@@ -20,37 +20,40 @@ def main(config_path: str):
     embeddings_filename = config["embeddings"]["output_filename"]
     embeddings_path = os.path.join(embeddings_dir, embeddings_filename)
 
-    chroma_db_dir = config["data"]["vector_db_dir"]
+    faiss_db_path = config["vector_db"]["persist_directory"]
     embedding_model_name = config["vector_db"]["embedding_model_name"]
 
     print("Loading embeddings...")
     data = load_embeddings(embeddings_path)
 
-    print(f"Setting up LangChain Chroma VectorStore at: {chroma_db_dir}")
+    print(f"Setting up LangChain FAISS VectorStore at: {faiss_db_path}")
 
     embedding_function = HuggingFaceEmbeddings(model_name=embedding_model_name)
 
     documents = [item["text"] for item in data]
     embeddings = [item["embedding"] for item in data]
     metadatas = [{"source": item["source"]} for item in data]
-    ids = [item["chunk_id"] for item in data]
 
-    vectorstore = Chroma(
-        persist_directory=chroma_db_dir, embedding_function=embedding_function
+    # Create FAISS index
+    text_embeddings = list(zip(documents, embeddings))
+
+    vectorstore = FAISS.from_embeddings(
+        text_embeddings=text_embeddings,
+        embedding=embedding_function,
+        metadatas=metadatas
     )
 
-    vectorstore.add_texts(
-        texts=documents, metadatas=metadatas, ids=ids, embeddings=embeddings
-    )
 
-    vectorstore.persist()
+    # Save to disk
+    faiss_index_path = os.path.join(faiss_db_path, "faiss_index")
+    vectorstore.save_local(faiss_index_path)
 
-    print(f"✅ Stored {len(documents)} chunks in Chroma VectorStore.")
+    print(f"✅ Stored {len(documents)} chunks in FAISS VectorStore.")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Store embeddings in a Chroma vector database."
+        description="Store embeddings in a FAISS vector database."
     )
     parser.add_argument(
         "--config",

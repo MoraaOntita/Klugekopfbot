@@ -1,12 +1,13 @@
 import yaml
 import os
 from functools import lru_cache
+from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
+
 
 # -------------------------------
 # Config loader
 # -------------------------------
-
 
 def load_config():
     config_path = os.environ.get("CONFIG_PATH", "config/config.yaml")
@@ -16,25 +17,22 @@ def load_config():
 
 config = load_config()
 
-chroma_dir = config["vector_db"]["persist_directory"]
+faiss_db_dir = config["vector_db"]["persist_directory"]
 embedding_model_name = config["vector_db"]["embedding_model_name"]
+
 
 # -------------------------------
 # Lazy factory for vectorstore
 # -------------------------------
 
-
 @lru_cache(maxsize=1)
 def get_vectorstore():
     """
-    Lazily initialize the vectorstore only once per process.
+    Lazily initialize the FAISS vectorstore.
     """
-    from langchain_chroma import Chroma  # 👈 lazy import here
-
     embedding_function = HuggingFaceEmbeddings(model_name=embedding_model_name)
-    vectorstore = Chroma(
-        persist_directory=chroma_dir, embedding_function=embedding_function
-    )
+    faiss_index_path = os.path.join(faiss_db_dir, "faiss_index")
+    vectorstore = FAISS.load_local(faiss_index_path, embedding_function)
     return vectorstore
 
 
@@ -42,15 +40,12 @@ def get_vectorstore():
 # Retrieval function
 # -------------------------------
 
-
 def retrieve_context(query: str, n_results: int = 4):
     """
-    Retrieve relevant chunks for a given query using the vector store retriever.
+    Retrieve relevant chunks for a given query using the FAISS vector store.
     """
     vectorstore = get_vectorstore()
-    retriever = vectorstore.as_retriever(
-        search_type="similarity", search_kwargs={"k": n_results}
-    )
+    retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": n_results})
     docs = retriever.invoke(query)
     documents = [doc.page_content for doc in docs]
     metadatas = [doc.metadata for doc in docs]
@@ -64,7 +59,7 @@ def retrieve_context(query: str, n_results: int = 4):
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Retriever with vector DB")
+    parser = argparse.ArgumentParser(description="Retriever with FAISS vector DB")
     parser.add_argument(
         "--config",
         type=str,
