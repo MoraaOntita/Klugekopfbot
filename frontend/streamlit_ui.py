@@ -8,6 +8,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from supabase import create_client, Client
 import bcrypt
+from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 
 # --- Load secrets ---
 load_dotenv()
