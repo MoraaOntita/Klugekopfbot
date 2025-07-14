@@ -20,26 +20,19 @@ from chatbot.retrieval_generation.prompts import get_klugekopf_system_prompt
 load_dotenv()
 api_key = os.getenv("GROQ_API_KEY")
 if not api_key:
-    raise ValueError(
-        "GROQ_API_KEY not found in environment variables. Please set it in your .env file."
-    )
+    raise ValueError("GROQ_API_KEY not found in env vars.")
 
-parser = argparse.ArgumentParser(
-    description="LangGraph multi-agent orchestration for Klugekopf-Bot."
-)
-parser.add_argument(
-    "--config",
-    type=str,
-    default=os.environ.get("CONFIG_PATH", "config/config.yaml"),
-    help="Path to YAML config file",
-)
-args = parser.parse_args()
+# Use env var or default
+CONFIG_PATH = os.environ.get("CONFIG_PATH", "config/config.yaml")
 
-with open(args.config, "r") as f:
+# Load config
+with open(CONFIG_PATH, "r") as f:
     config = yaml.safe_load(f)
 
 base_url = config["llm"]["base_url"]
 MODEL_NAME = config["llm"]["model_name"]
+
+client = OpenAI(base_url=base_url, api_key=api_key)
 
 # ============================
 # LLM Client
@@ -208,6 +201,19 @@ klugekopf_multi_agent_app = graph.compile()
 # ============================
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--config",
+        type=str,
+        default=CONFIG_PATH,
+        help="Path to YAML config file",
+    )
+    args = parser.parse_args()
+
+    # If you want to use a different config when run directly:
+    with open(args.config, "r") as f:
+        config = yaml.safe_load(f)
+
     user_query = input("Ask Klugekopf-Bot: ")
     result = klugekopf_multi_agent_app.invoke({"query": user_query})
     print("\nKlugekopf-Bot says:\n")
