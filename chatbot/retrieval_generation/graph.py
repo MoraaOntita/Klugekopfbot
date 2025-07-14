@@ -38,13 +38,16 @@ client = OpenAI(base_url=base_url, api_key=api_key)
 
 CACHE = {}
 
+
 def get_cache_key(agent_name: str, input_text: str) -> str:
     hash_input = f"{agent_name}:{input_text}".encode()
     return sha256(hash_input).hexdigest()
 
+
 # ============================
 # State Schema
 # ============================
+
 
 class KlugekopfState(TypedDict):
     query: str
@@ -56,9 +59,11 @@ class KlugekopfState(TypedDict):
     tool_result: str
     answer: str
 
+
 # ============================
 # Rewrite Agent
 # ============================
+
 
 def rewrite_agent_node(state: KlugekopfState) -> KlugekopfState:
     query = state["query"]
@@ -81,9 +86,11 @@ def rewrite_agent_node(state: KlugekopfState) -> KlugekopfState:
 
     return {**state, "rewritten_query": rewritten_query}
 
+
 # ============================
 # Planner Agent
 # ============================
+
 
 def planner_agent_node(state: KlugekopfState) -> KlugekopfState:
     rewritten_query = state["rewritten_query"]
@@ -106,9 +113,11 @@ def planner_agent_node(state: KlugekopfState) -> KlugekopfState:
 
     return {**state, "plan": plan}
 
+
 # ============================
 # Retrieval Agent (Pinecone!)
 # ============================
+
 
 def retrieval_agent_node(state: KlugekopfState) -> KlugekopfState:
     rewritten_query = state["rewritten_query"]
@@ -122,9 +131,11 @@ def retrieval_agent_node(state: KlugekopfState) -> KlugekopfState:
 
     return {**state, "chunks": chunks, "metadatas": metadatas}
 
+
 # ============================
 # Summarizer Agent
 # ============================
+
 
 def summarizer_agent_node(state: KlugekopfState) -> KlugekopfState:
     chunks = state["chunks"]
@@ -148,17 +159,21 @@ def summarizer_agent_node(state: KlugekopfState) -> KlugekopfState:
 
     return {**state, "summary": summary}
 
+
 # ============================
 # Tool Agent (stub)
 # ============================
+
 
 def tool_agent_node(state: KlugekopfState) -> KlugekopfState:
     tool_result = "Pretend I did a Google Search or DB call here."
     return {**state, "tool_result": tool_result}
 
+
 # ============================
 # Final Answer Agent
 # ============================
+
 
 def klugekopf_agent_node(state: KlugekopfState) -> KlugekopfState:
     rewritten_query = state["rewritten_query"]
@@ -191,6 +206,7 @@ def klugekopf_agent_node(state: KlugekopfState) -> KlugekopfState:
         CACHE[cache_key] = answer
 
     return {**state, "answer": answer}
+
 
 # ============================
 # Build Graph

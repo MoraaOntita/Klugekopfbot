@@ -65,10 +65,11 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
             else:
                 hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
                 try:
-                    resp = supabase.from_("users").insert({
-                        "email": new_email,
-                        "password_hash": hashed
-                    }).execute()
+                    resp = (
+                        supabase.from_("users")
+                        .insert({"email": new_email, "password_hash": hashed})
+                        .execute()
+                    )
 
                     if resp.status_code >= 400:
                         msg = (
@@ -77,9 +78,7 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                             else str(resp.data)
                         )
                         if "duplicate key" in msg.lower():
-                            st.error(
-                                "❌ Email already exists. Please use another."
-                            )
+                            st.error("❌ Email already exists. Please use another.")
                         else:
                             st.error(f"❌ Unexpected error: {msg}")
                     else:
@@ -198,14 +197,18 @@ if submitted and user_input.strip():
 
     if not is_guest:
         if is_first:
-            supabase.from_("chat_sessions").insert({
-                "user_id": user_id,
-                "title": chat_title,
-                "messages": json.dumps(st.session_state.messages),
-            }).execute()
+            supabase.from_("chat_sessions").insert(
+                {
+                    "user_id": user_id,
+                    "title": chat_title,
+                    "messages": json.dumps(st.session_state.messages),
+                }
+            ).execute()
         else:
-            supabase.from_("chat_sessions").update({
-                "messages": json.dumps(st.session_state.messages),
-            }).eq("user_id", user_id).eq("title", chat_title).execute()
+            supabase.from_("chat_sessions").update(
+                {
+                    "messages": json.dumps(st.session_state.messages),
+                }
+            ).eq("user_id", user_id).eq("title", chat_title).execute()
 
     st.rerun()
