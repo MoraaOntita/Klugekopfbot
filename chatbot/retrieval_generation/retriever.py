@@ -1,5 +1,6 @@
 import yaml
 import os
+from functools import lru_cache
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 
@@ -14,27 +15,24 @@ def load_config():
 
 config = load_config()
 
-# -------------------------------
-# Vector DB settings
-# -------------------------------
-
 chroma_dir = config["vector_db"]["persist_directory"]
 embedding_model_name = config["vector_db"]["embedding_model_name"]
 
 # -------------------------------
-# Init embeddings + vector store
+# Lazy factory for vectorstore
 # -------------------------------
 
-embedding_function = HuggingFaceEmbeddings(model_name=embedding_model_name)
-vectorstore = Chroma(
-    persist_directory=chroma_dir,
-    embedding_function=embedding_function
-)
-
-retriever = vectorstore.as_retriever(
-    search_type="similarity",
-    search_kwargs={"k": 4}
-)
+@lru_cache(maxsize=1)
+def get_vectorstore():
+    """
+    Lazily initialize the vectorstore only once per process.
+    """
+    embedding_function = HuggingFaceEmbeddings(model_name=embedding_model_name)
+    vectorstore = Chroma(
+        persist_directory=chroma_dir,
+        embedding_function=embedding_function
+    )
+    return vectorstore
 
 # -------------------------------
 # Retrieval function
@@ -44,7 +42,11 @@ def retrieve_context(query: str, n_results: int = 4):
     """
     Retrieve relevant chunks for a given query using the vector store retriever.
     """
-    retriever.search_kwargs["k"] = n_results
+    vectorstore = get_vectorstore()
+    retriever = vectorstore.as_retriever(
+        search_type="similarity",
+        search_kwargs={"k": n_results}
+    )
     docs = retriever.invoke(query)
     documents = [doc.page_content for doc in docs]
     metadatas = [doc.metadata for doc in docs]
