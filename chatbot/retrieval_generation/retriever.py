@@ -7,10 +7,12 @@ from langchain_huggingface import HuggingFaceEmbeddings
 # Config loader
 # -------------------------------
 
+
 def load_config():
     config_path = os.environ.get("CONFIG_PATH", "config/config.yaml")
     with open(config_path, "r") as f:
         return yaml.safe_load(f)
+
 
 config = load_config()
 
@@ -21,21 +23,25 @@ embedding_model_name = config["vector_db"]["embedding_model_name"]
 # Lazy factory for vectorstore
 # -------------------------------
 
+
 @lru_cache(maxsize=1)
 def get_vectorstore():
     """
     Lazily initialize the vectorstore only once per process.
     """
     from langchain_chroma import Chroma  # 👈 lazy import here
+
     embedding_function = HuggingFaceEmbeddings(model_name=embedding_model_name)
     vectorstore = Chroma(
         persist_directory=chroma_dir, embedding_function=embedding_function
     )
     return vectorstore
 
+
 # -------------------------------
 # Retrieval function
 # -------------------------------
+
 
 def retrieve_context(query: str, n_results: int = 4):
     """
@@ -49,6 +55,7 @@ def retrieve_context(query: str, n_results: int = 4):
     documents = [doc.page_content for doc in docs]
     metadatas = [doc.metadata for doc in docs]
     return documents, metadatas
+
 
 # -------------------------------
 # CLI usage only
