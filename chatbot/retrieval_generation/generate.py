@@ -6,6 +6,7 @@ from openai import OpenAI
 
 import sys
 import os
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from chatbot.retrieval_generation.retriever import retrieve_context

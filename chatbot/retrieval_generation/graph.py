@@ -9,6 +9,7 @@ from typing import TypedDict
 
 import sys
 import os
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from chatbot.retrieval_generation.prompts import get_klugekopf_system_prompt
