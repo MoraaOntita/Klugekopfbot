@@ -5,9 +5,10 @@ import json
 import re
 from dotenv import load_dotenv
 from supabase import create_client, Client
+import bcrypt
 from openai import OpenAI
 
-# 📌 Local modules
+# 📌 Add your local modules
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 
@@ -17,6 +18,7 @@ api_key = os.getenv("GROQ_API_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
+# --- Config checks ---
 if not all([SUPABASE_URL, SUPABASE_KEY]):
     raise ValueError("Supabase URL or Service Role Key is missing!")
 
@@ -29,13 +31,8 @@ MODEL_NAME = "llama3-8b-8192"
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 st.title("💬 Klugekopf - Strategic Assistant")
 
-# --- Check session ---
-session = supabase.auth.get_session().session
-if session:
-    st.session_state["user_id"] = session.user.id
-
-# --- Auth flow with Supabase session ---
-if "session" not in st.session_state and "guest_mode" not in st.session_state:
+# --- Auth flow ---
+if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
     auth_mode = st.radio("Choose:", ["🔑 Login", "🆕 Sign Up"], horizontal=True)
 
     if auth_mode == "🔑 Login":
@@ -45,25 +42,19 @@ if "session" not in st.session_state and "guest_mode" not in st.session_state:
 
         if st.button("Login"):
             try:
-                # ✅ Sign in and get session
                 result = supabase.auth.sign_in_with_password({
                     "email": email,
                     "password": password
                 })
-
-                session = result.session
-                user = result.user
-
-                if session:
-                    st.session_state["session"] = session
-                    st.session_state["user_id"] = user.id
+                if result.session:
+                    st.session_state["session"] = result.session
+                    st.session_state["user_id"] = result.user.id
                     st.success("✅ Login successful! Redirecting...")
                     st.rerun()
                 else:
-                    st.error("❌ Login failed. Please check your credentials.")
-
+                    st.error("❌ Invalid credentials.")
             except Exception as e:
-                st.error(f"❌ Error: {e}")
+                st.error(f"❌ Login failed: {e}")
 
     else:
         st.subheader("Create a new account")
@@ -80,12 +71,11 @@ if "session" not in st.session_state and "guest_mode" not in st.session_state:
                         "password": new_password
                     })
                     if result.user:
-                        st.success("✅ Account created! Please log in.")
-                        st.rerun()
+                        st.success("✅ Account created! Please check your email for confirmation & then log in.")
                     else:
-                        st.error("❌ Sign up failed. Try again.")
+                        st.error("❌ Sign up failed.")
                 except Exception as e:
-                    st.error(f"❌ Error: {e}")
+                    st.error(f"❌ Sign up error: {e}")
 
     st.markdown("---")
     if st.button("🔓 Continue as Guest"):
@@ -102,13 +92,12 @@ user_id = st.session_state.get("user_id")
 # --- Sidebar logout/end guest ---
 if is_guest:
     if st.sidebar.button("🚪 End Guest Session"):
-        del st.session_state["guest_mode"]
+        st.session_state.clear()
         st.success("Guest session ended.")
         st.rerun()
 else:
     if st.sidebar.button("🚪 Logout"):
-        supabase.auth.sign_out()
-        del st.session_state["user_id"]
+        st.session_state.clear()
         st.success("Logged out.")
         st.rerun()
 
@@ -177,7 +166,18 @@ if submitted and user_input.strip():
         short_title = re.sub(r"\W+", "_", short_title)[:40]
         chat_title = short_title.replace("_", " ").title()
     else:
-        chat_title = "Guest Session" if is_guest else "Untitled"
+        if not is_guest:
+            last = (
+                supabase.from_("chat_sessions")
+                .select("title")
+                .eq("user_id", user_id)
+                .order("created_at", desc=True)
+                .limit(1)
+                .execute()
+            )
+            chat_title = last.data[0]["title"] if last.data else "Untitled"
+        else:
+            chat_title = "Guest Session"
 
     with st.spinner("Thinking..."):
         result = klugekopf_multi_agent_app.invoke({"query": user_input})
