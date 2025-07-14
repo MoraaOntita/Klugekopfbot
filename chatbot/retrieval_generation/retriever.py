@@ -4,9 +4,11 @@ import os
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 
+
 def load_config(config_path: str):
     with open(config_path, "r") as f:
         return yaml.safe_load(f)
+
 
 # Load config
 parser = argparse.ArgumentParser(description="Retriever with vector DB")
@@ -14,7 +16,7 @@ parser.add_argument(
     "--config",
     type=str,
     default=os.environ.get("CONFIG_PATH", "config/config.yaml"),
-    help="Path to YAML config file"
+    help="Path to YAML config file",
 )
 args = parser.parse_args()
 config = load_config(args.config)
@@ -26,15 +28,12 @@ embedding_model_name = config["vector_db"]["embedding_model_name"]
 # Init embeddings + vector store
 embedding_function = HuggingFaceEmbeddings(model_name=embedding_model_name)
 vectorstore = Chroma(
-    persist_directory=chroma_dir,
-    embedding_function=embedding_function
+    persist_directory=chroma_dir, embedding_function=embedding_function
 )
 
 # Create retriever
-retriever = vectorstore.as_retriever(
-    search_type="similarity",
-    search_kwargs={"k": 4}
-)
+retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 4})
+
 
 def retrieve_context(query: str, n_results: int = 4):
     """
@@ -45,6 +44,7 @@ def retrieve_context(query: str, n_results: int = 4):
     documents = [doc.page_content for doc in docs]
     metadatas = [doc.metadata for doc in docs]
     return documents, metadatas
+
 
 if __name__ == "__main__":
     query = input("Enter your query: ")

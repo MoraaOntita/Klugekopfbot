@@ -4,11 +4,13 @@ import os
 import yaml
 import argparse
 
+
 def extract_text_from_docx(docx_path: str) -> str:
     """Extract and clean text from a .docx file."""
     doc = Document(docx_path)
     paragraphs = [para.text.strip() for para in doc.paragraphs if para.text.strip()]
     return "\n".join(paragraphs)
+
 
 def extract_text_from_pdf(pdf_path: str) -> str:
     """Extract text from a PDF file."""
@@ -21,11 +23,13 @@ def extract_text_from_pdf(pdf_path: str) -> str:
                 text.append(page_text.strip())
     return "\n".join(text)
 
+
 def is_pdf(file_path: str) -> bool:
     """Check if file is a PDF by signature."""
     with open(file_path, "rb") as f:
         sig = f.read(4)
     return sig == b"%PDF"
+
 
 def main(config_path: str):
     # Load config
@@ -67,13 +71,16 @@ def main(config_path: str):
 
         print(f"✅ Saved to: {output_path}")
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Extract text from DOCX and PDF files.")
+    parser = argparse.ArgumentParser(
+        description="Extract text from DOCX and PDF files."
+    )
     parser.add_argument(
         "--config",
         type=str,
         default=os.environ.get("CONFIG_PATH", "config/config.yaml"),
-        help="Path to the YAML config file"
+        help="Path to the YAML config file",
     )
     args = parser.parse_args()
 

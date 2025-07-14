@@ -22,10 +22,7 @@ MODEL_NAME = "llama3-8b-8192"
 
 # --- DB connection ---
 conn = psycopg2.connect(
-    dbname=DB_NAME,
-    user=DB_USER,
-    password=DB_PASSWORD,
-    host=DB_HOST
+    dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST
 )
 cursor = conn.cursor()
 
@@ -41,7 +38,9 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        cursor.execute("SELECT id, password_hash FROM users WHERE username = %s", (username,))
+        cursor.execute(
+            "SELECT id, password_hash FROM users WHERE username = %s", (username,)
+        )
         user = cursor.fetchone()
 
         if user:
@@ -66,7 +65,7 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
         try:
             cursor.execute(
                 "INSERT INTO users (username, email, password_hash) VALUES (%s, %s, %s)",
-                (new_username, new_email, hashed)
+                (new_username, new_email, hashed),
             )
             conn.commit()
             st.success("✅ Account created! Please log in.")
@@ -124,13 +123,15 @@ with st.sidebar:
 
         cursor.execute(
             "SELECT id, title FROM chat_sessions WHERE user_id = %s ORDER BY created_at DESC",
-            (user_id,)
+            (user_id,),
         )
         sessions = cursor.fetchall()
 
         for s_id, s_title in sessions:
             if st.button(f"📄 {s_title}", key=f"load_{s_id}"):
-                cursor.execute("SELECT messages FROM chat_sessions WHERE id = %s", (s_id,))
+                cursor.execute(
+                    "SELECT messages FROM chat_sessions WHERE id = %s", (s_id,)
+                )
                 data = cursor.fetchone()
                 st.session_state.messages = data[0]
                 st.rerun()
@@ -142,15 +143,13 @@ for msg in st.session_state.messages:
     bg_color = "#2C2F33" if msg["role"] == "user" else "#40444B"
     st.markdown(
         f"<div style='background-color: {bg_color}; color: white; padding: 12px; border-radius: 10px; margin: 8px 0;'>{msg['content']}</div>",
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
 # --- Input ---
 with st.form("chat_form", clear_on_submit=True):
     user_input = st.text_area(
-        "Your message:",
-        placeholder="Type your message here...",
-        height=80
+        "Your message:", placeholder="Type your message here...", height=80
     )
     submitted = st.form_submit_button("Send")
 
@@ -164,17 +163,17 @@ if submitted and user_input.strip():
             model=MODEL_NAME,
             messages=[
                 {"role": "system", "content": "Summarize this question in 3-5 words."},
-                {"role": "user", "content": user_input.strip()}
-            ]
+                {"role": "user", "content": user_input.strip()},
+            ],
         )
         short_title = response.choices[0].message.content.strip().lower()
-        short_title = re.sub(r'\W+', '_', short_title)[:40]
+        short_title = re.sub(r"\W+", "_", short_title)[:40]
         chat_title = short_title.replace("_", " ").title()
     else:
         if not is_guest:
             cursor.execute(
                 "SELECT title FROM chat_sessions WHERE user_id = %s ORDER BY created_at DESC LIMIT 1",
-                (user_id,)
+                (user_id,),
             )
             result = cursor.fetchone()
             chat_title = result[0] if result else "Untitled"
@@ -191,12 +190,12 @@ if submitted and user_input.strip():
         if is_first:
             cursor.execute(
                 "INSERT INTO chat_sessions (user_id, title, messages) VALUES (%s, %s, %s)",
-                (user_id, chat_title, json.dumps(st.session_state.messages))
+                (user_id, chat_title, json.dumps(st.session_state.messages)),
             )
         else:
             cursor.execute(
                 "UPDATE chat_sessions SET messages = %s WHERE user_id = %s AND title = %s",
-                (json.dumps(st.session_state.messages), user_id, chat_title)
+                (json.dumps(st.session_state.messages), user_id, chat_title),
             )
         conn.commit()
 

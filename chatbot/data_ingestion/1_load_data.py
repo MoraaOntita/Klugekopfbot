@@ -8,7 +8,7 @@ parser.add_argument(
     "--config",
     type=str,
     default=os.environ.get("CONFIG_PATH", "config/config.yaml"),
-    help="Path to YAML config"
+    help="Path to YAML config",
 )
 args = parser.parse_args()
 

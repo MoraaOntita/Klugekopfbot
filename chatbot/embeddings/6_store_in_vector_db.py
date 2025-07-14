@@ -5,9 +5,11 @@ import argparse
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
+
 def load_embeddings(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
         return [json.loads(line) for line in f]
+
 
 def main(config_path: str):
     # Load config
@@ -34,28 +36,27 @@ def main(config_path: str):
     ids = [item["chunk_id"] for item in data]
 
     vectorstore = Chroma(
-        persist_directory=chroma_db_dir,
-        embedding_function=embedding_function
+        persist_directory=chroma_db_dir, embedding_function=embedding_function
     )
 
     vectorstore.add_texts(
-        texts=documents,
-        metadatas=metadatas,
-        ids=ids,
-        embeddings=embeddings
+        texts=documents, metadatas=metadatas, ids=ids, embeddings=embeddings
     )
 
     vectorstore.persist()
 
     print(f"✅ Stored {len(documents)} chunks in Chroma VectorStore.")
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Store embeddings in a Chroma vector database.")
+    parser = argparse.ArgumentParser(
+        description="Store embeddings in a Chroma vector database."
+    )
     parser.add_argument(
         "--config",
         type=str,
         default=os.environ.get("CONFIG_PATH", "config/config.yaml"),
-        help="Path to YAML config file"
+        help="Path to YAML config file",
     )
     args = parser.parse_args()
 

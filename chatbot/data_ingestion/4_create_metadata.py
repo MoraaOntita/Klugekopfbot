@@ -4,14 +4,16 @@ import re
 import yaml
 import argparse
 
+
 def extract_chunks_from_text_file(filepath):
     """Extract individual chunks from a text file with '--- CHUNK N ---' headers."""
-    with open(filepath, 'r', encoding='utf-8') as f:
+    with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
 
     # Split on headers like --- CHUNK 1 ---
     raw_chunks = re.split(r"--- CHUNK \d+ ---\n", content)
     return [chunk.strip() for chunk in raw_chunks if chunk.strip()]
+
 
 def create_chunk_metadata(chunks, source_name):
     """Wrap chunks in metadata structure."""
@@ -20,10 +22,11 @@ def create_chunk_metadata(chunks, source_name):
         metadata = {
             "chunk_id": f"{source_name}_{str(i+1).zfill(3)}",
             "text": chunk,
-            "source": f"{source_name}.docx"
+            "source": f"{source_name}.docx",
         }
         chunk_metadata_list.append(metadata)
     return chunk_metadata_list
+
 
 def main(config_path: str):
     # Load config
@@ -48,7 +51,7 @@ def main(config_path: str):
 
             # Save one file per document
             output_path = os.path.join(metadata_dir, f"{base_name}_metadata.json")
-            with open(output_path, 'w', encoding='utf-8') as f:
+            with open(output_path, "w", encoding="utf-8") as f:
                 json.dump(structured_chunks, f, ensure_ascii=False, indent=2)
 
             all_chunks_metadata.extend(structured_chunks)
@@ -61,13 +64,14 @@ def main(config_path: str):
 
     print(f"Metadata saved to: {metadata_dir}")
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Create metadata from text chunks.")
     parser.add_argument(
         "--config",
         type=str,
         default=os.environ.get("CONFIG_PATH", "config/config.yaml"),
-        help="Path to YAML config file"
+        help="Path to YAML config file",
     )
     args = parser.parse_args()
 

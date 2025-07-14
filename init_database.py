@@ -13,10 +13,7 @@ DB_HOST = os.getenv("DB_HOST")
 
 # 1️⃣ Connect to system DB
 conn = psycopg2.connect(
-    dbname="postgres",
-    user=DB_USER,
-    password=DB_PASSWORD,
-    host=DB_HOST
+    dbname="postgres", user=DB_USER, password=DB_PASSWORD, host=DB_HOST
 )
 conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 cursor = conn.cursor()
@@ -35,15 +32,13 @@ conn.close()
 
 # 3️⃣ Connect to your DB
 conn = psycopg2.connect(
-    dbname=DB_NAME,
-    user=DB_USER,
-    password=DB_PASSWORD,
-    host=DB_HOST
+    dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST
 )
 cursor = conn.cursor()
 
 # 4️⃣ Create tables if missing
-cursor.execute("""
+cursor.execute(
+    """
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
@@ -52,9 +47,11 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
-""")
+"""
+)
 
-cursor.execute("""
+cursor.execute(
+    """
 CREATE TABLE IF NOT EXISTS chat_sessions (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id),
@@ -62,7 +59,8 @@ CREATE TABLE IF NOT EXISTS chat_sessions (
     messages JSONB,
     created_at TIMESTAMP DEFAULT NOW()
 );
-""")
+"""
+)
 
 conn.commit()
 cursor.close()

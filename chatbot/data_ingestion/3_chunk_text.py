@@ -3,6 +3,7 @@ from typing import List
 import yaml
 import argparse
 
+
 def chunk_text(text: str, chunk_size: int, overlap: int) -> List[str]:
     """Split text into overlapping chunks."""
     chunks = []
@@ -14,6 +15,7 @@ def chunk_text(text: str, chunk_size: int, overlap: int) -> List[str]:
             chunks.append(chunk)
         start += chunk_size - overlap
     return chunks
+
 
 def main(config_path: str):
     # Load config
@@ -44,13 +46,14 @@ def main(config_path: str):
 
             print(f"{len(chunks)} chunks saved to: {output_path}")
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Chunk extracted text files.")
     parser.add_argument(
         "--config",
         type=str,
         default=os.environ.get("CONFIG_PATH", "config/config.yaml"),
-        help="Path to YAML config file"
+        help="Path to YAML config file",
     )
     args = parser.parse_args()
 
