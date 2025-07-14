@@ -34,8 +34,8 @@ session = supabase.auth.get_session().session
 if session:
     st.session_state["user_id"] = session.user.id
 
-# --- Auth flow ---
-if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
+# --- Auth flow with Supabase session ---
+if "session" not in st.session_state and "guest_mode" not in st.session_state:
     auth_mode = st.radio("Choose:", ["🔑 Login", "🆕 Sign Up"], horizontal=True)
 
     if auth_mode == "🔑 Login":
@@ -45,13 +45,23 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
         if st.button("Login"):
             try:
-                resp = supabase.auth.sign_in_with_password({"email": email, "password": password})
-                if resp.session:
-                    st.session_state["user_id"] = resp.session.user.id
+                # ✅ Sign in and get session
+                result = supabase.auth.sign_in_with_password({
+                    "email": email,
+                    "password": password
+                })
+
+                session = result.session
+                user = result.user
+
+                if session:
+                    st.session_state["session"] = session
+                    st.session_state["user_id"] = user.id
                     st.success("✅ Login successful! Redirecting...")
                     st.rerun()
                 else:
-                    st.error("❌ Invalid credentials. Please try again.")
+                    st.error("❌ Login failed. Please check your credentials.")
+
             except Exception as e:
                 st.error(f"❌ Error: {e}")
 
@@ -65,12 +75,15 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                 st.warning("⚠️ Please fill in all fields to sign up.")
             else:
                 try:
-                    resp = supabase.auth.sign_up({"email": new_email, "password": new_password})
-                    if resp.user:
-                        st.success("✅ Account created! Please check your email to confirm and then log in.")
+                    result = supabase.auth.sign_up({
+                        "email": new_email,
+                        "password": new_password
+                    })
+                    if result.user:
+                        st.success("✅ Account created! Please log in.")
                         st.rerun()
                     else:
-                        st.error("❌ Could not create account. Maybe email already exists?")
+                        st.error("❌ Sign up failed. Try again.")
                 except Exception as e:
                     st.error(f"❌ Error: {e}")
 
