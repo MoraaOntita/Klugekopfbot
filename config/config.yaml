@@ -36,6 +36,7 @@ embeddings:
 
 vector_db:
   persist_directory: "data/vector_db"
+  index_name: klugekopf-bot
   embedding_model_name: "sentence-transformers/all-MiniLM-L6-v2"
 
 llm:
