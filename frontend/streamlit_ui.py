@@ -1,4 +1,10 @@
 import streamlit as st
+
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+
 from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 import os
 import json

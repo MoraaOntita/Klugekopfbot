@@ -3,6 +3,11 @@ import yaml
 import argparse
 from dotenv import load_dotenv
 from openai import OpenAI
+
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from chatbot.retrieval_generation.retriever import retrieve_context
 from chatbot.retrieval_generation.prompts import get_klugekopf_system_prompt
 
