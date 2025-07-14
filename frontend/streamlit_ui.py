@@ -1,37 +1,28 @@
 import streamlit as st
-
 import sys
-import os
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-
-from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 import os
 import json
 import re
 from datetime import datetime
 from openai import OpenAI
 from dotenv import load_dotenv
-import psycopg2
+from supabase import create_client, Client
 import bcrypt
 
 # --- Load secrets ---
 load_dotenv()
 api_key = os.getenv("GROQ_API_KEY")
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
+# --- Check config ---
+if not all([SUPABASE_URL, SUPABASE_KEY]):
+    raise ValueError("Supabase URL or Service Role Key is missing!")
+
+# --- Init clients ---
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=api_key)
 MODEL_NAME = "llama3-8b-8192"
-
-# --- DB connection ---
-conn = psycopg2.connect(
-    dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST
-)
-cursor = conn.cursor()
 
 # --- Page config ---
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
@@ -45,14 +36,12 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        cursor.execute(
-            "SELECT id, password_hash FROM users WHERE username = %s", (username,)
-        )
-        user = cursor.fetchone()
+        resp = supabase.from_("users").select("*").eq("username", username).execute()
+        user = resp.data[0] if resp.data else None
 
         if user:
-            if bcrypt.checkpw(password.encode(), user[1].encode()):
-                st.session_state["user_id"] = user[0]
+            if bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
+                st.session_state["user_id"] = user["id"]
                 st.success("✅ Login successful! Redirecting...")
                 st.rerun()
             else:
@@ -70,24 +59,29 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
     if st.button("Sign Up"):
         hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
         try:
-            cursor.execute(
-                "INSERT INTO users (username, email, password_hash) VALUES (%s, %s, %s)",
-                (new_username, new_email, hashed),
+            resp = (
+                supabase.from_("users")
+                .insert(
+                    {
+                        "username": new_username,
+                        "email": new_email,
+                        "password_hash": hashed,
+                    }
+                )
+                .execute()
             )
-            conn.commit()
-            st.success("✅ Account created! Please log in.")
-            st.rerun()
-        except psycopg2.IntegrityError as e:
-            conn.rollback()  # Roll back the failed transaction!
-            msg = str(e)
-            if "users_username_key" in msg:
-                st.error("❌ Username already exists. Please choose a different one.")
-            elif "users_email_key" in msg:
-                st.error("❌ Email already exists. Please use a different email.")
+
+            if resp.error:
+                if "duplicate key" in str(resp.error).lower():
+                    st.error("❌ Username or Email already exists.")
+                else:
+                    st.error(f"❌ {resp.error}")
             else:
-                st.error("❌ Something went wrong. Please try again.")
+                st.success("✅ Account created! Please log in.")
+                st.rerun()
+
         except Exception as e:
-            st.error("❌ Unexpected error. Please try again later.")
+            st.error(f"❌ Unexpected error: {e}")
 
     st.markdown("---")
     if st.button("🔓 Continue as Guest"):
@@ -97,7 +91,7 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
     st.stop()
 
-# --- Figure out mode ---
+# --- Mode ---
 is_guest = "guest_mode" in st.session_state
 user_id = st.session_state.get("user_id")
 
@@ -128,24 +122,27 @@ with st.sidebar:
         st.markdown("---")
         st.subheader("📂 Previous Chats:")
 
-        cursor.execute(
-            "SELECT id, title FROM chat_sessions WHERE user_id = %s ORDER BY created_at DESC",
-            (user_id,),
+        sessions = (
+            supabase.from_("chat_sessions")
+            .select("id, title")
+            .eq("user_id", user_id)
+            .order("created_at", desc=True)
+            .execute()
         )
-        sessions = cursor.fetchall()
 
-        for s_id, s_title in sessions:
-            if st.button(f"📄 {s_title}", key=f"load_{s_id}"):
-                cursor.execute(
-                    "SELECT messages FROM chat_sessions WHERE id = %s", (s_id,)
+        for s in sessions.data:
+            if st.button(f"📄 {s['title']}", key=f"load_{s['id']}"):
+                chat = (
+                    supabase.from_("chat_sessions")
+                    .select("messages")
+                    .eq("id", s["id"])
+                    .execute()
                 )
-                data = cursor.fetchone()
-                st.session_state.messages = data[0]
+                st.session_state.messages = json.loads(chat.data[0]["messages"])
                 st.rerun()
 
 # --- Chat display ---
 st.markdown("---")
-
 for msg in st.session_state.messages:
     bg_color = "#2C2F33" if msg["role"] == "user" else "#40444B"
     st.markdown(
@@ -162,7 +159,6 @@ with st.form("chat_form", clear_on_submit=True):
 
 if submitted and user_input.strip():
     st.session_state.messages.append({"role": "user", "content": user_input.strip()})
-
     is_first = len(st.session_state.messages) == 1
 
     if is_first:
@@ -178,12 +174,15 @@ if submitted and user_input.strip():
         chat_title = short_title.replace("_", " ").title()
     else:
         if not is_guest:
-            cursor.execute(
-                "SELECT title FROM chat_sessions WHERE user_id = %s ORDER BY created_at DESC LIMIT 1",
-                (user_id,),
+            last = (
+                supabase.from_("chat_sessions")
+                .select("title")
+                .eq("user_id", user_id)
+                .order("created_at", desc=True)
+                .limit(1)
+                .execute()
             )
-            result = cursor.fetchone()
-            chat_title = result[0] if result else "Untitled"
+            chat_title = last.data[0]["title"] if last.data else "Untitled"
         else:
             chat_title = "Guest Session"
 
@@ -195,15 +194,16 @@ if submitted and user_input.strip():
 
     if not is_guest:
         if is_first:
-            cursor.execute(
-                "INSERT INTO chat_sessions (user_id, title, messages) VALUES (%s, %s, %s)",
-                (user_id, chat_title, json.dumps(st.session_state.messages)),
-            )
+            supabase.from_("chat_sessions").insert(
+                {
+                    "user_id": user_id,
+                    "title": chat_title,
+                    "messages": json.dumps(st.session_state.messages),
+                }
+            ).execute()
         else:
-            cursor.execute(
-                "UPDATE chat_sessions SET messages = %s WHERE user_id = %s AND title = %s",
-                (json.dumps(st.session_state.messages), user_id, chat_title),
-            )
-        conn.commit()
+            supabase.from_("chat_sessions").update(
+                {"messages": json.dumps(st.session_state.messages)}
+            ).eq("user_id", user_id).eq("title", chat_title).execute()
 
     st.rerun()
