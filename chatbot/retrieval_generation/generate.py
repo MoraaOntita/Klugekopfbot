@@ -19,9 +19,7 @@ load_dotenv()
 api_key = os.getenv("GROQ_API_KEY")
 
 if not api_key:
-    raise ValueError(
-        "❌ GROQ_API_KEY not found in .env. Please set it!"
-    )
+    raise ValueError("❌ GROQ_API_KEY not found in .env. Please set it!")
 
 # -------------------------------
 # Load config
@@ -52,19 +50,18 @@ client = OpenAI(base_url=base_url, api_key=api_key)
 # Prompt builder
 # -------------------------------
 
+
 def build_prompt(query: str, context_chunks: list[str]) -> tuple[str, str]:
     context = "\n\n".join(context_chunks)
     system_message = get_klugekopf_system_prompt()
-    user_message = (
-        f"Context:\n{context}\n\n"
-        f"Question:\n{query}\n\n"
-        f"Answer:"
-    )
+    user_message = f"Context:\n{context}\n\n" f"Question:\n{query}\n\n" f"Answer:"
     return system_message, user_message
+
 
 # -------------------------------
 # Call LLM
 # -------------------------------
+
 
 def generate_answer(system_message: str, user_message: str) -> str:
     """
@@ -81,14 +78,17 @@ def generate_answer(system_message: str, user_message: str) -> str:
     )
     return response.choices[0].message.content.strip()
 
+
 # -------------------------------
 # Orchestrate: Retrieve → Prompt → LLM
 # -------------------------------
+
 
 def run_pipeline(query: str) -> str:
     chunks, _ = retrieve_context(query)  # ✅ now uses Pinecone retriever
     system_message, user_message = build_prompt(query, chunks)
     return generate_answer(system_message, user_message)
+
 
 # -------------------------------
 # CLI
