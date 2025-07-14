@@ -111,6 +111,13 @@ else:
         st.success("Logged out.")
         st.rerun()
 
+# ✅ New: Add option to switch to Guest Mode even when logged in
+if not is_guest and user_id:
+    if st.sidebar.button("👤 Continue as Guest"):
+        st.session_state["guest_mode"] = True
+        st.success("✅ You are now in Guest Mode. Your account is paused.")
+        st.rerun()
+
 # --- Init messages ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
