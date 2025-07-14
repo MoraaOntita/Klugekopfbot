@@ -41,20 +41,18 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
         password = st.text_input("Password", type="password")
 
         if st.button("Login"):
-            try:
-                result = supabase.auth.sign_in_with_password({
-                    "email": email,
-                    "password": password
-                })
-                if result.session:
-                    st.session_state["session"] = result.session
-                    st.session_state["user_id"] = result.user.id
+            resp = supabase.from_("users").select("*").eq("email", email).execute()
+            user = resp.data[0] if resp.data else None
+
+            if user:
+                if bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
+                    st.session_state["user_id"] = user["id"]
                     st.success("✅ Login successful! Redirecting...")
                     st.rerun()
                 else:
-                    st.error("❌ Invalid credentials.")
-            except Exception as e:
-                st.error(f"❌ Login failed: {e}")
+                    st.error("❌ Invalid password.")
+            else:
+                st.error("❌ Email not found.")
 
     else:
         st.subheader("Create a new account")
@@ -65,15 +63,28 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
             if not new_email or not new_password:
                 st.warning("⚠️ Please fill in all fields to sign up.")
             else:
+                hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
                 try:
-                    result = supabase.auth.sign_up({
+                    resp = supabase.from_("users").insert({
                         "email": new_email,
-                        "password": new_password
-                    })
-                    if result.user:
-                        st.success("✅ Account created! Please check your email for confirmation & then log in.")
+                        "password_hash": hashed
+                    }).execute()
+
+                    if resp.status_code >= 400:
+                        msg = (
+                            resp.data.get("message")
+                            if isinstance(resp.data, dict)
+                            else str(resp.data)
+                        )
+                        if "duplicate key" in msg.lower():
+                            st.error(
+                                "❌ Email already exists. Please use another."
+                            )
+                        else:
+                            st.error(f"❌ Unexpected error: {msg}")
                     else:
-                        st.error("❌ Sign up failed.")
+                        st.success("✅ Account created! Please log in.")
+                        st.rerun()
                 except Exception as e:
                     st.error(f"❌ Sign up error: {e}")
 
@@ -187,18 +198,14 @@ if submitted and user_input.strip():
 
     if not is_guest:
         if is_first:
-            supabase.from_("chat_sessions").insert(
-                {
-                    "user_id": user_id,
-                    "title": chat_title,
-                    "messages": json.dumps(st.session_state.messages),
-                }
-            ).execute()
+            supabase.from_("chat_sessions").insert({
+                "user_id": user_id,
+                "title": chat_title,
+                "messages": json.dumps(st.session_state.messages),
+            }).execute()
         else:
-            supabase.from_("chat_sessions").update(
-                {
-                    "messages": json.dumps(st.session_state.messages),
-                }
-            ).eq("user_id", user_id).eq("title", chat_title).execute()
+            supabase.from_("chat_sessions").update({
+                "messages": json.dumps(st.session_state.messages),
+            }).eq("user_id", user_id).eq("title", chat_title).execute()
 
     st.rerun()
