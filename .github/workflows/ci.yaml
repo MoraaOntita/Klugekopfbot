@@ -45,6 +45,11 @@ jobs:
         run: |
           python chatbot/embeddings/6_store_in_vector_db.py --config config/config.yaml
 
+      - name: Upload vector DB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vector-db
+          path: data/vector_db
 
   deploy:
     needs: build-and-test
@@ -54,8 +59,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Download vector DB artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vector-db
+          path: data/vector_db
+
       - name: Deploy to production server
         run: |
-          echo " Add your deploy command here!"
+          echo "Add your deploy command here (e.g. rsync or SSH push)"
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
