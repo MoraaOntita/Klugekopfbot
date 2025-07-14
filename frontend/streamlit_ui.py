@@ -43,7 +43,9 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
         password = st.text_input("Password", type="password")
 
         if st.button("Login"):
-            resp = supabase.from_("users").select("*").eq("username", username).execute()
+            resp = (
+                supabase.from_("users").select("*").eq("username", username).execute()
+            )
             user = resp.data[0] if resp.data else None
 
             if user:
@@ -69,15 +71,23 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
         if st.button("Sign Up"):
             hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
-            resp = supabase.from_("users").insert({
-                "username": new_username,
-                "email": new_email,
-                "password_hash": hashed
-            }).execute()
+            resp = (
+                supabase.from_("users")
+                .insert(
+                    {
+                        "username": new_username,
+                        "email": new_email,
+                        "password_hash": hashed,
+                    }
+                )
+                .execute()
+            )
 
             if resp.error:
                 if "duplicate key" in str(resp.error).lower():
-                    st.warning("🚫 Username or email already exists. Please log in instead.")
+                    st.warning(
+                        "🚫 Username or email already exists. Please log in instead."
+                    )
                 else:
                     st.error(f"❌ {resp.error}")
             else:
@@ -199,11 +209,13 @@ if submitted and user_input.strip():
 
     if not is_guest:
         if is_first:
-            supabase.from_("chat_sessions").insert({
-                "user_id": user_id,
-                "title": chat_title,
-                "messages": json.dumps(st.session_state.messages),
-            }).execute()
+            supabase.from_("chat_sessions").insert(
+                {
+                    "user_id": user_id,
+                    "title": chat_title,
+                    "messages": json.dumps(st.session_state.messages),
+                }
+            ).execute()
         else:
             supabase.from_("chat_sessions").update(
                 {"messages": json.dumps(st.session_state.messages)}
