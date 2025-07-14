@@ -92,6 +92,9 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
         st.session_state["guest_mode"] = True
         st.success("✅ Guest session started.")
         st.rerun()
+    st.info(
+        "You can switch to Guest Mode temporarily. End it anytime to return to your account."
+    )
 
     st.stop()
 
@@ -100,39 +103,34 @@ is_guest = "guest_mode" in st.session_state
 user_id = st.session_state.get("user_id")
 
 # --- Sidebar logout/end guest ---
-if is_guest:
-    if st.sidebar.button("🚪 End Guest Session"):
-        st.session_state.clear()
-        st.success("Guest session ended.")
-        st.rerun()
-else:
-    if st.sidebar.button("🚪 Logout"):
-        st.session_state.clear()
-        st.success("Logged out.")
-        st.rerun()
-
-# ✅ New: Add option to switch to Guest Mode even when logged in
-if not is_guest and user_id:
-    if st.sidebar.button("👤 Continue as Guest"):
-        st.session_state["guest_mode"] = True
-        st.success("✅ You are now in Guest Mode. Your account is paused.")
-        st.rerun()
-
-# --- Init messages ---
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-# --- Sidebar ---
 with st.sidebar:
     st.header("🗂️ Manage Chat Sessions")
+
+    if is_guest:
+        st.info("🔍 Guest Mode is active. End it to return to your account.")
+        if st.button("🚪 End Guest Session"):
+            del st.session_state["guest_mode"]
+            st.success("Guest session ended. Switched back to your account.")
+            st.rerun()
+    else:
+        if user_id:
+            if st.button("👤 Switch to Guest Mode"):
+                st.session_state["guest_mode"] = True
+                st.success(
+                    "✅ You are now in Guest Mode. Your account session is paused."
+                )
+                st.rerun()
+        if st.button("🚪 Logout"):
+            st.session_state.clear()
+            st.success("Logged out.")
+            st.rerun()
 
     if st.button("🆕 New Chat"):
         st.session_state.messages = []
 
-    if not is_guest:
+    if not is_guest and user_id:
         st.markdown("---")
         st.subheader("📂 Previous Chats:")
-
         sessions = (
             supabase.from_("chat_sessions")
             .select("id, title")
@@ -150,6 +148,10 @@ with st.sidebar:
                 )
                 st.session_state.messages = json.loads(chat.data[0]["messages"])
                 st.rerun()
+
+# --- Init messages ---
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
 # --- Chat display ---
 st.markdown("---")
