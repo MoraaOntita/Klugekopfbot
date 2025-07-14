@@ -19,7 +19,6 @@ celery==5.5.3
 certifi==2025.7.9
 cffi==1.17.1
 charset-normalizer==3.4.2
-chromadb==1.0.15
 click==8.2.1
 click-didyoumean==0.3.1
 click-plugins==1.1.1.2
@@ -32,6 +31,7 @@ distro==1.9.0
 dotenv==0.9.9
 durationpy==0.10
 extra-streamlit-components==0.1.80
+faiss-cpu==1.11.0
 filelock==3.18.0
 flatbuffers==25.2.10
 frozenlist==1.7.0
@@ -68,7 +68,6 @@ jsonschema-specifications==2025.4.1
 kombu==5.5.4
 kubernetes==33.1.0
 langchain==0.3.26
-langchain-chroma==0.2.4
 langchain-community==0.3.27
 langchain-core==0.3.68
 langchain-huggingface==0.3.0
