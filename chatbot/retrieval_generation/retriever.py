@@ -8,10 +8,12 @@ from langchain_chroma import Chroma
 # Config loader
 # -------------------------------
 
+
 def load_config():
     config_path = os.environ.get("CONFIG_PATH", "config/config.yaml")
     with open(config_path, "r") as f:
         return yaml.safe_load(f)
+
 
 config = load_config()
 
@@ -22,6 +24,7 @@ embedding_model_name = config["vector_db"]["embedding_model_name"]
 # Lazy factory for vectorstore
 # -------------------------------
 
+
 @lru_cache(maxsize=1)
 def get_vectorstore():
     """
@@ -29,14 +32,15 @@ def get_vectorstore():
     """
     embedding_function = HuggingFaceEmbeddings(model_name=embedding_model_name)
     vectorstore = Chroma(
-        persist_directory=chroma_dir,
-        embedding_function=embedding_function
+        persist_directory=chroma_dir, embedding_function=embedding_function
     )
     return vectorstore
+
 
 # -------------------------------
 # Retrieval function
 # -------------------------------
+
 
 def retrieve_context(query: str, n_results: int = 4):
     """
@@ -44,13 +48,13 @@ def retrieve_context(query: str, n_results: int = 4):
     """
     vectorstore = get_vectorstore()
     retriever = vectorstore.as_retriever(
-        search_type="similarity",
-        search_kwargs={"k": n_results}
+        search_type="similarity", search_kwargs={"k": n_results}
     )
     docs = retriever.invoke(query)
     documents = [doc.page_content for doc in docs]
     metadatas = [doc.metadata for doc in docs]
     return documents, metadatas
+
 
 # -------------------------------
 # CLI usage only
@@ -64,7 +68,7 @@ if __name__ == "__main__":
         "--config",
         type=str,
         default="config/config.yaml",
-        help="Path to YAML config file"
+        help="Path to YAML config file",
     )
     args = parser.parse_args()
 
