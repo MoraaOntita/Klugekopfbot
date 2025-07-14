@@ -1,61 +1,81 @@
+# chatbot/retrieval_generation/retriever.py
+
 import yaml
 import os
 from functools import lru_cache
-from langchain_community.vectorstores import FAISS
+from dotenv import load_dotenv
+
+from pinecone import Pinecone as PineconeClient
+from langchain_community.vectorstores import Pinecone as LangchainPinecone
 from langchain_huggingface import HuggingFaceEmbeddings
 
+# -------------------------------
+# Load environment variables
+# -------------------------------
+load_dotenv()
 
 # -------------------------------
 # Config loader
 # -------------------------------
-
 
 def load_config():
     config_path = os.environ.get("CONFIG_PATH", "config/config.yaml")
     with open(config_path, "r") as f:
         return yaml.safe_load(f)
 
-
 config = load_config()
 
-faiss_db_dir = config["vector_db"]["persist_directory"]
-embedding_model_name = config["vector_db"]["embedding_model_name"]
+# ✅ Get from env first, fallback to config.yaml
+index_name = os.getenv("PINECONE_INDEX_NAME") or config["vector_db"].get("index_name")
+embedding_model_name = os.getenv("EMBEDDING_MODEL_NAME") or config["vector_db"].get("embedding_model_name")
 
+if not index_name:
+    raise ValueError("❌ Pinecone index name not set. Add PINECONE_INDEX_NAME to your .env or config.yaml.")
 
 # -------------------------------
-# Lazy factory for vectorstore
+# Lazy factory for Pinecone vectorstore
 # -------------------------------
-
 
 @lru_cache(maxsize=1)
 def get_vectorstore():
     """
-    Lazily initialize the FAISS vectorstore.
+    Lazily initialize the Pinecone vectorstore.
     """
+    # 1️⃣ Create embedding model
     embedding_function = HuggingFaceEmbeddings(model_name=embedding_model_name)
-    faiss_index_path = os.path.join(faiss_db_dir, "faiss_index")
-    vectorstore = FAISS.load_local(faiss_index_path, embedding_function)
-    return vectorstore
 
+    # 2️⃣ Connect to Pinecone index
+    pc = PineconeClient(api_key=os.getenv("PINECONE_API_KEY"))
+    index = pc.Index(index_name)
+
+    # 3️⃣ Wrap with LangChain Pinecone
+    vectorstore = LangchainPinecone(
+        index=index,
+        embedding=embedding_function,
+        text_key="text",
+    )
+
+    return vectorstore
 
 # -------------------------------
 # Retrieval function
 # -------------------------------
 
-
 def retrieve_context(query: str, n_results: int = 4):
     """
-    Retrieve relevant chunks for a given query using the FAISS vector store.
+    Retrieve relevant chunks for a given query using the Pinecone vector store.
     """
     vectorstore = get_vectorstore()
+
     retriever = vectorstore.as_retriever(
-        search_type="similarity", search_kwargs={"k": n_results}
+        search_type="similarity",
+        search_kwargs={"k": n_results}
     )
+
     docs = retriever.invoke(query)
     documents = [doc.page_content for doc in docs]
     metadatas = [doc.metadata for doc in docs]
     return documents, metadatas
-
 
 # -------------------------------
 # CLI usage only
@@ -64,7 +84,7 @@ def retrieve_context(query: str, n_results: int = 4):
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Retriever with FAISS vector DB")
+    parser = argparse.ArgumentParser(description="Retriever with Pinecone vector DB")
     parser.add_argument(
         "--config",
         type=str,

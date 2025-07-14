@@ -1,32 +1,29 @@
 from langgraph.graph import StateGraph, END
-from chatbot.retrieval_generation.retriever import retrieve_context
 from openai import OpenAI
+from dotenv import load_dotenv
 import os
+import sys
 import yaml
 import argparse
-from dotenv import load_dotenv
 from typing import TypedDict
 
-import sys
-import os
-
+# Make local modules importable
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from chatbot.retrieval_generation.prompts import get_klugekopf_system_prompt
+from chatbot.retrieval_generation.retriever import retrieve_context
 
 # ============================
-# Load config + env
+# Load env + config
 # ============================
 
 load_dotenv()
 api_key = os.getenv("GROQ_API_KEY")
 if not api_key:
-    raise ValueError("GROQ_API_KEY not found in env vars.")
+    raise ValueError("❌ GROQ_API_KEY not found in .env.")
 
-# Use env var or default
 CONFIG_PATH = os.environ.get("CONFIG_PATH", "config/config.yaml")
 
-# Load config
 with open(CONFIG_PATH, "r") as f:
     config = yaml.safe_load(f)
 
@@ -36,15 +33,8 @@ MODEL_NAME = config["llm"]["model_name"]
 client = OpenAI(base_url=base_url, api_key=api_key)
 
 # ============================
-# LLM Client
+# State Schema
 # ============================
-
-client = OpenAI(base_url=base_url, api_key=api_key)
-
-# ============================
-# Define State Schema
-# ============================
-
 
 class KlugekopfState(TypedDict):
     query: str
@@ -56,11 +46,9 @@ class KlugekopfState(TypedDict):
     tool_result: str
     answer: str
 
-
 # ============================
 # Rewrite Agent
 # ============================
-
 
 def rewrite_agent_node(state: KlugekopfState) -> KlugekopfState:
     query = state["query"]
@@ -69,7 +57,7 @@ def rewrite_agent_node(state: KlugekopfState) -> KlugekopfState:
         messages=[
             {
                 "role": "system",
-                "content": "You are a helpful assistant who rewrites user queries for clarity and LLM performance.",
+                "content": "You are a helpful assistant who rewrites user queries for clarity.",
             },
             {"role": "user", "content": f"Rewrite this user query: {query}"},
         ],
@@ -77,11 +65,9 @@ def rewrite_agent_node(state: KlugekopfState) -> KlugekopfState:
     rewritten_query = response.choices[0].message.content.strip()
     return {**state, "rewritten_query": rewritten_query}
 
-
 # ============================
 # Planner Agent
 # ============================
-
 
 def planner_agent_node(state: KlugekopfState) -> KlugekopfState:
     rewritten_query = state["rewritten_query"]
@@ -90,7 +76,7 @@ def planner_agent_node(state: KlugekopfState) -> KlugekopfState:
         messages=[
             {
                 "role": "system",
-                "content": "You are a strategic planner. Break the query into clear tasks.",
+                "content": "You are a planner. Break the query into clear tasks.",
             },
             {"role": "user", "content": f"Break down this task: {rewritten_query}"},
         ],
@@ -98,22 +84,18 @@ def planner_agent_node(state: KlugekopfState) -> KlugekopfState:
     plan = response.choices[0].message.content.strip()
     return {**state, "plan": plan}
 
-
 # ============================
-# Retrieval Agent
+# Retrieval Agent (Pinecone!)
 # ============================
-
 
 def retrieval_agent_node(state: KlugekopfState) -> KlugekopfState:
     rewritten_query = state["rewritten_query"]
-    chunks, metadatas = retrieve_context(rewritten_query)
+    chunks, metadatas = retrieve_context(rewritten_query)  # ✅ Uses Pinecone retriever
     return {**state, "chunks": chunks, "metadatas": metadatas}
-
 
 # ============================
 # Summarizer Agent
 # ============================
-
 
 def summarizer_agent_node(state: KlugekopfState) -> KlugekopfState:
     chunks = state["chunks"]
@@ -131,22 +113,17 @@ def summarizer_agent_node(state: KlugekopfState) -> KlugekopfState:
     summary = response.choices[0].message.content.strip()
     return {**state, "summary": summary}
 
-
 # ============================
-# Tool Agent
+# Tool Agent (stub)
 # ============================
-
 
 def tool_agent_node(state: KlugekopfState) -> KlugekopfState:
-    # Example: call to an external tool or API
     tool_result = "Pretend I did a Google Search or DB call here."
     return {**state, "tool_result": tool_result}
-
 
 # ============================
 # Final Answer Agent
 # ============================
-
 
 def klugekopf_agent_node(state: KlugekopfState) -> KlugekopfState:
     rewritten_query = state["rewritten_query"]
@@ -172,7 +149,6 @@ def klugekopf_agent_node(state: KlugekopfState) -> KlugekopfState:
         ],
     )
     return {**state, "answer": response.choices[0].message.content.strip()}
-
 
 # ============================
 # Build Graph
@@ -210,10 +186,6 @@ if __name__ == "__main__":
         help="Path to YAML config file",
     )
     args = parser.parse_args()
-
-    # If you want to use a different config when run directly:
-    with open(args.config, "r") as f:
-        config = yaml.safe_load(f)
 
     user_query = input("Ask Klugekopf-Bot: ")
     result = klugekopf_multi_agent_app.invoke({"query": user_query})
