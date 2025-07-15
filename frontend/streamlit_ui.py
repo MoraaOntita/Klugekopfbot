@@ -38,23 +38,26 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
     mode = st.session_state["auth_mode"]
 
     if mode == "login":
-        st.subheader("Login to your account")
-        email = st.text_input("Email", key="login_email")
+        st.subheader("🔑 Login to your account")
+        username = st.text_input("Username", key="login_username")
         password = st.text_input("Password", type="password", key="login_password")
 
         if st.button("Login"):
-            resp = supabase.from_("users").select("*").eq("email", email).execute()
+            resp = (
+                supabase.from_("users").select("*").eq("username", username).execute()
+            )
             user = resp.data[0] if resp.data else None
 
             if user:
                 if bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
                     st.session_state["user_id"] = user["id"]
-                    st.success("Login successful! Redirecting...")
+                    st.session_state["username"] = user["username"]
+                    st.success(f"✅ Welcome {user['username']}! Redirecting...")
                     st.rerun()
                 else:
                     st.error("❌ Invalid password.")
             else:
-                st.error("❌ Email not found.")
+                st.error("❌ Username not found.")
 
         st.markdown("---")
         if st.button("🔓 Continue as Guest"):
@@ -68,21 +71,33 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
             st.rerun()
 
     elif mode == "signup":
-        st.subheader("Create a new account")
+        st.subheader("📝 Create a new account")
+
+        new_username = st.text_input("Username", key="signup_username")
         new_email = st.text_input("Email", key="signup_email")
         new_password = st.text_input(
             "New Password", type="password", key="signup_password"
         )
 
         if st.button("Sign Up"):
-            if not new_email or not new_password:
+            if not new_username or not new_email or not new_password:
                 st.warning("⚠️ Please fill in all fields to sign up.")
+            elif " " in new_username or len(new_username) < 3:
+                st.warning(
+                    "⚠️ Username must be at least 3 characters and contain no spaces."
+                )
             else:
                 hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
                 try:
                     resp = (
                         supabase.from_("users")
-                        .insert({"email": new_email, "password_hash": hashed})
+                        .insert(
+                            {
+                                "username": new_username,
+                                "email": new_email,
+                                "password_hash": hashed,
+                            }
+                        )
                         .execute()
                     )
 
@@ -93,7 +108,9 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                             else str(resp.data)
                         )
                         if "duplicate key" in msg.lower():
-                            st.error("❌ Email already exists. Please use another.")
+                            st.error(
+                                "❌ Username or Email already exists. Please choose another."
+                            )
                         else:
                             st.error(f"❌ Unexpected error: {msg}")
                     else:
@@ -120,13 +137,15 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
     st.stop()
 
-
 # --- Determine mode ---
 is_guest = "guest_mode" in st.session_state
 user_id = st.session_state.get("user_id")
 
 # --- Sidebar ---
 with st.sidebar:
+    if user_id and "username" in st.session_state:
+        st.header(f"👋 Welcome, {st.session_state['username']}!")
+
     st.header("🗂️ Manage Chat Sessions")
 
     if is_guest:
