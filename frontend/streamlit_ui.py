@@ -33,14 +33,16 @@ st.title("💬 Klugekopf - Strategic Assistant")
 
 # --- Auth flow ---
 if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
-    auth_mode = st.radio("Choose:", ["🔑 Login", "🆕 Sign Up"], horizontal=True)
+    st.subheader("🔐 Authentication")
 
-    if auth_mode == "🔑 Login":
+    tab1, tab2 = st.tabs(["🔑 Login", "🆕 Sign Up"])
+
+    with tab1:
         st.subheader("Login to your account")
-        email = st.text_input("Email")
-        password = st.text_input("Password", type="password")
+        email = st.text_input("Email", key="login_email")
+        password = st.text_input("Password", type="password", key="login_password")
 
-        if st.button("Login"):
+        if st.button("✅ Login"):
             resp = supabase.from_("users").select("*").eq("email", email).execute()
             user = resp.data[0] if resp.data else None
 
@@ -54,12 +56,14 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
             else:
                 st.error("❌ Email not found.")
 
-    else:
+    with tab2:
         st.subheader("Create a new account")
-        new_email = st.text_input("Email")
-        new_password = st.text_input("New Password", type="password")
+        new_email = st.text_input("Email", key="signup_email")
+        new_password = st.text_input(
+            "New Password", type="password", key="signup_password"
+        )
 
-        if st.button("Sign Up"):
+        if st.button("📝 Sign Up"):
             if not new_email or not new_password:
                 st.warning("⚠️ Please fill in all fields to sign up.")
             else:
@@ -92,11 +96,13 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
         st.session_state["guest_mode"] = True
         st.success("✅ Guest session started.")
         st.rerun()
+
     st.info(
-        "You can switch to Guest Mode temporarily. End it anytime to return to your account."
+        "💡 Tip: You can switch to Guest Mode anytime. End it to return to your account."
     )
 
     st.stop()
+
 
 # --- Determine mode ---
 is_guest = "guest_mode" in st.session_state
