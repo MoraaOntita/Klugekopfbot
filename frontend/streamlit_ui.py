@@ -30,52 +30,51 @@ st.title("💬 Klugekopf - Strategic Assistant")
 
 # --- Auth flow ---
 if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
-    st.subheader("🔐 Welcome to Klugekopf")
 
-    col1, col2, col3 = st.columns(3)
-    action = None
+    # --- Auth mode toggle ---
+    if "auth_mode" not in st.session_state:
+        st.session_state["auth_mode"] = "login"
 
-    with col1:
-        if st.button("🔑 Login"):
-            action = "login"
+    mode = st.session_state["auth_mode"]
 
-    with col2:
-        if st.button("🆕 Sign Up"):
-            action = "signup"
-
-    with col3:
-        if st.button("🔓 Continue as Guest"):
-            st.session_state["guest_mode"] = True
-            st.success("✅ Guest session started.")
-            st.rerun()
-
-    if action == "login":
+    if mode == "login":
         st.subheader("Login to your account")
         email = st.text_input("Email", key="login_email")
         password = st.text_input("Password", type="password", key="login_password")
 
-        if st.button("✅ Login Now"):
+        if st.button("Login"):
             resp = supabase.from_("users").select("*").eq("email", email).execute()
             user = resp.data[0] if resp.data else None
 
             if user:
                 if bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
                     st.session_state["user_id"] = user["id"]
-                    st.success("✅ Login successful! Redirecting...")
+                    st.success("Login successful! Redirecting...")
                     st.rerun()
                 else:
                     st.error("❌ Invalid password.")
             else:
                 st.error("❌ Email not found.")
 
-    elif action == "signup":
+        st.markdown("---")
+        if st.button("🔓 Continue as Guest"):
+            st.session_state["guest_mode"] = True
+            st.success("✅ Guest session started.")
+            st.rerun()
+
+        st.markdown("Don’t have an account? 👉")
+        if st.button("Sign Up Here"):
+            st.session_state["auth_mode"] = "signup"
+            st.rerun()
+
+    elif mode == "signup":
         st.subheader("Create a new account")
         new_email = st.text_input("Email", key="signup_email")
         new_password = st.text_input(
             "New Password", type="password", key="signup_password"
         )
 
-        if st.button("📝 Register"):
+        if st.button("Sign Up"):
             if not new_email or not new_password:
                 st.warning("⚠️ Please fill in all fields to sign up.")
             else:
@@ -94,17 +93,33 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                             else str(resp.data)
                         )
                         if "duplicate key" in msg.lower():
-                            st.error("❌ Email already exists.")
+                            st.error("❌ Email already exists. Please use another.")
                         else:
                             st.error(f"❌ Unexpected error: {msg}")
                     else:
                         st.success("✅ Account created! Please log in.")
+                        st.session_state["auth_mode"] = "login"
                         st.rerun()
                 except Exception as e:
                     st.error(f"❌ Sign up error: {e}")
 
-    st.info("💡 Tip: You can always switch to Guest Mode anytime.")
+        st.markdown("Already have an account? 👉")
+        if st.button("Back to Login"):
+            st.session_state["auth_mode"] = "login"
+            st.rerun()
+
+        st.markdown("---")
+        if st.button("🔓 Continue as Guest"):
+            st.session_state["guest_mode"] = True
+            st.success("Guest session started.")
+            st.rerun()
+
+    st.info(
+        "💡 Tip: You can switch to Guest Mode anytime. End it to return to your account."
+    )
+
     st.stop()
+
 
 # --- Determine mode ---
 is_guest = "guest_mode" in st.session_state
@@ -126,7 +141,7 @@ with st.sidebar:
                 st.session_state["guest_mode"] = True
                 st.success("✅ Now in Guest Mode. Your account session is paused.")
                 st.rerun()
-        if st.button("🚪 Logout"):
+        if st.button("Logout"):
             st.session_state.clear()
             st.success("Logged out.")
             st.rerun()
