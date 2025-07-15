@@ -8,7 +8,7 @@ from supabase import create_client, Client
 import bcrypt
 from openai import OpenAI
 
-# 📌 Add your local modules
+# 📌 Local modules
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 
@@ -18,31 +18,43 @@ api_key = os.getenv("GROQ_API_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
-# --- Config checks ---
 if not all([SUPABASE_URL, SUPABASE_KEY]):
     raise ValueError("Supabase URL or Service Role Key is missing!")
 
-# --- Init clients ---
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=api_key)
 MODEL_NAME = "llama3-8b-8192"
 
-# --- Page config ---
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 st.title("💬 Klugekopf - Strategic Assistant")
 
 # --- Auth flow ---
 if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
-    st.subheader("🔐 Authentication")
+    st.subheader("🔐 Welcome to Klugekopf")
 
-    tab1, tab2 = st.tabs(["🔑 Login", "🆕 Sign Up"])
+    col1, col2, col3 = st.columns(3)
+    action = None
 
-    with tab1:
+    with col1:
+        if st.button("🔑 Login"):
+            action = "login"
+
+    with col2:
+        if st.button("🆕 Sign Up"):
+            action = "signup"
+
+    with col3:
+        if st.button("🔓 Continue as Guest"):
+            st.session_state["guest_mode"] = True
+            st.success("✅ Guest session started.")
+            st.rerun()
+
+    if action == "login":
         st.subheader("Login to your account")
         email = st.text_input("Email", key="login_email")
         password = st.text_input("Password", type="password", key="login_password")
 
-        if st.button("✅ Login"):
+        if st.button("✅ Login Now"):
             resp = supabase.from_("users").select("*").eq("email", email).execute()
             user = resp.data[0] if resp.data else None
 
@@ -56,14 +68,14 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
             else:
                 st.error("❌ Email not found.")
 
-    with tab2:
+    elif action == "signup":
         st.subheader("Create a new account")
         new_email = st.text_input("Email", key="signup_email")
         new_password = st.text_input(
             "New Password", type="password", key="signup_password"
         )
 
-        if st.button("📝 Sign Up"):
+        if st.button("📝 Register"):
             if not new_email or not new_password:
                 st.warning("⚠️ Please fill in all fields to sign up.")
             else:
@@ -82,7 +94,7 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                             else str(resp.data)
                         )
                         if "duplicate key" in msg.lower():
-                            st.error("❌ Email already exists. Please use another.")
+                            st.error("❌ Email already exists.")
                         else:
                             st.error(f"❌ Unexpected error: {msg}")
                     else:
@@ -91,24 +103,14 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                 except Exception as e:
                     st.error(f"❌ Sign up error: {e}")
 
-    st.markdown("---")
-    if st.button("🔓 Continue as Guest"):
-        st.session_state["guest_mode"] = True
-        st.success("✅ Guest session started.")
-        st.rerun()
-
-    st.info(
-        "💡 Tip: You can switch to Guest Mode anytime. End it to return to your account."
-    )
-
+    st.info("💡 Tip: You can always switch to Guest Mode anytime.")
     st.stop()
-
 
 # --- Determine mode ---
 is_guest = "guest_mode" in st.session_state
 user_id = st.session_state.get("user_id")
 
-# --- Sidebar logout/end guest ---
+# --- Sidebar ---
 with st.sidebar:
     st.header("🗂️ Manage Chat Sessions")
 
@@ -116,15 +118,13 @@ with st.sidebar:
         st.info("🔍 Guest Mode is active. End it to return to your account.")
         if st.button("🚪 End Guest Session"):
             del st.session_state["guest_mode"]
-            st.success("Guest session ended. Switched back to your account.")
+            st.success("Guest session ended.")
             st.rerun()
     else:
         if user_id:
             if st.button("👤 Switch to Guest Mode"):
                 st.session_state["guest_mode"] = True
-                st.success(
-                    "✅ You are now in Guest Mode. Your account session is paused."
-                )
+                st.success("✅ Now in Guest Mode. Your account session is paused.")
                 st.rerun()
         if st.button("🚪 Logout"):
             st.session_state.clear()
