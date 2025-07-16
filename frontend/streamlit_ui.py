@@ -31,7 +31,6 @@ st.title("💬 Klugekopf - Strategic Assistant")
 # --- Auth flow ---
 if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
-    # --- Auth mode toggle ---
     if "auth_mode" not in st.session_state:
         st.session_state["auth_mode"] = "login"
 
@@ -39,7 +38,8 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
     if mode == "login":
         st.subheader("🔑 Login to your account")
-        username = st.text_input("Username", key="login_username")
+        # Normalize username input: trim + lowercase
+        username = st.text_input("Username", key="login_username").strip().lower()
         password = st.text_input("Password", type="password", key="login_password")
 
         if st.button("Login"):
@@ -73,7 +73,7 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
     elif mode == "signup":
         st.subheader("📝 Create a new account")
 
-        # Normalize input: trim spaces, lowercase username
+        # Normalize input: trim + lowercase for username
         new_username = st.text_input("Username", key="signup_username").strip().lower()
         new_email = st.text_input("Email", key="signup_email").strip()
         new_password = st.text_input(
