@@ -101,8 +101,12 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                         .execute()
                     )
 
-                    if resp.error:
-                        msg = str(resp.error)
+                    if resp.status_code >= 400:
+                        msg = (
+                            resp.data.get("message")
+                            if isinstance(resp.data, dict)
+                            else str(resp.data)
+                        )
                         if "duplicate key" in msg.lower():
                             st.error(
                                 "❌ Username or Email already exists. Please choose another."
