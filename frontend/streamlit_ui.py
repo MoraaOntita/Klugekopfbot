@@ -28,6 +28,7 @@ MODEL_NAME = "llama3-8b-8192"
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 st.title("💬 Klugekopf - Strategic Assistant")
 
+
 # --- Error helpers ---
 def handle_signup_error(message: str) -> str:
     message = message.lower()
@@ -39,8 +40,10 @@ def handle_signup_error(message: str) -> str:
         return "❌ Username or email already exists."
     return "❌ Could not create account. Please try again."
 
+
 def handle_login_error() -> str:
     return "❌ Something went wrong during login. Please try again."
+
 
 # --- Auth flow ---
 if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
@@ -57,11 +60,18 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
         if st.button("Login"):
             try:
-                resp = supabase.from_("users").select("*").eq("username", username).execute()
+                resp = (
+                    supabase.from_("users")
+                    .select("*")
+                    .eq("username", username)
+                    .execute()
+                )
                 user = resp.data[0] if resp.data else None
 
                 if user:
-                    if bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
+                    if bcrypt.checkpw(
+                        password.encode(), user["password_hash"].encode()
+                    ):
                         st.session_state["user_id"] = user["id"]
                         st.session_state["username"] = user["username"]
                         st.success(f"✅ Welcome {user['username']}! Redirecting...")
@@ -89,34 +99,46 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
         new_username = st.text_input("Username", key="signup_username").strip().lower()
         new_email = st.text_input("Email", key="signup_email").strip()
-        new_password = st.text_input("New Password", type="password", key="signup_password")
+        new_password = st.text_input(
+            "New Password", type="password", key="signup_password"
+        )
 
         if st.button("Sign Up"):
             if not new_username or not new_email or not new_password:
                 st.warning("⚠️ Please fill in all fields to sign up.")
             elif " " in new_username or len(new_username) < 3:
-                st.warning("⚠️ Username must be at least 3 characters and contain no spaces.")
+                st.warning(
+                    "⚠️ Username must be at least 3 characters and contain no spaces."
+                )
             else:
                 hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
                 try:
                     resp = (
                         supabase.from_("users")
-                        .insert({
-                            "username": new_username,
-                            "email": new_email,
-                            "password_hash": hashed,
-                        })
+                        .insert(
+                            {
+                                "username": new_username,
+                                "email": new_email,
+                                "password_hash": hashed,
+                            }
+                        )
                         .execute()
                     )
 
+                    # ✅ If Supabase error returned in response
                     if resp.error:
-                        st.error(handle_signup_error(resp.error.get("message", "")))
+                        user_friendly = handle_signup_error(
+                            resp.error.get("message", "")
+                        )
+                        st.error(user_friendly)
                     else:
                         st.success("✅ Account created! Please log in.")
                         st.session_state["auth_mode"] = "login"
                         st.rerun()
-                except Exception:
-                    st.error("❌ Could not create account. Please try again later.")
+
+                except Exception as e:
+                    # ✅ If an exception was thrown, handle it user-friendly
+                    st.error(handle_signup_error(str(e)))
 
         st.markdown("Already have an account? 👉")
         if st.button("Back to Login"):
@@ -129,7 +151,9 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
             st.success("Guest session started.")
             st.rerun()
 
-    st.info("💡 Tip: You can switch to Guest Mode anytime. End it to return to your account.")
+    st.info(
+        "💡 Tip: You can switch to Guest Mode anytime. End it to return to your account."
+    )
     st.stop()
 
 # --- Determine mode ---
@@ -200,7 +224,9 @@ for msg in st.session_state.messages:
 
 # --- Chat input ---
 with st.form("chat_form", clear_on_submit=True):
-    user_input = st.text_area("Your message:", placeholder="Type your message here...", height=80)
+    user_input = st.text_area(
+        "Your message:", placeholder="Type your message here...", height=80
+    )
     submitted = st.form_submit_button("Send")
 
 if submitted and user_input.strip():
@@ -240,14 +266,18 @@ if submitted and user_input.strip():
 
     if not is_guest:
         if is_first:
-            supabase.from_("chat_sessions").insert({
-                "user_id": user_id,
-                "title": chat_title,
-                "messages": json.dumps(st.session_state.messages),
-            }).execute()
+            supabase.from_("chat_sessions").insert(
+                {
+                    "user_id": user_id,
+                    "title": chat_title,
+                    "messages": json.dumps(st.session_state.messages),
+                }
+            ).execute()
         else:
-            supabase.from_("chat_sessions").update({
-                "messages": json.dumps(st.session_state.messages),
-            }).eq("user_id", user_id).eq("title", chat_title).execute()
+            supabase.from_("chat_sessions").update(
+                {
+                    "messages": json.dumps(st.session_state.messages),
+                }
+            ).eq("user_id", user_id).eq("title", chat_title).execute()
 
     st.rerun()
