@@ -38,14 +38,11 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
     if mode == "login":
         st.subheader("🔑 Login to your account")
-        # Normalize username input: trim + lowercase
         username = st.text_input("Username", key="login_username").strip().lower()
         password = st.text_input("Password", type="password", key="login_password")
 
         if st.button("Login"):
-            resp = (
-                supabase.from_("users").select("*").eq("username", username).execute()
-            )
+            resp = supabase.from_("users").select("*").eq("username", username).execute()
             user = resp.data[0] if resp.data else None
 
             if user:
@@ -73,49 +70,42 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
     elif mode == "signup":
         st.subheader("📝 Create a new account")
 
-        # Normalize input: trim + lowercase for username
         new_username = st.text_input("Username", key="signup_username").strip().lower()
         new_email = st.text_input("Email", key="signup_email").strip()
-        new_password = st.text_input(
-            "New Password", type="password", key="signup_password"
-        )
+        new_password = st.text_input("New Password", type="password", key="signup_password")
 
         if st.button("Sign Up"):
             if not new_username or not new_email or not new_password:
                 st.warning("⚠️ Please fill in all fields to sign up.")
             elif " " in new_username or len(new_username) < 3:
-                st.warning(
-                    "⚠️ Username must be at least 3 characters and contain no spaces."
-                )
+                st.warning("⚠️ Username must be at least 3 characters and contain no spaces.")
             else:
                 hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
                 try:
                     resp = (
                         supabase.from_("users")
-                        .insert(
-                            {
-                                "username": new_username,
-                                "email": new_email,
-                                "password_hash": hashed,
-                            }
-                        )
+                        .insert({
+                            "username": new_username,
+                            "email": new_email,
+                            "password_hash": hashed,
+                        })
                         .execute()
                     )
 
                     if resp.error:
-                        msg = resp.error.get("message", "")
-                        if "duplicate key" in msg.lower():
-                            st.error(
-                                "❌ That username or email is already taken. Please choose another."
-                            )
+                        msg = resp.error.get("message", "").lower()
+                        if "users_username_key" in msg:
+                            st.error("❌ Username already exists.")
+                        elif "users_email_key" in msg:
+                            st.error("❌ Email already exists.")
                         else:
-                            st.error(f"❌ Unexpected error: {msg}")
+                            st.error("❌ Could not create account. Please try again.")
                     else:
                         st.success("✅ Account created! Please log in.")
                         st.session_state["auth_mode"] = "login"
                         st.rerun()
-                except Exception as e:
-                    st.error(f"❌ Sign up error: {e}")
+                except Exception:
+                    st.error("❌ Unexpected error during sign up. Please try again.")
 
         st.markdown("Already have an account? 👉")
         if st.button("Back to Login"):
@@ -128,10 +118,7 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
             st.success("Guest session started.")
             st.rerun()
 
-    st.info(
-        "💡 Tip: You can switch to Guest Mode anytime. End it to return to your account."
-    )
-
+    st.info("💡 Tip: You can switch to Guest Mode anytime. End it to return to your account.")
     st.stop()
 
 # --- Determine mode ---
@@ -195,15 +182,14 @@ st.markdown("---")
 for msg in st.session_state.messages:
     bg_color = "#2C2F33" if msg["role"] == "user" else "#40444B"
     st.markdown(
-        f"<div style='background-color: {bg_color}; color: white; padding: 12px; border-radius: 10px; margin: 8px 0;'>{msg['content']}</div>",
+        f"<div style='background-color: {bg_color}; color: white; padding: 12px; "
+        f"border-radius: 10px; margin: 8px 0;'>{msg['content']}</div>",
         unsafe_allow_html=True,
     )
 
 # --- Chat input ---
 with st.form("chat_form", clear_on_submit=True):
-    user_input = st.text_area(
-        "Your message:", placeholder="Type your message here...", height=80
-    )
+    user_input = st.text_area("Your message:", placeholder="Type your message here...", height=80)
     submitted = st.form_submit_button("Send")
 
 if submitted and user_input.strip():
@@ -243,18 +229,14 @@ if submitted and user_input.strip():
 
     if not is_guest:
         if is_first:
-            supabase.from_("chat_sessions").insert(
-                {
-                    "user_id": user_id,
-                    "title": chat_title,
-                    "messages": json.dumps(st.session_state.messages),
-                }
-            ).execute()
+            supabase.from_("chat_sessions").insert({
+                "user_id": user_id,
+                "title": chat_title,
+                "messages": json.dumps(st.session_state.messages),
+            }).execute()
         else:
-            supabase.from_("chat_sessions").update(
-                {
-                    "messages": json.dumps(st.session_state.messages),
-                }
-            ).eq("user_id", user_id).eq("title", chat_title).execute()
+            supabase.from_("chat_sessions").update({
+                "messages": json.dumps(st.session_state.messages),
+            }).eq("user_id", user_id).eq("title", chat_title).execute()
 
     st.rerun()
