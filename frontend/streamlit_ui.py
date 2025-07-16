@@ -28,6 +28,20 @@ MODEL_NAME = "llama3-8b-8192"
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 st.title("💬 Klugekopf - Strategic Assistant")
 
+# --- Error helpers ---
+def handle_signup_error(message: str) -> str:
+    message = message.lower()
+    if "users_username_key" in message:
+        return "❌ Username already exists."
+    if "users_email_key" in message:
+        return "❌ Email already exists."
+    if "duplicate key" in message:
+        return "❌ Username or email already exists."
+    return "❌ Could not create account. Please try again."
+
+def handle_login_error() -> str:
+    return "❌ Something went wrong during login. Please try again."
+
 # --- Auth flow ---
 if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
@@ -42,19 +56,22 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
         password = st.text_input("Password", type="password", key="login_password")
 
         if st.button("Login"):
-            resp = supabase.from_("users").select("*").eq("username", username).execute()
-            user = resp.data[0] if resp.data else None
+            try:
+                resp = supabase.from_("users").select("*").eq("username", username).execute()
+                user = resp.data[0] if resp.data else None
 
-            if user:
-                if bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
-                    st.session_state["user_id"] = user["id"]
-                    st.session_state["username"] = user["username"]
-                    st.success(f"✅ Welcome {user['username']}! Redirecting...")
-                    st.rerun()
+                if user:
+                    if bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
+                        st.session_state["user_id"] = user["id"]
+                        st.session_state["username"] = user["username"]
+                        st.success(f"✅ Welcome {user['username']}! Redirecting...")
+                        st.rerun()
+                    else:
+                        st.error("❌ Invalid password. Please try again.")
                 else:
-                    st.error("❌ Invalid password.")
-            else:
-                st.error("❌ Username not found.")
+                    st.error("❌ Username not found.")
+            except Exception:
+                st.error(handle_login_error())
 
         st.markdown("---")
         if st.button("🔓 Continue as Guest"):
@@ -93,19 +110,13 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                     )
 
                     if resp.error:
-                        msg = resp.error.get("message", "").lower()
-                        if "users_username_key" in msg:
-                            st.error("❌ Username already exists.")
-                        elif "users_email_key" in msg:
-                            st.error("❌ Email already exists.")
-                        else:
-                            st.error("❌ Could not create account. Please try again.")
+                        st.error(handle_signup_error(resp.error.get("message", "")))
                     else:
                         st.success("✅ Account created! Please log in.")
                         st.session_state["auth_mode"] = "login"
                         st.rerun()
                 except Exception:
-                    st.error("❌ Unexpected error during sign up. Please try again.")
+                    st.error("❌ Could not create account. Please try again later.")
 
         st.markdown("Already have an account? 👉")
         if st.button("Back to Login"):
