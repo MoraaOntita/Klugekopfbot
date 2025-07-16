@@ -73,8 +73,9 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
     elif mode == "signup":
         st.subheader("📝 Create a new account")
 
-        new_username = st.text_input("Username", key="signup_username")
-        new_email = st.text_input("Email", key="signup_email")
+        # Normalize input: trim spaces, lowercase username
+        new_username = st.text_input("Username", key="signup_username").strip().lower()
+        new_email = st.text_input("Email", key="signup_email").strip()
         new_password = st.text_input(
             "New Password", type="password", key="signup_password"
         )
@@ -102,10 +103,10 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                     )
 
                     if resp.error:
-                        msg = str(resp.error)
+                        msg = resp.error.get("message", "")
                         if "duplicate key" in msg.lower():
                             st.error(
-                                "❌ Username or Email already exists. Please choose another."
+                                "❌ That username or email is already taken. Please choose another."
                             )
                         else:
                             st.error(f"❌ Unexpected error: {msg}")
