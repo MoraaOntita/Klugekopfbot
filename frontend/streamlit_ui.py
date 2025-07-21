@@ -16,10 +16,10 @@ from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 load_dotenv()
 api_key = os.getenv("GROQ_API_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+SUPABASE_KEY = os.getenv("SUPABASE_ANON_KEY")
 
 if not all([SUPABASE_URL, SUPABASE_KEY]):
-    raise ValueError("Supabase URL or Service Role Key is missing!")
+    raise ValueError("Supabase URL or ANON Key is missing!")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=api_key)
@@ -126,16 +126,15 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                         .execute()
                     )
 
-                    # ✅ If Supabase error returned in response
-                    if resp.error:
+                    if resp.error or resp.status_code >= 400:
                         st.error(handle_signup_error(resp.error.get("message", "")))
                     else:
-                        st.success("✅ Account created! Please log in.")
-                        st.session_state["auth_mode"] = "login"
+                        st.session_state["user_id"] = resp.data[0]["id"]
+                        st.session_state["username"] = resp.data[0]["username"]
+                        st.success(f"✅ Welcome {new_username}! You are logged in.")
                         st.rerun()
 
                 except Exception as e:
-                    # ✅ If an exception was thrown, handle it user-friendly
                     st.error(handle_signup_error(str(e)))
 
         st.markdown("Already have an account? 👉")
