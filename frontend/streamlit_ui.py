@@ -122,15 +122,13 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                                 "password_hash": hashed,
                             }
                         )
+                        .select("*")
                         .execute()
                     )
 
                     # ✅ If Supabase error returned in response
                     if resp.error:
-                        user_friendly = handle_signup_error(
-                            resp.error.get("message", "")
-                        )
-                        st.error(user_friendly)
+                        st.error(handle_signup_error(resp.error.get("message", "")))
                     else:
                         st.success("✅ Account created! Please log in.")
                         st.session_state["auth_mode"] = "login"
