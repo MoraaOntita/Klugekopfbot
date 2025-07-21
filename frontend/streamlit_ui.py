@@ -25,6 +25,10 @@ client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=api_key)
 MODEL_NAME = "llama3-8b-8192"
 
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
+
+if st.query_params.get("confirmed"):
+    st.success("✅ Your email is confirmed! You can now log in.")
+
 st.title("💬 Klugekopf - Strategic Assistant")
 
 
@@ -113,17 +117,15 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     user_data = data["user"]
 
                     # ✅ Only UPDATE the auto-created profile row
-                    supabase.table("profiles").update(
-                        {"username": new_username}
-                    ).eq("user_id", user_data["id"]).execute()
+                    supabase.table("profiles").update({"username": new_username}).eq(
+                        "user_id", user_data["id"]
+                    ).execute()
 
                     st.success(
                         f"✅ Account created for **{new_username}**!\n\n"
                         f"📧 Please check your inbox and click the confirmation link before logging in."
                     )
-                    st.info(
-                        "If you don't see the email, check your spam/junk folder."
-                    )
+                    st.info("If you don't see the email, check your spam/junk folder.")
                     # Do NOT redirect immediately
                     st.stop()
 
