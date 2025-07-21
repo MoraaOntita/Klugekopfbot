@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from supabase import create_client, Client
 from openai import OpenAI
 
-# --- Local modules ---
+# Local module
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 
@@ -28,7 +28,7 @@ st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 st.title("💬 Klugekopf - Strategic Assistant")
 
 
-# --- Auth helpers ---
+# --- Error helper ---
 def handle_error(msg: str) -> str:
     return f"❌ {msg}"
 
@@ -53,23 +53,27 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 {"email": login_email, "password": login_password}
             )
 
-            if res.error:
-                st.error(handle_error(res.error.message))
+            if res.get("error"):
+                st.error(handle_error(res["error"]["message"]))
             else:
-                st.session_state["user"] = res.user
-                st.session_state["access_token"] = res.session.access_token
+                user_data = res["data"]["user"]
+                session_data = res["data"]["session"]
 
-                # Optionally fetch username from `profiles`
+                st.session_state["user"] = user_data
+                st.session_state["access_token"] = session_data["access_token"]
+
+                # Optional: Fetch username from profiles
                 profile = (
-                    supabase.from_("profiles")
+                    supabase.table("profiles")
                     .select("*")
-                    .eq("user_id", res.user.id)
+                    .eq("user_id", user_data["id"])
                     .execute()
                 )
-                if profile.data:
+
+                if profile.data and len(profile.data) > 0:
                     st.session_state["username"] = profile.data[0]["username"]
                 else:
-                    st.session_state["username"] = res.user.email
+                    st.session_state["username"] = user_data["email"]
 
                 st.success(f"✅ Welcome {st.session_state['username']}! Redirecting...")
                 st.rerun()
@@ -106,12 +110,12 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     {"email": new_email, "password": new_password}
                 )
 
-                if res.error:
-                    st.error(handle_error(res.error.message))
+                if res.get("error"):
+                    st.error(handle_error(res["error"]["message"]))
                 else:
-                    # Create profile
-                    supabase.from_("profiles").insert(
-                        {"user_id": res.user.id, "username": new_username}
+                    user_data = res["data"]["user"]
+                    supabase.table("profiles").insert(
+                        {"user_id": user_data["id"], "username": new_username}
                     ).execute()
 
                     st.success(f"✅ Account created for {new_username}! Please log in.")
@@ -171,16 +175,16 @@ with st.sidebar:
         st.markdown("---")
         st.subheader("📂 Previous Chats:")
         sessions = (
-            supabase.from_("chat_sessions")
+            supabase.table("chat_sessions")
             .select("id, title")
-            .eq("user_id", user.id)
+            .eq("user_id", user["id"])
             .order("created_at", desc=True)
             .execute()
         )
         for s in sessions.data:
             if st.button(f"📄 {s['title']}", key=f"load_{s['id']}"):
                 chat = (
-                    supabase.from_("chat_sessions")
+                    supabase.table("chat_sessions")
                     .select("messages")
                     .eq("id", s["id"])
                     .execute()
@@ -227,9 +231,9 @@ if submitted and user_input.strip():
     else:
         if not is_guest:
             last = (
-                supabase.from_("chat_sessions")
+                supabase.table("chat_sessions")
                 .select("title")
-                .eq("user_id", user.id)
+                .eq("user_id", user["id"])
                 .order("created_at", desc=True)
                 .limit(1)
                 .execute()
@@ -246,18 +250,18 @@ if submitted and user_input.strip():
 
     if not is_guest:
         if is_first:
-            supabase.from_("chat_sessions").insert(
+            supabase.table("chat_sessions").insert(
                 {
-                    "user_id": user.id,
+                    "user_id": user["id"],
                     "title": chat_title,
                     "messages": json.dumps(st.session_state.messages),
                 }
             ).execute()
         else:
-            supabase.from_("chat_sessions").update(
+            supabase.table("chat_sessions").update(
                 {
                     "messages": json.dumps(st.session_state.messages),
                 }
-            ).eq("user_id", user.id).eq("title", chat_title).execute()
+            ).eq("user_id", user["id"]).eq("title", chat_title).execute()
 
     st.rerun()
