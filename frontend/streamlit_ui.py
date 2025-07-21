@@ -123,18 +123,18 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                                 "password_hash": hashed,
                             }
                         )
+                        .select("*")
                         .execute()
                     )
-
-                    print("Insert response:", resp)
-
 
                     if resp.error or resp.status_code >= 400:
                         st.error(handle_signup_error(resp.error.get("message", "")))
                     else:
                         st.session_state["user_id"] = resp.data[0]["id"]
                         st.session_state["username"] = resp.data[0]["username"]
-                        st.success(f"✅ Welcome {new_username}! You are logged in.")
+                        st.success(
+                            f"✅ Welcome {new_username}! You are logged in. You can now log in and start chatting."
+                        )
                         st.rerun()
 
                 except Exception as e:
@@ -281,5 +281,3 @@ if submitted and user_input.strip():
             ).eq("user_id", user_id).eq("title", chat_title).execute()
 
     st.rerun()
-
-
