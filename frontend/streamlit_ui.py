@@ -123,7 +123,6 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                                 "password_hash": hashed,
                             }
                         )
-                        .select("*")
                         .execute()
                     )
 
@@ -282,3 +281,5 @@ if submitted and user_input.strip():
             ).eq("user_id", user_id).eq("title", chat_title).execute()
 
     st.rerun()
+
+
