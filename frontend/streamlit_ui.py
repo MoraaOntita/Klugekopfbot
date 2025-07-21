@@ -40,7 +40,7 @@ def handle_signup_error(message: str) -> str:
     if "duplicate key" in message:
         return "❌ Username or email already exists."
 
-    return "❌ Could not create account. Please try again."
+    return "✅ You’re signed up! Please log in now to chat with the bot."
 
 
 def handle_login_error() -> str:
@@ -81,7 +81,7 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                     else:
                         st.error("❌ Invalid password. Please try again.")
                 else:
-                    st.error("❌ Username not found.")
+                    st.error("❌ Username not found. Please sign up first.")
             except Exception:
                 st.error(handle_login_error())
 
