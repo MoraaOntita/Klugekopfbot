@@ -26,8 +26,22 @@ MODEL_NAME = "llama3-8b-8192"
 
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 
-if st.query_params.get("confirmed"):
-    st.success("✅ Your email is confirmed! You can now log in.")
+# --- Confirm email flow ---
+query_params = st.query_params
+access_token = query_params.get("access_token")
+token_type = query_params.get("type")
+
+if access_token and token_type == "signup":
+    try:
+        user_response = supabase.auth.get_user(access_token)
+        user_data = user_response.user
+
+        st.success("✅ Your email is confirmed! You can now log in.")
+        st.session_state["user"] = user_data
+        st.session_state["access_token"] = access_token
+
+    except Exception as e:
+        st.error(f"❌ There was a problem confirming your email: {e}")
 
 st.title("💬 Klugekopf - Strategic Assistant")
 
@@ -116,7 +130,6 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     data = res.model_dump()
                     user_data = data["user"]
 
-                    # ✅ Only UPDATE the auto-created profile row
                     supabase.table("profiles").update({"username": new_username}).eq(
                         "user_id", user_data["id"]
                     ).execute()
@@ -126,7 +139,6 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                         f"📧 Please check your inbox and click the confirmation link before logging in."
                     )
                     st.info("If you don't see the email, check your spam/junk folder.")
-                    # Do NOT redirect immediately
                     st.stop()
 
                 except Exception as e:
