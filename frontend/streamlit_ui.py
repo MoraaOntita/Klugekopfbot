@@ -53,27 +53,27 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 {"email": login_email, "password": login_password}
             )
 
-            if res.get("error"):
-                st.error(handle_error(res["error"]["message"]))
+            if res.error:
+                st.error(handle_error(res.error.message))
             else:
-                user_data = res["data"]["user"]
-                session_data = res["data"]["session"]
+                user_data = res.user
+                session_data = res.session
 
                 st.session_state["user"] = user_data
-                st.session_state["access_token"] = session_data["access_token"]
+                st.session_state["access_token"] = session_data.access_token
 
                 # Optional: Fetch username from profiles
                 profile = (
                     supabase.table("profiles")
                     .select("*")
-                    .eq("user_id", user_data["id"])
+                    .eq("user_id", user_data.id)
                     .execute()
                 )
 
                 if profile.data and len(profile.data) > 0:
                     st.session_state["username"] = profile.data[0]["username"]
                 else:
-                    st.session_state["username"] = user_data["email"]
+                    st.session_state["username"] = user_data.email
 
                 st.success(f"✅ Welcome {st.session_state['username']}! Redirecting...")
                 st.rerun()
@@ -110,12 +110,12 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     {"email": new_email, "password": new_password}
                 )
 
-                if res.get("error"):
-                    st.error(handle_error(res["error"]["message"]))
+                if res.error:
+                    st.error(handle_error(res.error.message))
                 else:
-                    user_data = res["data"]["user"]
+                    user_data = res.user
                     supabase.table("profiles").insert(
-                        {"user_id": user_data["id"], "username": new_username}
+                        {"user_id": user_data.id, "username": new_username}
                     ).execute()
 
                     st.success(f"✅ Account created for {new_username}! Please log in.")
@@ -177,7 +177,7 @@ with st.sidebar:
         sessions = (
             supabase.table("chat_sessions")
             .select("id, title")
-            .eq("user_id", user["id"])
+            .eq("user_id", user.id)
             .order("created_at", desc=True)
             .execute()
         )
@@ -233,7 +233,7 @@ if submitted and user_input.strip():
             last = (
                 supabase.table("chat_sessions")
                 .select("title")
-                .eq("user_id", user["id"])
+                .eq("user_id", user.id)
                 .order("created_at", desc=True)
                 .limit(1)
                 .execute()
@@ -252,7 +252,7 @@ if submitted and user_input.strip():
         if is_first:
             supabase.table("chat_sessions").insert(
                 {
-                    "user_id": user["id"],
+                    "user_id": user.id,
                     "title": chat_title,
                     "messages": json.dumps(st.session_state.messages),
                 }
@@ -262,6 +262,6 @@ if submitted and user_input.strip():
                 {
                     "messages": json.dumps(st.session_state.messages),
                 }
-            ).eq("user_id", user["id"]).eq("title", chat_title).execute()
+            ).eq("user_id", user.id).eq("title", chat_title).execute()
 
     st.rerun()
