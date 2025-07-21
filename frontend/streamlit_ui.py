@@ -28,7 +28,6 @@ st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 st.title("💬 Klugekopf - Strategic Assistant")
 
 
-# --- Error helper ---
 def handle_error(msg: str) -> str:
     return f"❌ {msg}"
 
@@ -60,7 +59,6 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 st.session_state["user"] = user_data
                 st.session_state["access_token"] = session_data["access_token"]
 
-                # Optional: Fetch username from profiles
                 profile = (
                     supabase.table("profiles")
                     .select("*")
@@ -114,8 +112,9 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     data = res.model_dump()
                     user_data = data["user"]
 
-                    supabase.table("profiles").insert(
-                        {"user_id": user_data["id"], "username": new_username}
+                    # ✅ Only UPDATE the auto-created profile row
+                    supabase.table("profiles").update({"username": new_username}).eq(
+                        "user_id", user_data["id"]
                     ).execute()
 
                     st.success(f"✅ Account created for {new_username}! Please log in.")
