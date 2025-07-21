@@ -53,7 +53,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 {"email": login_email, "password": login_password}
             )
 
-            if res.error:
+            if res.error is not None:
                 st.error(handle_error(res.error.message))
             else:
                 user_data = res.user
@@ -110,7 +110,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     {"email": new_email, "password": new_password}
                 )
 
-                if res.error:
+                if res.error is not None:
                     st.error(handle_error(res.error.message))
                 else:
                     user_data = res.user
