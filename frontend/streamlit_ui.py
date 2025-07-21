@@ -49,34 +49,35 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
         )
 
         if st.button("Login"):
-            res = supabase.auth.sign_in_with_password(
-                {"email": login_email, "password": login_password}
-            )
-
-            if res.error is not None:
-                st.error(handle_error(res.error.message))
-            else:
-                user_data = res.user
-                session_data = res.session
+            try:
+                res = supabase.auth.sign_in_with_password(
+                    {"email": login_email, "password": login_password}
+                )
+                data = res.model_dump()
+                user_data = data["user"]
+                session_data = data["session"]
 
                 st.session_state["user"] = user_data
-                st.session_state["access_token"] = session_data.access_token
+                st.session_state["access_token"] = session_data["access_token"]
 
                 # Optional: Fetch username from profiles
                 profile = (
                     supabase.table("profiles")
                     .select("*")
-                    .eq("user_id", user_data.id)
+                    .eq("user_id", user_data["id"])
                     .execute()
                 )
 
                 if profile.data and len(profile.data) > 0:
                     st.session_state["username"] = profile.data[0]["username"]
                 else:
-                    st.session_state["username"] = user_data.email
+                    st.session_state["username"] = user_data["email"]
 
                 st.success(f"✅ Welcome {st.session_state['username']}! Redirecting...")
                 st.rerun()
+
+            except Exception as e:
+                st.error(handle_error(str(e)))
 
         st.markdown("---")
         if st.button("🔓 Continue as Guest"):
@@ -106,21 +107,23 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     "⚠️ Username must be at least 3 characters and contain no spaces."
                 )
             else:
-                res = supabase.auth.sign_up(
-                    {"email": new_email, "password": new_password}
-                )
+                try:
+                    res = supabase.auth.sign_up(
+                        {"email": new_email, "password": new_password}
+                    )
+                    data = res.model_dump()
+                    user_data = data["user"]
 
-                if res.error is not None:
-                    st.error(handle_error(res.error.message))
-                else:
-                    user_data = res.user
                     supabase.table("profiles").insert(
-                        {"user_id": user_data.id, "username": new_username}
+                        {"user_id": user_data["id"], "username": new_username}
                     ).execute()
 
                     st.success(f"✅ Account created for {new_username}! Please log in.")
                     st.session_state["auth_mode"] = "login"
                     st.rerun()
+
+                except Exception as e:
+                    st.error(handle_error(str(e)))
 
         st.markdown("Already have an account? 👉")
         if st.button("Back to Login"):
@@ -177,7 +180,7 @@ with st.sidebar:
         sessions = (
             supabase.table("chat_sessions")
             .select("id, title")
-            .eq("user_id", user.id)
+            .eq("user_id", user["id"])
             .order("created_at", desc=True)
             .execute()
         )
@@ -233,7 +236,7 @@ if submitted and user_input.strip():
             last = (
                 supabase.table("chat_sessions")
                 .select("title")
-                .eq("user_id", user.id)
+                .eq("user_id", user["id"])
                 .order("created_at", desc=True)
                 .limit(1)
                 .execute()
@@ -252,7 +255,7 @@ if submitted and user_input.strip():
         if is_first:
             supabase.table("chat_sessions").insert(
                 {
-                    "user_id": user.id,
+                    "user_id": user["id"],
                     "title": chat_title,
                     "messages": json.dumps(st.session_state.messages),
                 }
@@ -262,6 +265,6 @@ if submitted and user_input.strip():
                 {
                     "messages": json.dumps(st.session_state.messages),
                 }
-            ).eq("user_id", user.id).eq("title", chat_title).execute()
+            ).eq("user_id", user["id"]).eq("title", chat_title).execute()
 
     st.rerun()
