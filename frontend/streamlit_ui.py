@@ -113,13 +113,19 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     user_data = data["user"]
 
                     # ✅ Only UPDATE the auto-created profile row
-                    supabase.table("profiles").update({"username": new_username}).eq(
-                        "user_id", user_data["id"]
-                    ).execute()
+                    supabase.table("profiles").update(
+                        {"username": new_username}
+                    ).eq("user_id", user_data["id"]).execute()
 
-                    st.success(f"✅ Account created for {new_username}! Please log in.")
-                    st.session_state["auth_mode"] = "login"
-                    st.rerun()
+                    st.success(
+                        f"✅ Account created for **{new_username}**!\n\n"
+                        f"📧 Please check your inbox and click the confirmation link before logging in."
+                    )
+                    st.info(
+                        "If you don't see the email, check your spam/junk folder."
+                    )
+                    # Do NOT redirect immediately
+                    st.stop()
 
                 except Exception as e:
                     st.error(handle_error(str(e)))
