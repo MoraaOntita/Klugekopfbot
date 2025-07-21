@@ -5,19 +5,17 @@ import json
 import re
 from dotenv import load_dotenv
 from supabase import create_client, Client
-import bcrypt
 from openai import OpenAI
 
-# 📌 Local modules
+# --- Local modules ---
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 
 # --- Load secrets ---
 load_dotenv()
-api_key = os.getenv("GROQ_API_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_ANON_KEY")
-
+api_key = os.getenv("GROQ_API_KEY")
 
 if not all([SUPABASE_URL, SUPABASE_KEY]):
     raise ValueError("Supabase URL or ANON Key is missing!")
@@ -30,24 +28,13 @@ st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 st.title("💬 Klugekopf - Strategic Assistant")
 
 
-# --- Error helpers ---
-def handle_signup_error(message: str) -> str:
-    message = message.lower()
-    if "users_username_key" in message:
-        return "❌ Username already exists."
-    if "users_email_key" in message:
-        return "❌ Email already exists."
-    if "duplicate key" in message:
-        return "❌ Username or email already exists."
-    return "❌ Could not create account. Please try again."
-
-
-def handle_login_error() -> str:
-    return "❌ Something went wrong during login. Please try again."
+# --- Auth helpers ---
+def handle_error(msg: str) -> str:
+    return f"❌ {msg}"
 
 
 # --- Auth flow ---
-if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
+if "user" not in st.session_state and "guest_mode" not in st.session_state:
 
     if "auth_mode" not in st.session_state:
         st.session_state["auth_mode"] = "login"
@@ -56,33 +43,36 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
     if mode == "login":
         st.subheader("🔑 Login to your account")
-        username = st.text_input("Username", key="login_username").strip().lower()
-        password = st.text_input("Password", type="password", key="login_password")
+        login_email = st.text_input("Email", key="login_email")
+        login_password = st.text_input(
+            "Password", type="password", key="login_password"
+        )
 
         if st.button("Login"):
-            try:
-                resp = (
-                    supabase.from_("users")
+            res = supabase.auth.sign_in_with_password(
+                {"email": login_email, "password": login_password}
+            )
+
+            if res.error:
+                st.error(handle_error(res.error.message))
+            else:
+                st.session_state["user"] = res.user
+                st.session_state["access_token"] = res.session.access_token
+
+                # Optionally fetch username from `profiles`
+                profile = (
+                    supabase.from_("profiles")
                     .select("*")
-                    .eq("username", username)
+                    .eq("user_id", res.user.id)
                     .execute()
                 )
-                user = resp.data[0] if resp.data else None
-
-                if user:
-                    if bcrypt.checkpw(
-                        password.encode(), user["password_hash"].encode()
-                    ):
-                        st.session_state["user_id"] = user["id"]
-                        st.session_state["username"] = user["username"]
-                        st.success(f"✅ Welcome {user['username']}! Redirecting...")
-                        st.rerun()
-                    else:
-                        st.error("❌ Invalid password. Please try again.")
+                if profile.data:
+                    st.session_state["username"] = profile.data[0]["username"]
                 else:
-                    st.error("❌ Username not found.")
-            except Exception:
-                st.error(handle_login_error())
+                    st.session_state["username"] = res.user.email
+
+                st.success(f"✅ Welcome {st.session_state['username']}! Redirecting...")
+                st.rerun()
 
         st.markdown("---")
         if st.button("🔓 Continue as Guest"):
@@ -98,45 +88,35 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
     elif mode == "signup":
         st.subheader("📝 Create a new account")
 
-        new_username = st.text_input("Username", key="signup_username").strip().lower()
         new_email = st.text_input("Email", key="signup_email").strip()
         new_password = st.text_input(
-            "New Password", type="password", key="signup_password"
-        )
+            "Password", type="password", key="signup_password"
+        ).strip()
+        new_username = st.text_input("Username", key="signup_username").strip().lower()
 
         if st.button("Sign Up"):
-            if not new_username or not new_email or not new_password:
-                st.warning("⚠️ Please fill in all fields to sign up.")
+            if not new_email or not new_password or not new_username:
+                st.warning("⚠️ Please fill in all fields.")
             elif " " in new_username or len(new_username) < 3:
                 st.warning(
                     "⚠️ Username must be at least 3 characters and contain no spaces."
                 )
             else:
-                hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
-                try:
-                    resp = (
-                        supabase.from_("users")
-                        .insert(
-                            {
-                                "username": new_username,
-                                "email": new_email,
-                                "password_hash": hashed,
-                            }
-                        )
-                        .select("*")
-                        .execute()
-                    )
+                res = supabase.auth.sign_up(
+                    {"email": new_email, "password": new_password}
+                )
 
-                    if resp.error or resp.status_code >= 400:
-                        st.error(handle_signup_error(resp.error.get("message", "")))
-                    else:
-                        st.session_state["user_id"] = resp.data[0]["id"]
-                        st.session_state["username"] = resp.data[0]["username"]
-                        st.success(f"✅ Welcome {new_username}! You are logged in.")
-                        st.rerun()
+                if res.error:
+                    st.error(handle_error(res.error.message))
+                else:
+                    # Create profile
+                    supabase.from_("profiles").insert(
+                        {"user_id": res.user.id, "username": new_username}
+                    ).execute()
 
-                except Exception as e:
-                    st.error(handle_signup_error(str(e)))
+                    st.success(f"✅ Account created for {new_username}! Please log in.")
+                    st.session_state["auth_mode"] = "login"
+                    st.rerun()
 
         st.markdown("Already have an account? 👉")
         if st.button("Back to Login"):
@@ -156,12 +136,13 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
 # --- Determine mode ---
 is_guest = "guest_mode" in st.session_state
-user_id = st.session_state.get("user_id")
+user = st.session_state.get("user")
+username = st.session_state.get("username", "Guest")
 
 # --- Sidebar ---
 with st.sidebar:
-    if user_id and "username" in st.session_state:
-        st.header(f"👋 Welcome, {st.session_state['username']}!")
+    if user:
+        st.header(f"👋 Welcome, {username}!")
 
     st.header("🗂️ Manage Chat Sessions")
 
@@ -172,11 +153,12 @@ with st.sidebar:
             st.success("Guest session ended.")
             st.rerun()
     else:
-        if user_id:
+        if user:
             if st.button("👤 Switch to Guest Mode"):
                 st.session_state["guest_mode"] = True
                 st.success("✅ Now in Guest Mode. Your account session is paused.")
                 st.rerun()
+
         if st.button("Logout"):
             st.session_state.clear()
             st.success("Logged out.")
@@ -185,13 +167,13 @@ with st.sidebar:
     if st.button("🆕 New Chat"):
         st.session_state.messages = []
 
-    if not is_guest and user_id:
+    if not is_guest and user:
         st.markdown("---")
         st.subheader("📂 Previous Chats:")
         sessions = (
             supabase.from_("chat_sessions")
             .select("id, title")
-            .eq("user_id", user_id)
+            .eq("user_id", user.id)
             .order("created_at", desc=True)
             .execute()
         )
@@ -247,7 +229,7 @@ if submitted and user_input.strip():
             last = (
                 supabase.from_("chat_sessions")
                 .select("title")
-                .eq("user_id", user_id)
+                .eq("user_id", user.id)
                 .order("created_at", desc=True)
                 .limit(1)
                 .execute()
@@ -266,7 +248,7 @@ if submitted and user_input.strip():
         if is_first:
             supabase.from_("chat_sessions").insert(
                 {
-                    "user_id": user_id,
+                    "user_id": user.id,
                     "title": chat_title,
                     "messages": json.dumps(st.session_state.messages),
                 }
@@ -276,6 +258,6 @@ if submitted and user_input.strip():
                 {
                     "messages": json.dumps(st.session_state.messages),
                 }
-            ).eq("user_id", user_id).eq("title", chat_title).execute()
+            ).eq("user_id", user.id).eq("title", chat_title).execute()
 
     st.rerun()
