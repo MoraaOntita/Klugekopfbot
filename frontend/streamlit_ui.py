@@ -39,6 +39,7 @@ def handle_signup_error(message: str) -> str:
         return "❌ Email already exists."
     if "duplicate key" in message:
         return "❌ Username or email already exists."
+
     return "❌ Could not create account. Please try again."
 
 
@@ -129,12 +130,15 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
 
                     if resp.error or resp.status_code >= 400:
                         st.error(handle_signup_error(resp.error.get("message", "")))
-                    else:
-                        st.session_state["user_id"] = resp.data[0]["id"]
-                        st.session_state["username"] = resp.data[0]["username"]
-                        st.success(
-                            f"✅ Welcome {new_username}! You are logged in. You can now log in and start chatting."
+                    elif not resp.data:
+                        st.error(
+                            "❌ Something went wrong. Please try again or contact support."
                         )
+                    else:
+                        st.success(
+                            "✅ You’re signed up! Please log in now to chat with the bot."
+                        )
+                        st.session_state["auth_mode"] = "login"
                         st.rerun()
 
                 except Exception as e:
