@@ -18,6 +18,10 @@ api_key = os.getenv("GROQ_API_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_ANON_KEY")
 
+st.write("SUPABASE_URL:", SUPABASE_URL)
+st.write("SUPABASE_KEY:", SUPABASE_KEY)
+
+
 if not all([SUPABASE_URL, SUPABASE_KEY]):
     raise ValueError("Supabase URL or ANON Key is missing!")
 
