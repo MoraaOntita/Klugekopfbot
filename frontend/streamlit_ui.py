@@ -138,7 +138,6 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                 except Exception as e:
                     st.error(handle_signup_error(str(e)))
 
-
         st.markdown("Already have an account? 👉")
         if st.button("Back to Login"):
             st.session_state["auth_mode"] = "login"
