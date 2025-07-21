@@ -126,6 +126,9 @@ if "user_id" not in st.session_state and "guest_mode" not in st.session_state:
                         .execute()
                     )
 
+                    print("Insert response:", resp)
+
+
                     if resp.error or resp.status_code >= 400:
                         st.error(handle_signup_error(resp.error.get("message", "")))
                     else:
