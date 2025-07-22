@@ -277,7 +277,7 @@ if submitted and user_input.strip():
         short_title = re.sub(r"\W+", "_", short_title)[:40]
         chat_title = short_title.replace("_", " ").title()
     else:
-        if not is_guest:
+        if not is_guest and user:
             last = (
                 supabase.table("chat_sessions")
                 .select("title")
@@ -296,7 +296,7 @@ if submitted and user_input.strip():
 
     st.session_state.messages.append({"role": "bot", "content": answer})
 
-    if not is_guest:
+    if not is_guest and user:
         if is_first:
             supabase.table("chat_sessions").insert(
                 {
