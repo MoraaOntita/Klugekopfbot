@@ -25,7 +25,6 @@ client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=api_key)
 MODEL_NAME = "llama3-8b-8192"
 EMAIL_REGEX = r"^[\w\.-]+@[\w\.-]+\.\w+$"
 
-
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 
 # --- Confirm email flow ---
@@ -135,7 +134,6 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
             elif new_email.endswith("@example.com"):
                 st.warning("⚠️ Please use your real email address.")
             else:
-                # ✅ Check if username is taken
                 existing = (
                     supabase.table("profiles")
                     .select("id")
@@ -152,7 +150,6 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                         data = res.model_dump()
                         user_data = data["user"]
 
-                        # ✅ Update the profile with the chosen username
                         supabase.table("profiles").update(
                             {"username": new_username}
                         ).eq("user_id", user_data["id"]).execute()
@@ -218,8 +215,7 @@ with st.sidebar:
     if st.button("🆕 New Chat"):
         st.session_state.messages = []
 
-    # ✅ SAFE: only query DB if user is authenticated
-    if not is_guest and user:
+    if not is_guest and user and "id" in user:
         st.markdown("---")
         st.subheader("📂 Previous Chats:")
         sessions = (
@@ -277,7 +273,7 @@ if submitted and user_input.strip():
         short_title = re.sub(r"\W+", "_", short_title)[:40]
         chat_title = short_title.replace("_", " ").title()
     else:
-        if not is_guest and user:
+        if not is_guest and user and "id" in user:
             last = (
                 supabase.table("chat_sessions")
                 .select("title")
@@ -296,7 +292,7 @@ if submitted and user_input.strip():
 
     st.session_state.messages.append({"role": "bot", "content": answer})
 
-    if not is_guest and user:
+    if not is_guest and user and "id" in user:
         if is_first:
             supabase.table("chat_sessions").insert(
                 {
