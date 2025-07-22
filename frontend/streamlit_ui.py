@@ -23,6 +23,8 @@ if not all([SUPABASE_URL, SUPABASE_KEY]):
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=api_key)
 MODEL_NAME = "llama3-8b-8192"
+EMAIL_REGEX = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+
 
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 
@@ -115,34 +117,57 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
         ).strip()
         new_username = st.text_input("Username", key="signup_username").strip().lower()
 
+        st.caption(
+            "🔍 Please double-check your email address. You'll need it to confirm your account."
+        )
+
         if st.button("Sign Up"):
             if not new_email or not new_password or not new_username:
                 st.warning("⚠️ Please fill in all fields.")
+            elif not re.match(EMAIL_REGEX, new_email):
+                st.warning("⚠️ Please enter a valid email address.")
+            elif len(new_password) < 6:
+                st.warning("⚠️ Password must be at least 6 characters.")
             elif " " in new_username or len(new_username) < 3:
                 st.warning(
                     "⚠️ Username must be at least 3 characters and contain no spaces."
                 )
+            elif new_email.endswith("@example.com"):
+                st.warning("⚠️ Please use your real email address.")
             else:
-                try:
-                    res = supabase.auth.sign_up(
-                        {"email": new_email, "password": new_password}
-                    )
-                    data = res.model_dump()
-                    user_data = data["user"]
+                # ✅ Check if username is taken
+                existing = (
+                    supabase.table("profiles")
+                    .select("id")
+                    .eq("username", new_username)
+                    .execute()
+                )
+                if existing.data:
+                    st.warning("⚠️ This username is already taken. Try another.")
+                else:
+                    try:
+                        res = supabase.auth.sign_up(
+                            {"email": new_email, "password": new_password}
+                        )
+                        data = res.model_dump()
+                        user_data = data["user"]
 
-                    supabase.table("profiles").update({"username": new_username}).eq(
-                        "user_id", user_data["id"]
-                    ).execute()
+                        # ✅ Update the profile with the chosen username
+                        supabase.table("profiles").update(
+                            {"username": new_username}
+                        ).eq("user_id", user_data["id"]).execute()
 
-                    st.success(
-                        f"✅ Account created for **{new_username}**!\n\n"
-                        f"📧 Please check your inbox and click the confirmation link before logging in."
-                    )
-                    st.info("If you don't see the email, check your spam/junk folder.")
-                    st.stop()
+                        st.success(
+                            f"✅ Account created for **{new_username}**!\n\n"
+                            f"📧 Please check your inbox and click the confirmation link before logging in."
+                        )
+                        st.info(
+                            "If you don't see the email, check your spam/junk folder."
+                        )
+                        st.stop()
 
-                except Exception as e:
-                    st.error(handle_error(str(e)))
+                    except Exception as e:
+                        st.error(f"❌ {e}")
 
         st.markdown("Already have an account? 👉")
         if st.button("Back to Login"):
@@ -152,7 +177,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
         st.markdown("---")
         if st.button("🔓 Continue as Guest"):
             st.session_state["guest_mode"] = True
-            st.success("Guest session started.")
+            st.success("✅ Guest session started.")
             st.rerun()
 
     st.info(
