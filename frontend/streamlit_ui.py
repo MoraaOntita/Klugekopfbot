@@ -218,6 +218,7 @@ with st.sidebar:
     if st.button("🆕 New Chat"):
         st.session_state.messages = []
 
+    # ✅ SAFE: only query DB if user is authenticated
     if not is_guest and user:
         st.markdown("---")
         st.subheader("📂 Previous Chats:")
