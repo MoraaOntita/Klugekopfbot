@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from supabase import create_client, Client
 from openai import OpenAI
 
-# Local module
+# Local module import
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 
@@ -215,7 +215,7 @@ with st.sidebar:
     if st.button("🆕 New Chat"):
         st.session_state.messages = []
 
-    if not is_guest and user and "id" in user:
+    if not is_guest and user:
         st.markdown("---")
         st.subheader("📂 Previous Chats:")
         sessions = (
@@ -273,7 +273,7 @@ if submitted and user_input.strip():
         short_title = re.sub(r"\W+", "_", short_title)[:40]
         chat_title = short_title.replace("_", " ").title()
     else:
-        if not is_guest and user and "id" in user:
+        if not is_guest and user:
             last = (
                 supabase.table("chat_sessions")
                 .select("title")
@@ -292,7 +292,7 @@ if submitted and user_input.strip():
 
     st.session_state.messages.append({"role": "bot", "content": answer})
 
-    if not is_guest and user and "id" in user:
+    if not is_guest and user and user.get("id"):
         if is_first:
             supabase.table("chat_sessions").insert(
                 {
@@ -302,10 +302,25 @@ if submitted and user_input.strip():
                 }
             ).execute()
         else:
-            supabase.table("chat_sessions").update(
-                {
-                    "messages": json.dumps(st.session_state.messages),
-                }
-            ).eq("user_id", user["id"]).eq("title", chat_title).execute()
+            match = (
+                supabase.table("chat_sessions")
+                .select("id")
+                .eq("user_id", user["id"])
+                .eq("title", chat_title)
+                .execute()
+            )
+
+            if match.data:
+                supabase.table("chat_sessions").update(
+                    {"messages": json.dumps(st.session_state.messages)}
+                ).eq("id", match.data[0]["id"]).execute()
+            else:
+                supabase.table("chat_sessions").insert(
+                    {
+                        "user_id": user["id"],
+                        "title": chat_title,
+                        "messages": json.dumps(st.session_state.messages),
+                    }
+                ).execute()
 
     st.rerun()
