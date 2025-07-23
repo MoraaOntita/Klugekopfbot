@@ -136,10 +136,11 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
             else:
                 existing = (
                     supabase.table("profiles")
-                    .select("id")
+                    .select("user_id")
                     .eq("username", new_username)
                     .execute()
                 )
+
                 if existing.data:
                     st.warning("⚠️ This username is already taken. Try another.")
                 else:
@@ -150,9 +151,10 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                         data = res.model_dump()
                         user_data = data["user"]
 
-                        supabase.table("profiles").update(
-                            {"username": new_username}
-                        ).eq("user_id", user_data["id"]).execute()
+                        # Insert new profile row
+                        supabase.table("profiles").insert(
+                            {"user_id": user_data["id"], "username": new_username}
+                        ).execute()
 
                         st.success(
                             f"✅ Account created for **{new_username}**!\n\n"
