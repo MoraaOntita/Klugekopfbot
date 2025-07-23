@@ -214,6 +214,7 @@ with st.sidebar:
 
     if st.button("🆕 New Chat"):
         st.session_state.messages = []
+        st.session_state.current_session_id = None  # ✅ Reset session ID for new chat
 
     if not is_guest and user:
         st.markdown("---")
@@ -234,6 +235,7 @@ with st.sidebar:
                     .execute()
                 )
                 st.session_state.messages = json.loads(chat.data[0]["messages"])
+                st.session_state.current_session_id = s["id"]  # ✅ Store session ID
                 st.rerun()
 
 # --- Init messages ---
@@ -287,40 +289,49 @@ if submitted and user_input.strip():
             chat_title = "Guest Session"
 
     with st.spinner("Thinking..."):
-        result = klugekopf_multi_agent_app.invoke({"query": user_input})
+        result = klugekopf_multi_agent_app.invoke(
+            {
+                "session_id": st.session_state.get(
+                    "current_session_id", "guest" if is_guest else "global"
+                ),
+                "query": user_input,
+            }
+        )
         answer = result["answer"]
 
     st.session_state.messages.append({"role": "bot", "content": answer})
 
     if not is_guest and user and user.get("id"):
         if is_first:
-            supabase.table("chat_sessions").insert(
-                {
-                    "user_id": user["id"],
-                    "title": chat_title,
-                    "messages": json.dumps(st.session_state.messages),
-                }
-            ).execute()
-        else:
-            match = (
+            inserted = (
                 supabase.table("chat_sessions")
-                .select("id")
-                .eq("user_id", user["id"])
-                .eq("title", chat_title)
-                .execute()
-            )
-
-            if match.data:
-                supabase.table("chat_sessions").update(
-                    {"messages": json.dumps(st.session_state.messages)}
-                ).eq("id", match.data[0]["id"]).execute()
-            else:
-                supabase.table("chat_sessions").insert(
+                .insert(
                     {
                         "user_id": user["id"],
                         "title": chat_title,
                         "messages": json.dumps(st.session_state.messages),
                     }
-                ).execute()
+                )
+                .execute()
+            )
+            st.session_state.current_session_id = inserted.data[0]["id"]
+        else:
+            if st.session_state.get("current_session_id"):
+                supabase.table("chat_sessions").update(
+                    {"messages": json.dumps(st.session_state.messages)}
+                ).eq("id", st.session_state["current_session_id"]).execute()
+            else:
+                inserted = (
+                    supabase.table("chat_sessions")
+                    .insert(
+                        {
+                            "user_id": user["id"],
+                            "title": chat_title,
+                            "messages": json.dumps(st.session_state.messages),
+                        }
+                    )
+                    .execute()
+                )
+                st.session_state.current_session_id = inserted.data[0]["id"]
 
     st.rerun()

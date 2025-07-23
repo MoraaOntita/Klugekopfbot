@@ -33,14 +33,14 @@ MODEL_NAME = config["llm"]["model_name"]
 client = OpenAI(base_url=base_url, api_key=api_key)
 
 # ============================
-# Simple cache
+# Simple cache (global store)
 # ============================
 
 CACHE = {}
 
 
-def get_cache_key(agent_name: str, input_text: str) -> str:
-    hash_input = f"{agent_name}:{input_text}".encode()
+def get_cache_key(session_id: str, agent_name: str, input_text: str) -> str:
+    hash_input = f"{session_id}:{agent_name}:{input_text}".encode()
     return sha256(hash_input).hexdigest()
 
 
@@ -50,6 +50,7 @@ def get_cache_key(agent_name: str, input_text: str) -> str:
 
 
 class KlugekopfState(TypedDict):
+    session_id: str  # ✅ New: session identifier
     query: str
     rewritten_query: str
     plan: str
@@ -67,7 +68,9 @@ class KlugekopfState(TypedDict):
 
 def rewrite_agent_node(state: KlugekopfState) -> KlugekopfState:
     query = state["query"]
-    cache_key = get_cache_key("rewrite_agent", query)
+    session_id = state.get("session_id", "global")
+    cache_key = get_cache_key(session_id, "rewrite_agent", query)
+
     if cache_key in CACHE:
         rewritten_query = CACHE[cache_key]
     else:
@@ -94,7 +97,9 @@ def rewrite_agent_node(state: KlugekopfState) -> KlugekopfState:
 
 def planner_agent_node(state: KlugekopfState) -> KlugekopfState:
     rewritten_query = state["rewritten_query"]
-    cache_key = get_cache_key("planner_agent", rewritten_query)
+    session_id = state.get("session_id", "global")
+    cache_key = get_cache_key(session_id, "planner_agent", rewritten_query)
+
     if cache_key in CACHE:
         plan = CACHE[cache_key]
     else:
@@ -115,14 +120,15 @@ def planner_agent_node(state: KlugekopfState) -> KlugekopfState:
 
 
 # ============================
-# Retrieval Agent (Pinecone!)
+# Retrieval Agent
 # ============================
 
 
 def retrieval_agent_node(state: KlugekopfState) -> KlugekopfState:
     rewritten_query = state["rewritten_query"]
-    # You can also cache retrieval results if they don't change often
-    cache_key = get_cache_key("retrieval_agent", rewritten_query)
+    session_id = state.get("session_id", "global")
+    cache_key = get_cache_key(session_id, "retrieval_agent", rewritten_query)
+
     if cache_key in CACHE:
         chunks, metadatas = CACHE[cache_key]
     else:
@@ -140,7 +146,9 @@ def retrieval_agent_node(state: KlugekopfState) -> KlugekopfState:
 def summarizer_agent_node(state: KlugekopfState) -> KlugekopfState:
     chunks = state["chunks"]
     text = "\n\n".join(chunks)
-    cache_key = get_cache_key("summarizer_agent", text)
+    session_id = state.get("session_id", "global")
+    cache_key = get_cache_key(session_id, "summarizer_agent", text)
+
     if cache_key in CACHE:
         summary = CACHE[cache_key]
     else:
@@ -161,7 +169,7 @@ def summarizer_agent_node(state: KlugekopfState) -> KlugekopfState:
 
 
 # ============================
-# Tool Agent (stub)
+# Tool Agent
 # ============================
 
 
@@ -190,7 +198,8 @@ def klugekopf_agent_node(state: KlugekopfState) -> KlugekopfState:
     )
 
     system_message = get_klugekopf_system_prompt()
-    cache_key = get_cache_key("klugekopf_agent", final_prompt)
+    session_id = state.get("session_id", "global")
+    cache_key = get_cache_key(session_id, "klugekopf_agent", final_prompt)
 
     if cache_key in CACHE:
         answer = CACHE[cache_key]
@@ -245,7 +254,10 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
+    session_id = input("Session ID: ")
     user_query = input("Ask Klugekopf-Bot: ")
-    result = klugekopf_multi_agent_app.invoke({"query": user_query})
+    result = klugekopf_multi_agent_app.invoke(
+        {"session_id": session_id, "query": user_query}
+    )
     print("\nKlugekopf-Bot says:\n")
     print(result["answer"])
