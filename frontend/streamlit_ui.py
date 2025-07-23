@@ -221,6 +221,7 @@ with st.sidebar:
         st.subheader("📂 Previous Chats:")
         sessions = (
             supabase.table("chat_sessions")
+            .auth(st.session_state["access_token"])
             .select("id, title")
             .eq("user_id", user["id"])
             .order("created_at", desc=True)
