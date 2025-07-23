@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from supabase import create_client, Client
 from openai import OpenAI
 
-# Local module import
+# --- Local module import ---
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from chatbot.retrieval_generation.graph import klugekopf_multi_agent_app
 
@@ -134,6 +134,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
             elif new_email.endswith("@example.com"):
                 st.warning("⚠️ Please use your real email address.")
             else:
+                # ✅ 1️⃣ Make sure no duplicate usernames
                 existing = (
                     supabase.table("profiles")
                     .select("user_id")
@@ -145,16 +146,17 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     st.warning("⚠️ This username is already taken. Try another.")
                 else:
                     try:
+                        # ✅ 2️⃣ Create user — `trigger` inserts `profiles` row with user_id
                         res = supabase.auth.sign_up(
                             {"email": new_email, "password": new_password}
                         )
                         data = res.model_dump()
                         user_data = data["user"]
 
-                        # Insert new profile row
-                        supabase.table("profiles").insert(
-                            {"user_id": user_data["id"], "username": new_username}
-                        ).execute()
+                        # ✅ 3️⃣ Update username on that row
+                        supabase.table("profiles").update(
+                            {"username": new_username}
+                        ).eq("user_id", user_data["id"]).execute()
 
                         st.success(
                             f"✅ Account created for **{new_username}**!\n\n"
