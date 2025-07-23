@@ -54,6 +54,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
 
                 profile = (
                     supabase.table("profiles")
+                    .auth(st.session_state["access_token"])
                     .select("*")
                     .eq("user_id", user_data["id"])
                     .execute()
@@ -145,6 +146,7 @@ with st.sidebar:
     if not is_guest and user:
         sessions = (
             supabase.table("chat_sessions")
+            .auth(st.session_state["access_token"])  # ✅ Add JWT
             .select("id, title")
             .eq("user_id", user["id"])
             .order("created_at", desc=True)
@@ -154,6 +156,7 @@ with st.sidebar:
             if st.button(f"📄 {s['title']}", key=s["id"]):
                 chat = (
                     supabase.table("chat_sessions")
+                    .auth(st.session_state["access_token"])  # ✅ Add JWT
                     .select("messages")
                     .eq("id", s["id"])
                     .execute()
@@ -210,6 +213,7 @@ if submitted and user_input.strip():
         if is_first:
             new_session = (
                 supabase.table("chat_sessions")
+                .auth(st.session_state["access_token"])  # ✅ Add JWT
                 .insert(
                     {
                         "user_id": user["id"],
@@ -221,8 +225,10 @@ if submitted and user_input.strip():
             )
             st.session_state.current_session_id = new_session.data[0]["id"]
         else:
-            supabase.table("chat_sessions").update(
-                {"messages": json.dumps(st.session_state.messages)}
-            ).eq("id", st.session_state["current_session_id"]).execute()
+            supabase.table("chat_sessions").auth(
+                st.session_state["access_token"]
+            ).update({"messages": json.dumps(st.session_state.messages)}).eq(
+                "id", st.session_state["current_session_id"]
+            ).execute()
 
     st.rerun()
