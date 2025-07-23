@@ -27,23 +27,6 @@ EMAIL_REGEX = r"^[\w\.-]+@[\w\.-]+\.\w+$"
 
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 
-# --- Confirm email flow ---
-query_params = st.query_params
-access_token = query_params.get("access_token")
-token_type = query_params.get("type")
-
-if access_token and token_type == "signup":
-    try:
-        user_response = supabase.auth.get_user(access_token)
-        user_data = user_response.user
-
-        st.success("✅ Your email is confirmed! You can now log in.")
-        st.session_state["user"] = user_data
-        st.session_state["access_token"] = access_token
-
-    except Exception as e:
-        st.error(f"❌ There was a problem confirming your email: {e}")
-
 st.title("💬 Klugekopf - Strategic Assistant")
 
 
@@ -75,9 +58,15 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 user_data = data["user"]
                 session_data = data["session"]
 
-                st.session_state["user"] = user_data
-                st.session_state["access_token"] = session_data["access_token"]
+                access_token = session_data["access_token"]
 
+                # ✅ Attach user JWT for RLS queries
+                supabase.postgrest.auth(access_token)
+
+                st.session_state["user"] = user_data
+                st.session_state["access_token"] = access_token
+
+                # ✅ Get profile and allow username update if missing
                 profile = (
                     supabase.table("profiles")
                     .select("*")
@@ -85,12 +74,12 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     .execute()
                 )
 
-                if profile.data and len(profile.data) > 0:
+                if profile.data and profile.data[0]["username"]:
                     st.session_state["username"] = profile.data[0]["username"]
                 else:
-                    st.session_state["username"] = user_data["email"]
+                    st.session_state["username"] = None  # Mark no username yet
 
-                st.success(f"✅ Welcome {st.session_state['username']}! Redirecting...")
+                st.success(f"✅ Welcome! Redirecting...")
                 st.rerun()
 
             except Exception as e:
@@ -114,61 +103,36 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
         new_password = st.text_input(
             "Password", type="password", key="signup_password"
         ).strip()
-        new_username = st.text_input("Username", key="signup_username").strip().lower()
 
         st.caption(
             "🔍 Please double-check your email address. You'll need it to confirm your account."
         )
 
         if st.button("Sign Up"):
-            if not new_email or not new_password or not new_username:
+            if not new_email or not new_password:
                 st.warning("⚠️ Please fill in all fields.")
             elif not re.match(EMAIL_REGEX, new_email):
                 st.warning("⚠️ Please enter a valid email address.")
             elif len(new_password) < 6:
                 st.warning("⚠️ Password must be at least 6 characters.")
-            elif " " in new_username or len(new_username) < 3:
-                st.warning(
-                    "⚠️ Username must be at least 3 characters and contain no spaces."
-                )
             elif new_email.endswith("@example.com"):
                 st.warning("⚠️ Please use your real email address.")
             else:
-                # ✅ 1️⃣ Make sure no duplicate usernames
-                existing = (
-                    supabase.table("profiles")
-                    .select("user_id")
-                    .eq("username", new_username)
-                    .execute()
-                )
+                try:
+                    # ✅ Just create user — profile row is auto-inserted
+                    supabase.auth.sign_up(
+                        {"email": new_email, "password": new_password}
+                    )
 
-                if existing.data:
-                    st.warning("⚠️ This username is already taken. Try another.")
-                else:
-                    try:
-                        # ✅ 2️⃣ Create user — `trigger` inserts `profiles` row with user_id
-                        res = supabase.auth.sign_up(
-                            {"email": new_email, "password": new_password}
-                        )
-                        data = res.model_dump()
-                        user_data = data["user"]
+                    st.success(
+                        f"✅ Account created!\n\n"
+                        f"📧 Please check your inbox and click the confirmation link before logging in."
+                    )
+                    st.info("If you don't see the email, check your spam/junk folder.")
+                    st.stop()
 
-                        # ✅ 3️⃣ Update username on that row
-                        supabase.table("profiles").update(
-                            {"username": new_username}
-                        ).eq("user_id", user_data["id"]).execute()
-
-                        st.success(
-                            f"✅ Account created for **{new_username}**!\n\n"
-                            f"📧 Please check your inbox and click the confirmation link before logging in."
-                        )
-                        st.info(
-                            "If you don't see the email, check your spam/junk folder."
-                        )
-                        st.stop()
-
-                    except Exception as e:
-                        st.error(f"❌ {e}")
+                except Exception as e:
+                    st.error(f"❌ {e}")
 
         st.markdown("Already have an account? 👉")
         if st.button("Back to Login"):
@@ -184,6 +148,38 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
     st.info(
         "💡 Tip: You can switch to Guest Mode anytime. End it to return to your account."
     )
+    st.stop()
+
+# --- After login: prompt user to set username if needed ---
+if "user" in st.session_state and st.session_state.get("username") is None:
+    st.subheader("👤 Choose a username")
+
+    new_username = st.text_input("Username", key="set_username").strip().lower()
+
+    if st.button("Set Username"):
+        if not new_username or " " in new_username or len(new_username) < 3:
+            st.warning(
+                "⚠️ Username must be at least 3 characters and contain no spaces."
+            )
+        else:
+            # ✅ Check for duplicate
+            existing = (
+                supabase.table("profiles")
+                .select("user_id")
+                .eq("username", new_username)
+                .execute()
+            )
+            if existing.data:
+                st.warning("⚠️ This username is already taken. Try another.")
+            else:
+                supabase.table("profiles").update({"username": new_username}).eq(
+                    "user_id", st.session_state["user"]["id"]
+                ).execute()
+
+                st.session_state["username"] = new_username
+                st.success(f"✅ Username set to **{new_username}**!")
+                st.rerun()
+
     st.stop()
 
 # --- Determine mode ---
@@ -218,7 +214,7 @@ with st.sidebar:
 
     if st.button("🆕 New Chat"):
         st.session_state.messages = []
-        st.session_state.current_session_id = None  # ✅ Reset session ID for new chat
+        st.session_state.current_session_id = None
 
     if not is_guest and user:
         st.markdown("---")
@@ -239,7 +235,7 @@ with st.sidebar:
                     .execute()
                 )
                 st.session_state.messages = json.loads(chat.data[0]["messages"])
-                st.session_state.current_session_id = s["id"]  # ✅ Store session ID
+                st.session_state.current_session_id = s["id"]
                 st.rerun()
 
 # --- Init messages ---
@@ -306,6 +302,7 @@ if submitted and user_input.strip():
     st.session_state.messages.append({"role": "bot", "content": answer})
 
     if not is_guest and user and user.get("id"):
+        supabase.postgrest.auth(st.session_state["access_token"])
         if is_first:
             inserted = (
                 supabase.table("chat_sessions")
