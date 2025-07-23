@@ -52,9 +52,9 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 st.session_state["user"] = user_data
                 st.session_state["access_token"] = session_data["access_token"]
 
+                supabase.postgrest.auth(st.session_state["access_token"])  # ✅ correct
                 profile = (
                     supabase.table("profiles")
-                    .auth(st.session_state["access_token"])
                     .select("*")
                     .eq("user_id", user_data["id"])
                     .execute()
@@ -144,19 +144,20 @@ with st.sidebar:
         st.session_state.current_session_id = None
 
     if not is_guest and user:
+        supabase.postgrest.auth(st.session_state["access_token"])  # ✅ correct
         sessions = (
             supabase.table("chat_sessions")
-            .auth(st.session_state["access_token"])  # ✅ Add JWT
             .select("id, title")
             .eq("user_id", user["id"])
             .order("created_at", desc=True)
             .execute()
         )
+
         for s in sessions.data:
             if st.button(f"📄 {s['title']}", key=s["id"]):
+                supabase.postgrest.auth(st.session_state["access_token"])  # ✅ correct
                 chat = (
                     supabase.table("chat_sessions")
-                    .auth(st.session_state["access_token"])  # ✅ Add JWT
                     .select("messages")
                     .eq("id", s["id"])
                     .execute()
@@ -210,10 +211,10 @@ if submitted and user_input.strip():
     st.session_state.messages.append({"role": "bot", "content": result["answer"]})
 
     if not is_guest and user:
+        supabase.postgrest.auth(st.session_state["access_token"])  # ✅ correct
         if is_first:
             new_session = (
                 supabase.table("chat_sessions")
-                .auth(st.session_state["access_token"])  # ✅ Add JWT
                 .insert(
                     {
                         "user_id": user["id"],
@@ -225,10 +226,8 @@ if submitted and user_input.strip():
             )
             st.session_state.current_session_id = new_session.data[0]["id"]
         else:
-            supabase.table("chat_sessions").auth(
-                st.session_state["access_token"]
-            ).update({"messages": json.dumps(st.session_state.messages)}).eq(
-                "id", st.session_state["current_session_id"]
-            ).execute()
+            supabase.table("chat_sessions").update(
+                {"messages": json.dumps(st.session_state.messages)}
+            ).eq("id", st.session_state["current_session_id"]).execute()
 
     st.rerun()
