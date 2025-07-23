@@ -219,14 +219,15 @@ with st.sidebar:
     if not is_guest and user:
         st.markdown("---")
         st.subheader("📂 Previous Chats:")
+
         sessions = (
             supabase.table("chat_sessions")
-            .auth(st.session_state["access_token"])
             .select("id, title")
             .eq("user_id", user["id"])
             .order("created_at", desc=True)
             .execute()
         )
+
         for s in sessions.data:
             if st.button(f"📄 {s['title']}", key=f"load_{s['id']}"):
                 chat = (
@@ -238,6 +239,7 @@ with st.sidebar:
                 st.session_state.messages = json.loads(chat.data[0]["messages"])
                 st.session_state.current_session_id = s["id"]
                 st.rerun()
+
 
 # --- Init messages ---
 if "messages" not in st.session_state:
