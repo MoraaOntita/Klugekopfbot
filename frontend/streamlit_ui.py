@@ -165,16 +165,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
 
 # --- Determine mode ---
 is_guest = "guest_mode" in st.session_state
-
 user = st.session_state.get("user")
-
-if "guest_mode" in st.session_state:
-    display_name = "Guest"
-elif user:
-    display_name = st.session_state.get("username", "Unknown User")
-else:
-    display_name = None  # Not logged in
-
 
 # ✅ Ensure JWT is attached if we have it
 if user and "access_token" in st.session_state:
@@ -185,12 +176,6 @@ with st.sidebar:
     st.title("💼 Klugekopf Chat")
     st.divider()
 
-    if display_name:
-        st.markdown(f"**👤 User:** `{display_name}`")
-    else:
-        st.markdown("**🔐 Not logged in**")
-
-    st.divider()
     st.subheader("✨ Actions")
 
     col1, col2 = st.columns(2)
