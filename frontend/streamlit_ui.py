@@ -150,7 +150,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     user_id = res.model_dump()["user"]["id"]
 
                     supabase.table("profiles").insert(
-                        {"username": new_username}
+                        {"username": new_username, "user_id": user_id}
                     ).execute()
 
                     st.success("✅ Check your email to confirm your account.")
