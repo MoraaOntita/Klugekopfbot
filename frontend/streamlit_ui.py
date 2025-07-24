@@ -103,6 +103,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 supabase.postgrest.auth(st.session_state["access_token"])
 
                 # Get profile info
+
                 profile = (
                     supabase.table("profiles")
                     .select("*")
@@ -149,7 +150,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     user_id = res.model_dump()["user"]["id"]
 
                     supabase.table("profiles").insert(
-                        {"user_id": user_id, "username": new_username}
+                        {"username": new_username}
                     ).execute()
 
                     st.success("✅ Check your email to confirm your account.")
