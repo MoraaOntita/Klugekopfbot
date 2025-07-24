@@ -26,7 +26,6 @@ EMAIL_REGEX = r"^[\w\.-]+@[\w\.-]+\.\w+$"
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 st.title("💬 Klugekopf - Strategic Assistant")
 
-
 # --- Auth flow ---
 if "user" not in st.session_state and "guest_mode" not in st.session_state:
 
@@ -52,7 +51,10 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 st.session_state["user"] = user_data
                 st.session_state["access_token"] = session_data["access_token"]
 
-                supabase.postgrest.auth(st.session_state["access_token"])  # ✅ correct
+                # ✅ Attach the JWT once for this client
+                supabase.postgrest.auth(st.session_state["access_token"])
+
+                # Get profile info
                 profile = (
                     supabase.table("profiles")
                     .select("*")
@@ -118,6 +120,10 @@ is_guest = "guest_mode" in st.session_state
 user = st.session_state.get("user")
 username = st.session_state.get("username", "Guest")
 
+# ✅ Ensure JWT is attached if we have it
+if user and "access_token" in st.session_state:
+    supabase.postgrest.auth(st.session_state["access_token"])
+
 # --- Sidebar ---
 with st.sidebar:
     if user:
@@ -144,7 +150,6 @@ with st.sidebar:
         st.session_state.current_session_id = None
 
     if not is_guest and user:
-        supabase.postgrest.auth(st.session_state["access_token"])  # ✅ correct
         sessions = (
             supabase.table("chat_sessions")
             .select("id, title")
@@ -155,7 +160,6 @@ with st.sidebar:
 
         for s in sessions.data:
             if st.button(f"📄 {s['title']}", key=s["id"]):
-                supabase.postgrest.auth(st.session_state["access_token"])  # ✅ correct
                 chat = (
                     supabase.table("chat_sessions")
                     .select("messages")
@@ -211,7 +215,6 @@ if submitted and user_input.strip():
     st.session_state.messages.append({"role": "bot", "content": result["answer"]})
 
     if not is_guest and user:
-        supabase.postgrest.auth(st.session_state["access_token"])  # ✅ correct
         if is_first:
             new_session = (
                 supabase.table("chat_sessions")
