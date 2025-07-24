@@ -24,6 +24,54 @@ MODEL_NAME = "llama3-8b-8192"
 EMAIL_REGEX = r"^[\w\.-]+@[\w\.-]+\.\w+$"
 
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
+
+st.markdown(
+    """
+    <style>
+    /* Sidebar background */
+    [data-testid="stSidebar"] {
+        background-color: #0e1117;
+        color: #FFFFFF;
+    }
+
+    /* Make headers bolder */
+    [data-testid="stSidebar"] h1, 
+    [data-testid="stSidebar"] h2, 
+    [data-testid="stSidebar"] h3 {
+        font-weight: 600;
+    }
+
+    /* Buttons in sidebar */
+    [data-testid="stSidebar"] button {
+        background-color: #262730;
+        color: #FFFFFF;
+        border: 1px solid #3c4048;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+        margin-top: 0.3rem;
+    }
+
+    [data-testid="stSidebar"] button:hover {
+        background-color: #3c4048;
+        color: #FFFFFF;
+    }
+
+    /* Info messages */
+    [data-testid="stSidebar"] .stAlert {
+        border-radius: 6px;
+    }
+
+    /* Columns spacing */
+    [data-testid="stSidebar"] .block-container .stHorizontalBlock {
+        gap: 0.5rem;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+
 st.title("💬 Klugekopf - Strategic Assistant")
 
 # --- Auth flow ---
@@ -126,28 +174,41 @@ if user and "access_token" in st.session_state:
 
 # --- Sidebar ---
 with st.sidebar:
+    st.title("💼 Klugekopf Chat")
+    st.divider()
+
     if user:
-        st.header(f"👋 {username}")
-
-    st.header("🗂️ Sessions")
-
-    if is_guest:
-        st.info("Guest mode is active.")
-        if st.button("End Guest"):
-            del st.session_state["guest_mode"]
-            st.rerun()
+        st.markdown(f"**👤 User:** `{username}`")
+    elif is_guest:
+        st.markdown("**🕶️ Guest Mode Active**")
     else:
-        if user and st.button("Switch to Guest"):
+        st.markdown("**🔐 Not logged in**")
+
+    st.divider()
+    st.subheader("✨ Actions")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("🆕 New Chat"):
+            st.session_state.messages = []
+            st.session_state.current_session_id = None
+    with col2:
+        if not is_guest and user:
+            if st.button("🚪 Logout"):
+                st.session_state.clear()
+                st.rerun()
+
+    if not is_guest and user:
+        if st.button("🕶️ Switch to Guest Mode"):
             st.session_state["guest_mode"] = True
             st.rerun()
-
-        if st.button("Logout"):
-            st.session_state.clear()
+    elif is_guest:
+        if st.button("🚪 End Guest Session"):
+            del st.session_state["guest_mode"]
             st.rerun()
 
-    if st.button("New Chat"):
-        st.session_state.messages = []
-        st.session_state.current_session_id = None
+    st.divider()
+    st.subheader("📂 Your Chats")
 
     if not is_guest and user:
         sessions = (
@@ -157,18 +218,23 @@ with st.sidebar:
             .order("created_at", desc=True)
             .execute()
         )
+        if not sessions.data:
+            st.info("No saved chats yet.")
+        else:
+            for s in sessions.data:
+                if st.button(f"📄 {s['title']}", key=s["id"]):
+                    chat = (
+                        supabase.table("chat_sessions")
+                        .select("messages")
+                        .eq("id", s["id"])
+                        .execute()
+                    )
+                    st.session_state.messages = json.loads(chat.data[0]["messages"])
+                    st.session_state.current_session_id = s["id"]
+                    st.rerun()
+    elif is_guest:
+        st.info("⚠️ No saved chats in guest mode.")
 
-        for s in sessions.data:
-            if st.button(f"📄 {s['title']}", key=s["id"]):
-                chat = (
-                    supabase.table("chat_sessions")
-                    .select("messages")
-                    .eq("id", s["id"])
-                    .execute()
-                )
-                st.session_state.messages = json.loads(chat.data[0]["messages"])
-                st.session_state.current_session_id = s["id"]
-                st.rerun()
 
 # --- Init messages ---
 if "messages" not in st.session_state:
