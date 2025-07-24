@@ -144,11 +144,22 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 st.warning("Please fill all fields.")
             else:
                 try:
-                    res = supabase.auth.sign_up(
+                    # Create auth user
+                    supabase.auth.sign_up(
                         {"email": new_email, "password": new_password}
                     )
-                    user_id = res.model_dump()["user"]["id"]
 
+                    # ✅ Immediately sign in to get session/JWT
+                    login = supabase.auth.sign_in_with_password(
+                        {"email": new_email, "password": new_password}
+                    )
+                    session_data = login.model_dump()["session"]
+                    user_id = login.model_dump()["user"]["id"]
+
+                    # ✅ Attach the JWT for DB insert
+                    supabase.postgrest.auth(session_data["access_token"])
+
+                    # ✅ Insert profile with same user_id
                     supabase.table("profiles").insert(
                         {"username": new_username, "user_id": user_id}
                     ).execute()
@@ -157,10 +168,6 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                     st.stop()
                 except Exception as e:
                     st.error(f"❌ {e}")
-
-        if st.button("Back to Login"):
-            st.session_state["auth_mode"] = "login"
-            st.rerun()
 
     st.stop()
 
