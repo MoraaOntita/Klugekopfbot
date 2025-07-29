@@ -120,28 +120,15 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 st.rerun()
 
             except Exception as e:
-                message = ""
-                try:
-                    # Try to extract JSON error from Supabase client
-                    error_obj = json.loads(str(e))
-                    message = error_obj.get("msg") or error_obj.get("message") or str(e)
-                except Exception:
-                    message = str(e)
+                email_confirmation_message = str(e)
 
-                # Match known error messages more flexibly
-                if "email not confirmed" in message.lower():
+                if "Email confirmation" in email_confirmation_message:
                     st.info(
                         "📨 You're almost there! Please confirm your email address to activate your account.\n\n"
                         "Check your inbox (and spam folder) for a confirmation link from us."
                     )
-                elif "invalid login credentials" in message.lower():
-                    st.warning("❌ Invalid email or password.")
                 else:
-                    # Optional: Log the real error for debugging
-                    print("Unexpected auth error:", repr(e))
-                    st.error(
-                        "🚫 Something went wrong during login. Please try again or contact support."
-                    )
+                    st.error(f"❌ {repr(e)}")
 
         st.markdown("---")
         if st.button("Continue as Guest"):
