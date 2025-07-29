@@ -156,7 +156,9 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 st.warning("🔐 Password must be at least 6 characters long.")
             # Username validation: alphanumeric + underscores, no spaces
             elif not re.match(r"^[a-zA-Z0-9_]+$", new_username):
-                st.warning("👤 Username can only contain letters, numbers, and underscores.")
+                st.warning(
+                    "👤 Username can only contain letters, numbers, and underscores."
+                )
             else:
                 try:
                     # Create auth user
@@ -179,7 +181,9 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                         {"username": new_username, "user_id": user_id}
                     ).execute()
 
-                    st.success("✅ Account created! Check your email to confirm your account.")
+                    st.success(
+                        "✅ Account created! Check your email to confirm your account."
+                    )
                     st.stop()
 
                 except Exception as e:
@@ -234,28 +238,42 @@ with st.sidebar:
                 .order("created_at", desc=True)
                 .execute()
             )
+
             if not sessions.data:
                 st.info("No saved chats yet.")
             else:
                 for s in sessions.data:
-                    if st.button(f"📄 {s['title']}", key=s["id"]):
-                        try:
-                            chat = (
-                                supabase.table("chat_sessions")
-                                .select("messages")
-                                .eq("id", s["id"])
-                                .execute()
-                            )
-                            if chat.data:
-                                st.session_state.messages = json.loads(
-                                    chat.data[0]["messages"]
+                    col1, col2 = st.columns([0.8, 0.2])
+                    with col1:
+                        if st.button(f"📄 {s['title']}", key=f"load_{s['id']}"):
+                            try:
+                                chat = (
+                                    supabase.table("chat_sessions")
+                                    .select("messages")
+                                    .eq("id", s["id"])
+                                    .execute()
                                 )
-                                st.session_state.current_session_id = s["id"]
+                                if chat.data:
+                                    st.session_state.messages = json.loads(
+                                        chat.data[0]["messages"]
+                                    )
+                                    st.session_state.current_session_id = s["id"]
+                                    st.rerun()
+                                else:
+                                    st.warning("⚠️ No messages found for this session.")
+                            except Exception as e:
+                                st.error(f"❌ Failed to load chat messages: {str(e)}")
+                    with col2:
+                        if st.button("🗑️", key=f"delete_{s['id']}"):
+                            try:
+                                supabase.table("chat_sessions").delete().eq(
+                                    "id", s["id"]
+                                ).execute()
+                                st.success(f"🗑️ Deleted: {s['title']}")
                                 st.rerun()
-                            else:
-                                st.warning("⚠️ No messages found for this session.")
-                        except Exception as e:
-                            st.error(f"❌ Failed to load chat messages: {str(e)}")
+                            except Exception as e:
+                                st.error(f"❌ Failed to delete session: {str(e)}")
+
         except Exception as e:
             st.error(f"❌ Failed to load chat sessions: {str(e)}")
 
