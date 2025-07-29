@@ -3,6 +3,7 @@ import sys
 import os
 import json
 import re
+from frontend.utils import is_strong_password
 from dotenv import load_dotenv
 from supabase import create_client
 from openai import OpenAI
@@ -152,8 +153,16 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
             elif not re.match(EMAIL_REGEX, new_email):
                 st.warning("📧 Invalid email format.")
             # Password strength (min length 6)
-            elif len(new_password) < 6:
-                st.warning("🔐 Password must be at least 6 characters long.")
+            # Password strength validation
+            elif not is_strong_password(new_password):
+                st.warning(
+                    "🔐 Password must be at least 8 characters long and include:\n"
+                    "- At least one uppercase letter\n"
+                    "- One lowercase letter\n"
+                    "- One digit\n"
+                    "- One special character (@$!%*#?&)"
+                )
+
             # Username validation: alphanumeric + underscores, no spaces
             elif not re.match(r"^[a-zA-Z0-9_]+$", new_username):
                 st.warning(
