@@ -120,20 +120,22 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 st.rerun()
 
             except Exception as e:
+                message = ""
                 try:
-                    error_data = e.args[0]
-                    if isinstance(error_data, dict) and "message" in error_data:
-                        message = error_data["message"]
-                    else:
-                        message = str(e)
+                    # Try to extract JSON error from Supabase client
+                    error_obj = json.loads(str(e))
+                    message = error_obj.get("msg") or error_obj.get("message") or str(e)
                 except Exception:
                     message = str(e)
 
+                # Match known error messages more flexibly
                 if "email not confirmed" in message.lower():
                     st.info(
                         "📨 Your account was created, but you need to confirm your email address first.\n\n"
                         "Please check your inbox (and spam folder) for a confirmation link."
                     )
+                elif "invalid login credentials" in message.lower():
+                    st.warning("❌ Invalid email or password.")
                 else:
                     st.error(f"❌ {message}")
 
