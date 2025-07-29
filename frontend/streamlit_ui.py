@@ -215,30 +215,38 @@ with st.sidebar:
     st.subheader("📂 Your Chats")
 
     if not is_guest and user:
-        sessions = (
-            supabase.table("chat_sessions")
-            .select("id, title")
-            .eq("user_id", user["id"])
-            .order("created_at", desc=True)
-            .execute()
-        )
-        if not sessions.data:
-            st.info("No saved chats yet.")
-        else:
-            for s in sessions.data:
-                if st.button(f"📄 {s['title']}", key=s["id"]):
-                    chat = (
-                        supabase.table("chat_sessions")
-                        .select("messages")
-                        .eq("id", s["id"])
-                        .execute()
-                    )
-                    st.session_state.messages = json.loads(chat.data[0]["messages"])
-                    st.session_state.current_session_id = s["id"]
-                    st.rerun()
-    elif is_guest:
-        st.info("⚠️ No saved chats in guest mode.")
-
+        try:
+            sessions = (
+                supabase.table("chat_sessions")
+                .select("id, title")
+                .eq("user_id", user["id"])
+                .order("created_at", desc=True)
+                .execute()
+            )
+            if not sessions.data:
+                st.info("No saved chats yet.")
+            else:
+                for s in sessions.data:
+                    if st.button(f"📄 {s['title']}", key=s["id"]):
+                        try:
+                            chat = (
+                                supabase.table("chat_sessions")
+                                .select("messages")
+                                .eq("id", s["id"])
+                                .execute()
+                            )
+                            if chat.data:
+                                st.session_state.messages = json.loads(
+                                    chat.data[0]["messages"]
+                                )
+                                st.session_state.current_session_id = s["id"]
+                                st.rerun()
+                            else:
+                                st.warning("⚠️ No messages found for this session.")
+                        except Exception as e:
+                            st.error(f"❌ Failed to load chat messages: {str(e)}")
+        except Exception as e:
+            st.error(f"❌ Failed to load chat sessions: {str(e)}")
 
 # --- Init messages ---
 if "messages" not in st.session_state:
