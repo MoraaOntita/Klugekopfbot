@@ -120,14 +120,22 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 st.rerun()
 
             except Exception as e:
-                error_message = str(e)
-                if "Email not confirmed" in error_message:
+                try:
+                    error_data = e.args[0]
+                    if isinstance(error_data, dict) and "message" in error_data:
+                        message = error_data["message"]
+                    else:
+                        message = str(e)
+                except Exception:
+                    message = str(e)
+
+                if "email not confirmed" in message.lower():
                     st.info(
                         "📨 Your account was created, but you need to confirm your email address first.\n\n"
                         "Please check your inbox (and spam folder) for a confirmation link."
                     )
                 else:
-                    st.error(f"❌ {error_message}")
+                    st.error(f"❌ {message}")
 
         st.markdown("---")
         if st.button("Continue as Guest"):
