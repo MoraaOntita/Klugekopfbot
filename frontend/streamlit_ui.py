@@ -131,13 +131,17 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 # Match known error messages more flexibly
                 if "email not confirmed" in message.lower():
                     st.info(
-                        "📨 Your account was created, but you need to confirm your email address first.\n\n"
-                        "Please check your inbox (and spam folder) for a confirmation link."
+                        "📨 You're almost there! Please confirm your email address to activate your account.\n\n"
+                        "Check your inbox (and spam folder) for a confirmation link from us."
                     )
                 elif "invalid login credentials" in message.lower():
                     st.warning("❌ Invalid email or password.")
                 else:
-                    st.error(f"❌ {message}")
+                    # Optional: Log the real error for debugging
+                    print("Unexpected auth error:", repr(e))
+                    st.error(
+                        "🚫 Something went wrong during login. Please try again or contact support."
+                    )
 
         st.markdown("---")
         if st.button("Continue as Guest"):
