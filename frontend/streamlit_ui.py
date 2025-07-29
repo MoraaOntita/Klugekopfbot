@@ -121,7 +121,9 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
             except Exception as e:
                 error_message = str(e)
                 if "Email not confirmed" in error_message:
-                    st.warning("📧 Please confirm your email address. Check your inbox for a confirmation link.")
+                    st.warning(
+                        "📧 Please confirm your email address. Check your inbox for a confirmation link."
+                    )
                 else:
                     st.error(f"❌ {error_message}")
 
