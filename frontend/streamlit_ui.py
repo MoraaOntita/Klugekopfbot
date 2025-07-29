@@ -89,35 +89,34 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
         login_password = st.text_input("Password", type="password")
 
         if st.button("Login"):
-                res = supabase.auth.sign_in_with_password(
-                    {"email": login_email, "password": login_password}
-                )
-                data = res.model_dump()
-                user_data = data["user"]
-                session_data = data["session"]
+            res = supabase.auth.sign_in_with_password(
+                {"email": login_email, "password": login_password}
+            )
+            data = res.model_dump()
+            user_data = data["user"]
+            session_data = data["session"]
 
-                st.session_state["user"] = user_data
-                st.session_state["access_token"] = session_data["access_token"]
+            st.session_state["user"] = user_data
+            st.session_state["access_token"] = session_data["access_token"]
 
-                # ✅ Attach the JWT once for this client
-                supabase.postgrest.auth(st.session_state["access_token"])
+            # ✅ Attach the JWT once for this client
+            supabase.postgrest.auth(st.session_state["access_token"])
 
-                # Get profile info
-                profile = (
-                    supabase.table("profiles")
-                    .select("*")
-                    .eq("user_id", user_data["id"])
-                    .execute()
-                )
+            # Get profile info
+            profile = (
+                supabase.table("profiles")
+                .select("*")
+                .eq("user_id", user_data["id"])
+                .execute()
+            )
 
-                if profile.data and profile.data[0]["username"]:
-                    st.session_state["username"] = profile.data[0]["username"]
-                else:
-                    st.session_state["username"] = user_data["email"]
+            if profile.data and profile.data[0]["username"]:
+                st.session_state["username"] = profile.data[0]["username"]
+            else:
+                st.session_state["username"] = user_data["email"]
 
-                st.success(f"✅ Welcome {st.session_state['username']}! Redirecting...")
-                st.rerun()
-
+            st.success(f"✅ Welcome {st.session_state['username']}! Redirecting...")
+            st.rerun()
 
         st.markdown("---")
         if st.button("Continue as Guest"):
