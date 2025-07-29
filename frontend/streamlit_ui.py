@@ -88,7 +88,8 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
         login_email = st.text_input("Email")
         login_password = st.text_input("Password", type="password")
 
-        if st.button("Login"):
+    if st.button("Login"):
+        try:
             res = supabase.auth.sign_in_with_password(
                 {"email": login_email, "password": login_password}
             )
@@ -117,6 +118,18 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
 
             st.success(f"✅ Welcome {st.session_state['username']}! Redirecting...")
             st.rerun()
+
+        except Exception as e:
+            error_str = str(e)
+
+            if "Email not confirmed" in error_str:
+                st.info(
+                    "📨 You're almost there! Please confirm your email address to activate your account.\n\n"
+                    "Check your inbox (and spam folder) for a confirmation link from us."
+                )
+            else:
+                st.error("❌ Login failed. Please check your email and password.")
+
 
         st.markdown("---")
         if st.button("Continue as Guest"):
