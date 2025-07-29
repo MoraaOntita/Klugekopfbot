@@ -120,15 +120,16 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 st.rerun()
 
             except Exception as e:
-                email_confirmation_message = str(e)
+                error_str = str(e)
 
-                if "Email confirmation" in email_confirmation_message:
+                if "Email not confirmed" in error_str:
                     st.info(
-                        "📨 You're almost there! Please confirm your email address to activate your account.\n\n"
+                        "📨 You're almost there! Please confirm your email address to activate your account."
                         "Check your inbox (and spam folder) for a confirmation link from us."
-                    )
+                        )
                 else:
-                    st.error(f"❌ {repr(e)}")
+                        st.error("❌ Login failed. Please check your email and password.")
+
 
         st.markdown("---")
         if st.button("Continue as Guest"):
