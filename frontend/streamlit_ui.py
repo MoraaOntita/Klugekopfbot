@@ -156,9 +156,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 st.warning("🔐 Password must be at least 6 characters long.")
             # Username validation: alphanumeric + underscores, no spaces
             elif not re.match(r"^[a-zA-Z0-9_]+$", new_username):
-                st.warning(
-                    "👤 Username can only contain letters, numbers, and underscores."
-                )
+                st.warning("👤 Username can only contain letters, numbers, and underscores.")
             else:
                 try:
                     # Create auth user
@@ -181,9 +179,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                         {"username": new_username, "user_id": user_id}
                     ).execute()
 
-                    st.success(
-                        "✅ Account created! Check your email to confirm your account."
-                    )
+                    st.success("✅ Account created! Check your email to confirm your account.")
                     st.stop()
 
                 except Exception as e:
@@ -286,23 +282,17 @@ if submitted and user_input.strip():
 
     is_first = len(st.session_state.messages) == 1
 
-    def generate_chat_title(user_input: str) -> str:
-        try:
-            response = client.chat.completions.create(
-                model=MODEL_NAME,
-                messages=[
-                    {"role": "system", "content": "Summarize this in 3-5 words."},
-                    {"role": "user", "content": user_input.strip()},
-                ],
-            )
-            return response.choices[0].message.content.strip().title()
-        except Exception:
-            st.warning("⚠️ Could not generate summary. Using fallback title.")
-            # Fallback: use first few words from user input
-            cleaned_input = re.sub(r"[^\w\s]", "", user_input)
-            words = cleaned_input.strip().split()
-            fallback_title = " ".join(words[:5]).title() if words else "Chat Session"
-            return fallback_title
+    if is_first:
+        summary = client.chat.completions.create(
+            model=MODEL_NAME,
+            messages=[
+                {"role": "system", "content": "Summarize this in 3-5 words."},
+                {"role": "user", "content": user_input.strip()},
+            ],
+        )
+        title = summary.choices[0].message.content.strip().title()
+    else:
+        title = "Chat Session"
 
     with st.spinner("Thinking..."):
         result = klugekopf_multi_agent_app.invoke(
@@ -311,14 +301,10 @@ if submitted and user_input.strip():
                 "query": user_input,
             }
         )
-
     st.session_state.messages.append({"role": "bot", "content": result["answer"]})
 
     if not is_guest and user:
         if is_first:
-            title = generate_chat_title(
-                user_input
-            )  # ✅ Call title generator before use
             new_session = (
                 supabase.table("chat_sessions")
                 .insert(
