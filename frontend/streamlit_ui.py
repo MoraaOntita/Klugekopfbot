@@ -103,7 +103,6 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 supabase.postgrest.auth(st.session_state["access_token"])
 
                 # Get profile info
-
                 profile = (
                     supabase.table("profiles")
                     .select("*")
@@ -120,7 +119,11 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                 st.rerun()
 
             except Exception as e:
-                st.error(f"❌ {e}")
+                error_message = str(e)
+                if "Email not confirmed" in error_message:
+                    st.warning("📧 Please confirm your email address. Check your inbox for a confirmation link.")
+                else:
+                    st.error(f"❌ {error_message}")
 
         st.markdown("---")
         if st.button("Continue as Guest"):
