@@ -145,8 +145,20 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
         new_username = st.text_input("Username").strip().lower()
 
         if st.button("Sign Up"):
+            # Basic empty field check
             if not new_email or not new_password or not new_username:
-                st.warning("Please fill all fields.")
+                st.warning("⚠️ Please fill in all fields.")
+            # Email validation
+            elif not re.match(EMAIL_REGEX, new_email):
+                st.warning("📧 Invalid email format.")
+            # Password strength (min length 6)
+            elif len(new_password) < 6:
+                st.warning("🔐 Password must be at least 6 characters long.")
+            # Username validation: alphanumeric + underscores, no spaces
+            elif not re.match(r"^[a-zA-Z0-9_]+$", new_username):
+                st.warning(
+                    "👤 Username can only contain letters, numbers, and underscores."
+                )
             else:
                 try:
                     # Create auth user
@@ -169,8 +181,11 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
                         {"username": new_username, "user_id": user_id}
                     ).execute()
 
-                    st.success("✅ Check your email to confirm your account.")
+                    st.success(
+                        "✅ Account created! Check your email to confirm your account."
+                    )
                     st.stop()
+
                 except Exception as e:
                     st.error(f"❌ {e}")
 
