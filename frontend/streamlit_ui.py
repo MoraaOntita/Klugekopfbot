@@ -130,7 +130,6 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
             else:
                 st.error("❌ Login failed. Please check your email and password.")
 
-
         st.markdown("---")
         if st.button("Continue as Guest"):
             st.session_state["guest_mode"] = True
