@@ -84,7 +84,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
     mode = st.session_state["auth_mode"]
 
     if mode == "login":
-        st.subheader("🔑 Login to your account")
+        st.subheader(" Login to your account")
         login_email = st.text_input("Email")
         login_password = st.text_input("Password", type="password")
 
@@ -100,7 +100,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
             st.session_state["user"] = user_data
             st.session_state["access_token"] = session_data["access_token"]
 
-            # ✅ Attach the JWT once for this client
+            # Attach the JWT once for this client
             supabase.postgrest.auth(st.session_state["access_token"])
 
             # Get profile info
@@ -116,7 +116,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
             else:
                 st.session_state["username"] = user_data["email"]
 
-            st.success(f"✅ Welcome {st.session_state['username']}! Redirecting...")
+            st.success(f" Welcome {st.session_state['username']}! Redirecting...")
             st.rerun()
 
         except Exception as e:
@@ -124,11 +124,20 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
 
             if "Email not confirmed" in error_str:
                 st.info(
-                    "📨 You're almost there! Please confirm your email address to activate your account.\n\n"
+                    "You're almost there! Please confirm your email address to activate your account."
                     "Check your inbox (and spam folder) for a confirmation link from us."
                 )
-            else:
-                st.error("❌ Login failed. Please check your email and password.")
+                
+                if st.button("Resend Confirmation Email"):
+                    try:
+                        supabase.auth.resend(
+                            {
+                                "email": login_email
+                            }
+                        )
+                        st.success(" Confirmation email resent! Please check your inbox.")
+                    except Exception as resend_error:
+                        st.error(" Failed to resend confirmation email.")
 
         st.markdown("---")
         if st.button("Continue as Guest"):
@@ -141,7 +150,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
             st.rerun()
 
     elif mode == "signup":
-        st.subheader("📝 Sign Up")
+        st.subheader(" Sign Up")
 
         new_email = st.text_input("Email").strip()
         new_password = st.text_input("Password", type="password").strip()
@@ -150,15 +159,15 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
         if st.button("Sign Up"):
             # Basic empty field check
             if not new_email or not new_password or not new_username:
-                st.warning("⚠️ Please fill in all fields.")
+                st.warning(" Please fill in all fields.")
             # Email validation
             elif not re.match(EMAIL_REGEX, new_email):
-                st.warning("📧 Invalid email format.")
+                st.warning(" Invalid email format.")
             # Password strength (min length 6)
             # Password strength validation
             elif not is_strong_password(new_password):
                 st.warning(
-                    "🔐 Password must be at least 8 characters long and include:\n"
+                    "Password must be at least 8 characters long and include:\n"
                     "- At least one uppercase letter\n"
                     "- One lowercase letter\n"
                     "- One digit\n"
@@ -173,32 +182,25 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
             else:
                 try:
                     # Create auth user
-                    supabase.auth.sign_up(
+                    res = supabase.auth.sign_up(
                         {"email": new_email, "password": new_password}
                     )
 
-                    # ✅ Immediately sign in to get session/JWT
-                    login = supabase.auth.sign_in_with_password(
-                        {"email": new_email, "password": new_password}
-                    )
-                    session_data = login.model_dump()["session"]
-                    user_id = login.model_dump()["user"]["id"]
+                    user = res.user
+                    if user:
+                        st.success(
+                            "Account created successfully!"
+                            " We've sent a confirmation email to your inbox.\n"
+                            "Please confirm your email before logging in."
+                        )
+                    else:
+                        st.warning("Signup successful, but user data was not returned. Please check your email.")
 
-                    # ✅ Attach the JWT for DB insert
-                    supabase.postgrest.auth(session_data["access_token"])
-
-                    # ✅ Insert profile with same user_id
-                    supabase.table("profiles").insert(
-                        {"username": new_username, "user_id": user_id}
-                    ).execute()
-
-                    st.success(
-                        "✅ Account created! Check your email to confirm your account."
-                    )
                     st.stop()
 
+                    
                 except Exception as e:
-                    st.error(f"❌ {e}")
+                    st.error(f"{e}")
 
     st.stop()
 
@@ -206,7 +208,7 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
 is_guest = "guest_mode" in st.session_state
 user = st.session_state.get("user")
 
-# ✅ Ensure JWT is attached if we have it
+# Ensure JWT is attached if we have it
 if user and "access_token" in st.session_state:
     supabase.postgrest.auth(st.session_state["access_token"])
 
@@ -215,16 +217,16 @@ with st.sidebar:
     st.title("💼 Klugekopf Chat")
     st.divider()
 
-    st.subheader("✨ Actions")
+    st.subheader("Actions")
 
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("🆕 New Chat"):
+        if st.button(" New Chat"):
             st.session_state.messages = []
             st.session_state.current_session_id = None
     with col2:
         if not is_guest and user:
-            if st.button("🚪 Logout"):
+            if st.button(" Logout"):
                 st.session_state.clear()
                 st.rerun()
 
@@ -233,12 +235,12 @@ with st.sidebar:
             st.session_state["guest_mode"] = True
             st.rerun()
     elif is_guest:
-        if st.button("🚪 End Guest Session"):
+        if st.button(" End Guest Session"):
             del st.session_state["guest_mode"]
             st.rerun()
 
     st.divider()
-    st.subheader("📂 Your Chats")
+    st.subheader(" Your Chats")
 
     if not is_guest and user:
         try:
@@ -256,7 +258,7 @@ with st.sidebar:
                 for s in sessions.data:
                     col1, col2 = st.columns([0.8, 0.2])
                     with col1:
-                        if st.button(f"📄 {s['title']}", key=f"load_{s['id']}"):
+                        if st.button(f" {s['title']}", key=f"load_{s['id']}"):
                             try:
                                 chat = (
                                     supabase.table("chat_sessions")
@@ -271,9 +273,9 @@ with st.sidebar:
                                     st.session_state.current_session_id = s["id"]
                                     st.rerun()
                                 else:
-                                    st.warning("⚠️ No messages found for this session.")
+                                    st.warning(" No messages found for this session.")
                             except Exception as e:
-                                st.error(f"❌ Failed to load chat messages: {str(e)}")
+                                st.error(f"Failed to load chat messages: {str(e)}")
                     with col2:
                         if st.button("🗑️", key=f"delete_{s['id']}"):
                             try:
@@ -283,10 +285,10 @@ with st.sidebar:
                                 st.success(f"🗑️ Deleted: {s['title']}")
                                 st.rerun()
                             except Exception as e:
-                                st.error(f"❌ Failed to delete session: {str(e)}")
+                                st.error(f" Failed to delete session: {str(e)}")
 
         except Exception as e:
-            st.error(f"❌ Failed to load chat sessions: {str(e)}")
+            st.error(f"Failed to load chat sessions: {str(e)}")
 
 # --- Init messages ---
 if "messages" not in st.session_state:
