@@ -84,60 +84,55 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
     mode = st.session_state["auth_mode"]
 
     if mode == "login":
-        st.subheader(" Login to your account")
+        st.subheader("🔑 Login to your account")
         login_email = st.text_input("Email")
         login_password = st.text_input("Password", type="password")
 
-    if st.button("Login"):
-        try:
-            res = supabase.auth.sign_in_with_password(
-                {"email": login_email, "password": login_password}
-            )
-            data = res.model_dump()
-            user_data = data["user"]
-            session_data = data["session"]
-
-            st.session_state["user"] = user_data
-            st.session_state["access_token"] = session_data["access_token"]
-
-            # Attach the JWT once for this client
-            supabase.postgrest.auth(st.session_state["access_token"])
-
-            # Get profile info
-            profile = (
-                supabase.table("profiles")
-                .select("*")
-                .eq("user_id", user_data["id"])
-                .execute()
-            )
-
-            if profile.data and profile.data[0]["username"]:
-                st.session_state["username"] = profile.data[0]["username"]
-            else:
-                st.session_state["username"] = user_data["email"]
-
-            st.success(f" Welcome {st.session_state['username']}! Redirecting...")
-            st.rerun()
-
-        except Exception as e:
-            error_str = str(e)
-
-            if "Email not confirmed" in error_str:
-                st.info(
-                    "You're almost there! Please confirm your email address to activate your account."
-                    "Check your inbox (and spam folder) for a confirmation link from us."
+        if st.button("Login"):
+            try:
+                res = supabase.auth.sign_in_with_password(
+                    {"email": login_email, "password": login_password}
                 )
-                
-                if st.button("Resend Confirmation Email"):
-                    try:
-                        supabase.auth.resend(
-                            {
-                                "email": login_email
-                            }
-                        )
-                        st.success(" Confirmation email resent! Please check your inbox.")
-                    except Exception as resend_error:
-                        st.error(" Failed to resend confirmation email.")
+                data = res.model_dump()
+                user_data = data["user"]
+                session_data = data["session"]
+
+                st.session_state["user"] = user_data
+                st.session_state["access_token"] = session_data["access_token"]
+
+                supabase.postgrest.auth(st.session_state["access_token"])
+
+                profile = (
+                    supabase.table("profiles")
+                    .select("*")
+                    .eq("user_id", user_data["id"])
+                    .execute()
+                )
+
+                if profile.data and profile.data[0]["username"]:
+                    st.session_state["username"] = profile.data[0]["username"]
+                else:
+                    st.session_state["username"] = user_data["email"]
+
+                st.success(f"✅ Welcome {st.session_state['username']}! Redirecting...")
+                st.rerun()
+
+            except Exception as e:
+                error_str = str(e)
+
+                if "Email not confirmed" in error_str:
+                    st.info(
+                        "📨 You're almost there! Please confirm your email address to activate your account.\n\n"
+                        "Check your inbox (and spam folder) for a confirmation link from us."
+                    )
+                    if st.button("Resend Confirmation Email"):
+                        try:
+                            supabase.auth.resend({"email": login_email})
+                            st.success("✅ Confirmation email resent!")
+                        except Exception:
+                            st.error("❌ Failed to resend confirmation email.")
+                else:
+                    st.error("❌ Login failed. Please check your credentials.")
 
         st.markdown("---")
         if st.button("Continue as Guest"):
@@ -150,57 +145,53 @@ if "user" not in st.session_state and "guest_mode" not in st.session_state:
             st.rerun()
 
     elif mode == "signup":
-        st.subheader(" Sign Up")
+        st.subheader("📝 Sign Up")
 
         new_email = st.text_input("Email").strip()
         new_password = st.text_input("Password", type="password").strip()
         new_username = st.text_input("Username").strip().lower()
 
         if st.button("Sign Up"):
-            # Basic empty field check
             if not new_email or not new_password or not new_username:
-                st.warning(" Please fill in all fields.")
-            # Email validation
+                st.warning("⚠️ Please fill in all fields.")
             elif not re.match(EMAIL_REGEX, new_email):
-                st.warning(" Invalid email format.")
-            # Password strength (min length 6)
-            # Password strength validation
+                st.warning("📧 Invalid email format.")
             elif not is_strong_password(new_password):
                 st.warning(
-                    "Password must be at least 8 characters long and include:\n"
+                    "🔐 Password must be at least 8 characters long and include:\n"
                     "- At least one uppercase letter\n"
                     "- One lowercase letter\n"
                     "- One digit\n"
                     "- One special character (@$!%*#?&)"
                 )
-
-            # Username validation: alphanumeric + underscores, no spaces
             elif not re.match(r"^[a-zA-Z0-9_]+$", new_username):
                 st.warning(
                     "👤 Username can only contain letters, numbers, and underscores."
                 )
             else:
                 try:
-                    # Create auth user
+                    # Sign up user
                     res = supabase.auth.sign_up(
                         {"email": new_email, "password": new_password}
                     )
 
-                    user = res.user
-                    if user:
+                    if res.user:
                         st.success(
-                            "Account created successfully!"
-                            " We've sent a confirmation email to your inbox.\n"
+                            "✅ Account created! We've sent a confirmation email to your inbox.\n"
                             "Please confirm your email before logging in."
                         )
+                        st.session_state["auth_mode"] = "login"
                     else:
-                        st.warning("Signup successful, but user data was not returned. Please check your email.")
-
-                    st.stop()
-
-                    
+                        st.warning(
+                            "⚠️ Signup successful, but no user data returned. Check your inbox."
+                        )
                 except Exception as e:
-                    st.error(f"{e}")
+                    st.error(f"❌ Signup failed: {str(e)}")
+
+        st.markdown("---")
+        if st.button("Back to Login"):
+            st.session_state["auth_mode"] = "login"
+            st.rerun()
 
     st.stop()
 
