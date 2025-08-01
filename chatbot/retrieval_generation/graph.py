@@ -67,9 +67,32 @@ class KlugekopfState(TypedDict):
 
 
 def rewrite_agent_node(state: KlugekopfState) -> KlugekopfState:
+    import re
+
+    def is_greeting(text: str) -> bool:
+        return bool(
+            re.match(
+                r"^(hi|hello|hey|howdy|greetings|good (morning|afternoon|evening))[\s!\.]*$",
+                text.strip().lower(),
+            )
+        )
+
     query = state["query"]
     session_id = state.get("session_id", "global")
     cache_key = get_cache_key(session_id, "rewrite_agent", query)
+
+    # Skip rewriting if it's a greeting
+    if is_greeting(query):
+        rewritten_query = query.strip()
+        CACHE[cache_key] = rewritten_query
+        return {**state, "rewritten_query": rewritten_query}
+
+    # Friendly, personality-aware system prompt
+    SYSTEM_PROMPT = """You are a friendly and helpful assistant that rewrites user messages into clear, concise queries for downstream tools.
+
+Instructions:
+- If the user input is a greeting (e.g., "Hi", "Hello", "Hey", "Howdy", "Good morning"), return it as-is without rewriting.
+- Otherwise, rewrite the question to be clear, professional, and focused, while preserving the user’s intent."""
 
     if cache_key in CACHE:
         rewritten_query = CACHE[cache_key]
@@ -77,11 +100,8 @@ def rewrite_agent_node(state: KlugekopfState) -> KlugekopfState:
         response = client.chat.completions.create(
             model=MODEL_NAME,
             messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant who rewrites user queries for clarity.",
-                },
-                {"role": "user", "content": f"Rewrite this user query: {query}"},
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": query},
             ],
         )
         rewritten_query = response.choices[0].message.content.strip()
@@ -100,16 +120,20 @@ def planner_agent_node(state: KlugekopfState) -> KlugekopfState:
     session_id = state.get("session_id", "global")
     cache_key = get_cache_key(session_id, "planner_agent", rewritten_query)
 
+    SYSTEM_PROMPT = """You are a helpful and structured assistant.
+
+Your job is to break down user questions into a plan of steps the assistant should follow. 
+If the message is a greeting (e.g., 'Hi', 'Hello'), no planning is needed — just return a single step like 'reply with a friendly greeting'.
+
+Otherwise, return a 1–3 step plan to answer the query."""
+
     if cache_key in CACHE:
         plan = CACHE[cache_key]
     else:
         response = client.chat.completions.create(
             model=MODEL_NAME,
             messages=[
-                {
-                    "role": "system",
-                    "content": "You are a planner. Break the query into clear tasks.",
-                },
+                {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": f"Break down this task: {rewritten_query}"},
             ],
         )
@@ -184,37 +208,36 @@ def tool_agent_node(state: KlugekopfState) -> KlugekopfState:
 
 
 def klugekopf_agent_node(state: KlugekopfState) -> KlugekopfState:
-    rewritten_query = state["rewritten_query"]
-    summary = state["summary"]
-    plan = state["plan"]
-    tool_result = state["tool_result"]
+    import re
 
-    final_prompt = (
-        f"Plan:\n{plan}\n\n"
-        f"Summary of context:\n{summary}\n\n"
-        f"Tool results:\n{tool_result}\n\n"
-        f"User question:\n{rewritten_query}\n\n"
-        f"Provide a final answer:"
+    def is_greeting(text: str) -> bool:
+        return bool(
+            re.match(
+                r"^(hi|hello|hey|howdy|greetings|good (morning|afternoon|evening))[\s!\.]*$",
+                text.strip().lower(),
+            )
+        )
+
+    rewritten_query = state["rewritten_query"]
+
+    response = client.chat.completions.create(
+        model=MODEL_NAME,
+        messages=[
+            {
+                "role": "system",
+                "content": """You are a helpful and friendly AI assistant. 
+If the user greets you (e.g., says 'Hi', 'Hello', etc.), respond with a warm greeting and ask how you can help. 
+If the user asks who you are, introduce yourself briefly as the Klugekopf assistant. 
+Otherwise, answer the user’s question clearly, using any context provided. 
+Use Markdown formatting if it improves clarity.""",
+            },
+            {"role": "user", "content": rewritten_query},
+        ],
     )
 
-    system_message = get_klugekopf_system_prompt()
-    session_id = state.get("session_id", "global")
-    cache_key = get_cache_key(session_id, "klugekopf_agent", final_prompt)
+    llm_output = response.choices[0].message.content.strip()
 
-    if cache_key in CACHE:
-        answer = CACHE[cache_key]
-    else:
-        response = client.chat.completions.create(
-            model=MODEL_NAME,
-            messages=[
-                {"role": "system", "content": system_message},
-                {"role": "user", "content": final_prompt},
-            ],
-        )
-        answer = response.choices[0].message.content.strip()
-        CACHE[cache_key] = answer
-
-    return {**state, "answer": answer}
+    return {"answer": llm_output}
 
 
 # ============================

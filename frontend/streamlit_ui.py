@@ -31,6 +31,18 @@ EMAIL_REGEX = r"^[\w\.-]+@[\w\.-]+\.\w+$"
 
 st.set_page_config(page_title="Klugekopf Chatbot", layout="wide")
 
+
+def is_greeting(text: str) -> bool:
+    import re
+
+    return bool(
+        re.match(
+            r"^(hi|hello|hey|howdy|greetings|good (morning|afternoon|evening))[\s!\.]*$",
+            text.strip().lower(),
+        )
+    )
+
+
 st.markdown(
     """
     <style>
@@ -322,13 +334,22 @@ if submitted and user_input.strip():
         title = "Chat Session"
 
     with st.spinner("Thinking..."):
+        # Just invoke the LangGraph app
         result = klugekopf_multi_agent_app.invoke(
             {
                 "session_id": st.session_state.get("current_session_id"),
                 "query": user_input,
             }
         )
-    st.session_state.messages.append({"role": "bot", "content": result["answer"]})
+
+        # The result already contains the final full state
+        bot_reply = result.get("answer")
+
+        if not bot_reply:
+            st.error("❌ LLM did not return a valid answer. Please try again.")
+            st.stop()
+
+    st.session_state.messages.append({"role": "bot", "content": bot_reply})
 
     if not is_guest and user:
         if is_first:
